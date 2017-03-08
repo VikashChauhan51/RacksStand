@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{99ffa1b8-7121-4874-b6c8-8d5242a629a7}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -23,6 +23,7 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <IncludeSchemaNameInFileName>False</IncludeSchemaNameInFileName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -61,5 +62,37 @@
     <Folder Include="InsertScripts" />
     <Folder Include="UpdateScripts" />
     <Folder Include="DeleteScripts" />
+    <Folder Include="CreateScripts\Tables" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="CreateScripts\Tables\Status.sql" />
+    <Build Include="CreateScripts\Tables\ActivityTypes.sql" />
+    <Build Include="CreateScripts\Tables\Tags.sql" />
+    <Build Include="CreateScripts\Tables\Company.sql" />
+    <Build Include="CreateScripts\Tables\Plan.sql" />
+    <Build Include="CreateScripts\Tables\CompanyPlan.sql" />
+    <Build Include="CreateScripts\Tables\Country.sql" />
+    <Build Include="CreateScripts\Tables\Language.sql" />
+    <Build Include="CreateScripts\Tables\Timezone.sql" />
+    <Build Include="CreateScripts\Tables\User.sql" />
+    <Build Include="CreateScripts\Tables\CompanyTags.sql" />
+    <Build Include="CreateScripts\Tables\Industry.sql" />
+    <Build Include="CreateScripts\Tables\ActivityLog.sql" />
+    <Build Include="CreateScripts\Tables\Role.sql" />
+    <Build Include="CreateScripts\Tables\Permission.sql" />
+    <Build Include="CreateScripts\Tables\CompanyRoles.sql" />
+    <Build Include="CreateScripts\Tables\RolePermission.sql" />
+    <Build Include="CreateScripts\Tables\RoleGroups.sql" />
+    <Build Include="CreateScripts\Tables\Address.sql" />
+    <Build Include="CreateScripts\Tables\UserRoleGroups.sql" />
+    <Build Include="CreateScripts\Tables\ContactsType.sql" />
+    <Build Include="CreateScripts\Tables\Attachments.sql" />
+    <Build Include="CreateScripts\Tables\FileType.sql" />
+    <Build Include="CreateScripts\Tables\Module.sql" />
+    <Build Include="CreateScripts\Tables\Payment.sql" />
+    <Build Include="CreateScripts\Tables\LogTypes.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="RacksStand.Database.refactorlog" />
   </ItemGroup>
 </Project>
