@@ -1,0 +1,40 @@
+<div class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-cyan">
+    <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">Racks Stand</a>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto" >
+            <div *ngFor="let item of menuItems" >
+            <li   class="nav-item" [ngClass]="item.active" *ngIf="item.visible"  (click)="onClick($event, item)">
+                  <a [routerLink]="item.link" class="nav-link" href="javascript:void(0);">{{item.caption }}</a>
+             </li>
+             </div>
+           </ul>
+        <form class="form-inline mt-2 mt-md-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search">
+        </form>
+   <!-- BEGIN USER LOGIN DROPDOWN -->
+      <ul class="nav">
+   <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           <div class="profile">
+		   
+                                       <img class="avatar" src="http://autokadabra.ru/system/uploads/users/19/19506/small.png?1318360757" />
+										 
+										<span class="userName" [innerText]="FullName" >  </span>
+									  
+			</div>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+         <a  class="dropdown-item" href="javascript:void(0);"(click)="logout()">Logout</a>
+        </div>
+      </li>
+      </ul>
+             <!-- END USER LOGIN DROPDOWN -->
+      </div>
+    

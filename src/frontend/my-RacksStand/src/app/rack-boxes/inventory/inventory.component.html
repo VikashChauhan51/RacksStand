@@ -1,0 +1,63 @@
+<!-- The Modal -->
+<div id="inventory" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Manage Box</h2>
+            <span class="close" (click)="cancel()">&times;</span>
+
+        </div>
+        <form #inventoryForm="ngForm" *ngIf="inventory" novalidate (ngSubmit)="save(inventoryForm)">
+            <div class="modal-body">
+                <!-- content goes here -->
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group" [ngClass]="{'has-danger': popName.errors && popName.touched }">
+                            <div class="col-12">
+                                <input class="form-control " type="text" #popName="ngModel" id="popName" name="popName" maxlength="50" required placeholder="Name"
+                                    [(ngModel)]="inventory.Name">
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <div class="col-12">
+                                    <input #popCustomerId="ngModel" id="popCustomerId" name="popCustomerId"  ngui-auto-complete
+                                    [(ngModel)]="inventory.CustomerId" 
+                                    [source]="observableSource.bind(this)" />
+                                  
+                            </div>
+                        </div>
+                         
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                       
+                        <div class="form-group" [ngClass]="{'has-danger': popDescription.errors && popDescription.touched }">
+                            
+                             <div class="col-12">
+                                 <input class="form-control " type="text" #popDescription="ngModel" id="popDescription" name="popDescription" maxlength="150" placeholder="Description" [(ngModel)]="inventory.Description">
+                                 <div>
+ 
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="form-group" [ngClass]="{'has-danger': popAccessCode.errors && popAccessCode.touched }">
+                            
+                             <div class="col-12">
+                                 <input class="form-control " type="text" #popAccessCode="ngModel" id="popAccessCode" name="popAccessCode" maxlength="32" placeholder="Code" [(ngModel)]="inventory.AccessCode">
+                                 <div>
+ 
+                                 </div>
+                             </div>
+                         </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" *ngIf="!isWating">Submit</button>
+                <button class="btn btn-success" *ngIf="isWating"><i class="fa fa-spinner fa-spin"></i> Processing</button>
+            </div>
+        </form>
+    </div>
+
+</div>

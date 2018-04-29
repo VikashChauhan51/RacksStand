@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Session]
+(
+	[Id] VARCHAR(32) NOT NULL PRIMARY KEY, 
+    [UserId] VARCHAR(32) NOT NULL, 
+	[CompanyId] VARCHAR(32) NOT NULL, 
+    [CreatedOn] DATETIME NOT NULL 
+)

@@ -1,0 +1,75 @@
+<!-- The Modal -->
+<div id="rack" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Manage rack</h2>
+            <span class="close" (click)="cancel()">&times;</span>
+
+        </div>
+        <form #rackForm="ngForm" *ngIf="rack" novalidate (ngSubmit)="save(rackForm)">
+            <div class="modal-body">
+                <!-- content goes here -->
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group" [ngClass]="{'has-danger': popName.errors && popName.touched }">
+                            <div class="col-12">
+                                <input class="form-control " type="text" #popName="ngModel" id="popName" name="popName" maxlength="50" required placeholder="Name"
+                                    [(ngModel)]="rack.Name">
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" [ngClass]="{'has-danger': popRows.errors && popRows.touched }">
+                            <div class="col-12">
+                                <input class="form-control " [readonly]="isEdit" type="number" #popRows="ngModel" id="popRows" name="popRows" maxlength="5" required placeholder="Rows"
+                                    [(ngModel)]="rack.Rows">
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" [ngClass]="{'has-danger': popBoxCapacity.errors && popBoxCapacity.touched }">
+                            <div class="col-12">
+                                <input class="form-control "   type="number" #popBoxCapacity="ngModel" id="popBoxCapacity" name="popBoxCapacity" maxlength="5" required placeholder="Box Capacity"
+                                    [(ngModel)]="rack.BoxCapacity">
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                       
+                        <div class="form-group" [ngClass]="{'has-danger': popDescription.errors && popDescription.touched }">
+                            
+                             <div class="col-12">
+                                 <input class="form-control " type="text" #popDescription="ngModel" id="popDescription" name="popDescription" maxlength="150" placeholder="Description" [(ngModel)]="rack.Description">
+                                 <div>
+ 
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="form-group" [ngClass]="{'has-danger': popColumns.errors && popColumns.touched }">
+                            
+                             <div class="col-12">
+                                 <input class="form-control" [readonly]="isEdit" type="number" #popColumns="ngModel" id="popColumns" name="popColumns" maxlength="5" required placeholder="Columns" [(ngModel)]="rack.Columns">
+                                 <div>
+ 
+                                 </div>
+                             </div>
+                         </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" *ngIf="!isWating">Submit</button>
+                <button class="btn btn-success" *ngIf="isWating"><i class="fa fa-spinner fa-spin"></i> Processing</button>
+            </div>
+        </form>
+    </div>
+
+</div>

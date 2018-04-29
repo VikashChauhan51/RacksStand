@@ -1,0 +1,50 @@
+<!-- The Modal -->
+<div id="rackBox" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Manage Box</h2>
+            <span class="close" (click)="cancel()">&times;</span>
+
+        </div>
+        <form #rackBoxForm="ngForm" *ngIf="rackBox" novalidate (ngSubmit)="save(rackBoxForm)">
+            <div class="modal-body">
+                <!-- content goes here -->
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group" [ngClass]="{'has-danger': popName.errors && popName.touched }">
+                            <div class="col-12">
+                                <input class="form-control " type="text" #popName="ngModel" id="popName" name="popName" maxlength="50" required placeholder="Name"
+                                    [(ngModel)]="rackBox.Name">
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                         
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                       
+                        <div class="form-group" [ngClass]="{'has-danger': popDescription.errors && popDescription.touched }">
+                            
+                             <div class="col-12">
+                                 <input class="form-control " type="text" #popDescription="ngModel" id="popDescription" name="popDescription" maxlength="150" placeholder="Description" [(ngModel)]="rackBox.Description">
+                                 <div>
+ 
+                                 </div>
+                             </div>
+                         </div>
+                         
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" *ngIf="!isWating">Submit</button>
+                <button class="btn btn-success" *ngIf="isWating"><i class="fa fa-spinner fa-spin"></i> Processing</button>
+            </div>
+        </form>
+    </div>
+
+</div>

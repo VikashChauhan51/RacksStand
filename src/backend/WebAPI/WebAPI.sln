@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacksStand.WebAPI.Tests", "RacksStand.WebAPI.Tests\RacksStand.WebAPI.Tests.csproj", "{24CFA73D-E8F3-4A60-BC39-C627D6C6F52C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacksStand.WebAPI", "RacksStand.WebAPI\RacksStand.WebAPI.csproj", "{6493AC44-6486-42D2-9EB9-B5DF75F1B1DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24CFA73D-E8F3-4A60-BC39-C627D6C6F52C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24CFA73D-E8F3-4A60-BC39-C627D6C6F52C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24CFA73D-E8F3-4A60-BC39-C627D6C6F52C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24CFA73D-E8F3-4A60-BC39-C627D6C6F52C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6493AC44-6486-42D2-9EB9-B5DF75F1B1DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6493AC44-6486-42D2-9EB9-B5DF75F1B1DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6493AC44-6486-42D2-9EB9-B5DF75F1B1DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6493AC44-6486-42D2-9EB9-B5DF75F1B1DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

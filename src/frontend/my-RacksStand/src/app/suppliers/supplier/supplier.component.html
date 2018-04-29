@@ -1,0 +1,302 @@
+<!-- The Modal -->
+<div id="supplier" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Manage Supplier</h2>
+            <span class="close" (click)="cancel()">&times;</span>
+
+        </div>
+        <form #supplierForm="ngForm" *ngIf='!loading' novalidate (ngSubmit)="save(supplierForm)">
+            <div class="modal-body">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#essentials" role="tab" data-toggle="tab">Essentials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#address" role="tab" data-toggle="tab">Address</a>
+                    </li>
+
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="essentials">
+                        <div class="row pt-2">
+                            <div class="col-sm-4">
+                                <div class="form-group" [ngClass]="{'has-danger': firstName.errors && firstName.touched }">
+
+                                    <div class="col-12">
+                                        <input class="form-control " type="text" #firstName="ngModel" id="firstName" name="firstName" pattern="[A-Za-z]+$" required
+                                            maxlength="50" placeholder="First Name" [(ngModel)]="supplier.FirstName">
+                                        <div *ngIf="firstName.errors && firstName.touched">
+                                            <small class="text-danger" [hidden]="!firstName.errors.required">
+                                                            First Name is required.
+                                                        </small>
+
+                                            <small class="text-danger" [hidden]="!firstName.errors.maxlength">
+                                                            First Name cannot be more than 50 characters long.
+                                                        </small>
+                                            <small class="text-danger" [hidden]="!firstName.errors.pattern">
+                                                            Incorrect string.
+                                                        </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" [ngClass]="{'has-danger': middleName.errors && middleName.touched }">
+
+                                    <div class="col-12">
+                                        <input class="form-control " type="text" #middleName="ngModel" id="middleName" name="middleName" pattern="[A-Za-z]+$" maxlength="50"
+                                            placeholder="Middle Name" [(ngModel)]="supplier.MiddleName">
+                                        <div *ngIf="middleName.errors && middleName.touched">
+
+                                            <small class="text-danger" [hidden]="!middleName.errors.maxlength">
+                                                            Middle Name cannot be more than 50 characters long.
+                                                        </small>
+                                            <small class="text-danger" [hidden]="!middleName.errors.pattern">
+                                                            Incorrect string.
+                                                        </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" [ngClass]="{'has-danger': lastName.errors && lastName.touched }">
+
+                                    <div class="col-12">
+                                        <input class="form-control " type="text" #lastName="ngModel" id="lastName" name="lastName" pattern="[A-Za-z]+$" required
+                                            maxlength="50" placeholder="Last Name" [(ngModel)]="supplier.LastName">
+                                        <div *ngIf="lastName.errors && lastName.touched">
+                                            <small class="text-danger" [hidden]="!lastName.errors.required">
+                                                            Last Name is required.
+                                                        </small>
+
+                                            <small class="text-danger" [hidden]="!lastName.errors.maxlength">
+                                                            Last Name cannot be more than 50 characters long.
+                                                        </small>
+                                            <small class="text-danger" [hidden]="!lastName.errors.pattern">
+                                                            Incorrect string.
+                                                        </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" [ngClass]="{'has-danger': email.errors && email.touched }">
+
+                                    <div class="col-12">
+                                        <input class="form-control " type="email" #email="ngModel" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                                            required minlength="5" maxlength="50" placeholder="jack@gmail.com" [(ngModel)]="supplier.Email">
+                                        <div *ngIf="email.errors && email.touched">
+                                            <small class="text-danger" [hidden]="!email.errors.required">
+                                                            Email is required.
+                                                        </small>
+                                            <small class="text-danger" [hidden]="!email.errors.minlength">
+                                                            Email must be at least 5 characters long.
+                                                        </small>
+                                            <small class="text-danger" [hidden]="!email.errors.maxlength">
+                                                            Email cannot be more than 50 characters long.
+                                                        </small>
+                                            <small class="text-danger" [hidden]="!email.errors.pattern">
+                                                            Email format is incorrect.
+                                                        </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group" [ngClass]="{'has-danger': phone.errors && phone.touched }">
+
+                                    <div class="col-12">
+                                        <input class="form-control" type="tel" #phone="ngModel" id="phone" name="phone" required maxlength="20" placeholder="1-(555)-555-5555"
+                                            [(ngModel)]="supplier.Phone">
+                                        <div *ngIf="phone.errors && phone.touched">
+                                            <small class="text-danger" [hidden]="!phone.errors.required">
+                                                            Phone number is required.
+                                                        </small>
+
+                                            <small class="text-danger" [hidden]="!phone.errors.maxlength">
+                                                            Phone number cannot be more than 20 characters long.
+                                                        </small>
+                                            <small class="text-danger" [hidden]="!phone.errors.pattern">
+                                                            Incorrect string.
+                                                        </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" [ngClass]="{'has-danger': mobile.errors && mobile.touched }">
+
+                                    <div class="col-12">
+                                        <input class="form-control" type="tel" #mobile="ngModel" id="mobile" name="mobile" maxlength="20" placeholder="1-(555)-555-5555"
+                                            [(ngModel)]="supplier.Mobile">
+                                        <div *ngIf="mobile.errors && mobile.touched">
+
+                                            <small class="text-danger" [hidden]="!mobile.errors.maxlength">
+                                                            Telephone number cannot be more than 20 characters long.
+                                                        </small>
+                                            <small class="text-danger" [hidden]="!mobile.errors.pattern">
+                                                            Incorrect string.
+                                                        </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" [ngClass]="{'has-danger': fax.errors && fax.touched }">
+
+                                    <div class="col-12">
+                                        <input class="form-control" type="tel" #fax="ngModel" id="fax" name="fax" maxlength="20" placeholder="1-(555)-555-5555" [(ngModel)]="supplier.Fax">
+                                        <div *ngIf="fax.errors && fax.touched">
+
+                                            <small class="text-danger" [hidden]="!fax.errors.maxlength">
+                                                            Fax number cannot be more than 20 characters long.
+                                                        </small>
+                                            <small class="text-danger" [hidden]="!fax.errors.pattern">
+                                                            Incorrect string.
+                                                        </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" [ngClass]="{'has-danger': panNo.errors && panNo.touched }">
+
+                                    <div class="col-12">
+                                        <input class="form-control" type="text" #panNo="ngModel" id="panNo" name="panNo" placeholder="Pan No." maxlength="20" [(ngModel)]="supplier.PanNo">
+                                        <div *ngIf="panNo.errors && panNo.touched">
+
+                                            <small class="text-danger" [hidden]="!panNo.errors.maxlength">
+                                                            Fax number cannot be more than 20 characters long.
+                                                        </small>
+                                            <small class="text-danger" [hidden]="!panNo.errors.pattern">
+                                                            Incorrect string.
+                                                        </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group" [ngClass]="{'has-danger': company.errors && company.touched }">
+
+                                    <div class="col-12">
+                                        <input class="form-control" type="text" #company="ngModel" id="company" name="company" maxlength="50" placeholder="Comapny name"
+                                            [(ngModel)]="supplier.Company">
+                                        <div *ngIf="company.errors && company.touched">
+                                            <small class="text-danger" [hidden]="!company.errors.maxlength">
+                                                            Company  name cannot be more than 50 characters long.
+                                                        </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" [ngClass]="{'has-danger': website.errors && website.touched }">
+
+                                    <div class="col-12">
+                                        <input class="form-control" type="url" #website="ngModel" id="website" name="website" maxlength="100" placeholder="https://getbootstrap.com"
+                                            [(ngModel)]="supplier.Website">
+                                        <div *ngIf="website.errors && website.touched">
+
+                                            <small class="text-danger" [hidden]="!website.errors.maxlength">
+                                                            Web  URL cannot be more than 100 characters long.
+                                                        </small>
+                                            <small class="text-danger" [hidden]="!website.errors.pattern">
+                                                            Incorrect string.
+                                                        </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" [ngClass]="{'has-danger': bio.errors && bio.touched }">
+
+                                    <div class="col-12">
+                                        <textarea class="form-control" #bio="ngModel" id="bio" name="bio" maxlength="250" placeholder="Something about the supplier...."
+                                            [(ngModel)]="supplier.Bio" rows="5"></textarea>
+                                        <div *ngIf="bio.errors && bio.touched">
+
+                                            <small class="text-danger" [hidden]="!bio.errors.maxlength">
+                                                            Bio cannot be more than 250 characters long.
+                                                        </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="address">
+                        <div class="row pt-2">
+
+                            <div class="col-xs-12 col-sm-2">
+                                <div class="btn-group" data-toggle="buttons">
+
+                                    <button type="button" (click)="onAddAddress()" data-toggle="tooltip" data-placement="top" title="Add" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add</button>
+                                     
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                #
+                                            </th>
+
+                                            <th>
+                                                Street
+                                            </th>
+                                            <th>
+                                                City
+                                            </th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>
+                                                Phone
+                                            </th>
+                                            <th>
+                                                Zip
+                                            </th>
+                                            <th>
+                                                Action
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let address of supplier.Addresses; let i = index">
+                                        <tr>
+                                            <th scope="row">{{i+1}}</th>
+                                            <td>
+                                                {{address.Street}}
+                                            </td>
+                                            <td>
+                                                {{address.City}}
+                                            </td>
+                                            <td>
+                                                {{address.Email}}
+                                            </td>
+                                            <td>
+                                                {{address.Phone}}
+                                            </td>
+                                            <td>
+                                                {{address.ZipCode}}
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-default btn-xs purple" (click)="onEditAddress(address)" href="javascript:void(0);">
+                                                                <i class="fa fa-edit"></i>
+                                                                Edit
+                                                            </a>
+                                                <a class="btn btn-default btn-xs black" (click)="onDeleteAddress(address)" href="javascript:void(0);">
+                                                                <i class="fa fa-trash-o"></i>
+                                                                Delete
+                                                            </a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" *ngIf="!isWating">Submit</button>
+                    <button class="btn btn-success" *ngIf="isWating"><i class="fa fa-spinner fa-spin"></i> Processing</button>
+                </div>
+            </div>
+        </form>
+        <load-more [canLoad]="'True'" *ngIf="loading"  [loading]="loading"></load-more>
+    </div>
+</div>

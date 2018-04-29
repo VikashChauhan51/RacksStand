@@ -1,0 +1,39 @@
+<main class="row">
+    <div class=" col-xs-12 col-sm-3  col-lg-3  side-panel hidden-xs-down ">
+
+        <search-box placeholder="Search by name or address" (searchEvent)="onSearch($event)"></search-box>
+    </div>
+
+
+    <div class=" col-xs-12 col-sm-9 offset-sm-3   offset-lg-3  pt-1">
+        <h1>Stores</h1>
+        <div class="row">
+            <div class="col-xs-12 col-sm-2">
+                <div class="btn-group" data-toggle="buttons">
+
+                    <button type="button" (click)="onAdd()" data-toggle="tooltip" data-placement="top" title="Add" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Import"><i class="fa fa-arrow-circle-down"></i> Import</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Export"><i class="fa fa-arrow-circle-up"></i> Export</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-columns">
+            <div *ngFor="let store of stores">
+                <div class="card" style="width: 20rem; height:15rem;">
+                    <div class="card-block">
+                        <h4 class="card-title">{{store.Name}}</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">{{store.City}}</h6>
+                        <p class="card-text">{{store.Street}}, Pin: {{store.ZipCode}}</p>
+                        <p class="card-text">Phone: {{store.Phone}}</p>
+                    </div>
+                    <div class="card-footer" style="position: absolute; bottom: 0; width:100%;">
+                        <small><a href="javascript:void(0);" (click)="onEdit(store)" class="card-link"><i class="fa fa-edit"></i></a></small>
+                        <small><a href="javascript:void(0);" (click)="onView(store)" class="card-link"><i class="fa fa-eye"></i></a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <load-more [canLoad]="hasNextPage" (click)="loadMore()" [items]="stores.length" [loading]="isWating"></load-more>
+    </div>
+</main>

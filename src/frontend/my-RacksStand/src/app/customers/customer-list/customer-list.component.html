@@ -1,0 +1,80 @@
+<main class="row">
+    <div class=" col-xs-12 col-sm-3 side-panel hidden-xs-down ">
+        <div>
+            <search-box placeholder="Search by company or name" (searchEvent)="onSearch($event)"></search-box>
+             
+        </div>
+    </div>
+    <div class=" col-xs-12 col-sm-9 offset-sm-3 pt-1">
+        <h3>Customers</h3>
+        <div class="row">
+            <div class="col-xs-12 col-sm-2">
+                <div class="btn-group" data-toggle="buttons">
+
+                    <button type="button" (click)="onAdd()" data-toggle="tooltip" data-placement="top" title="Add" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Import"><i class="fa fa-arrow-circle-down"></i> Import</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Export"><i class="fa fa-arrow-circle-up"></i> Export</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <table class="table table-striped">
+                    <thead >
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Company
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Phone
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let customer of customers; let i = index">
+                        <tr>
+                            <th scope="row">{{i+1}}</th>
+                            <td>
+                                {{customer.FirstName}} {{customer.LastName}}
+                            </td>
+                            <td>
+                                {{customer.Company}}
+                            </td>
+                            <td>
+                                {{customer.Email}}
+                            </td>
+                            <td>
+                                {{customer.Phone}}
+                            </td>
+                            <td>
+                                <a class="btn btn-default btn-xs purple" href="javascript:void(0);" (click)="onEdit(customer)">
+                                <i class="fa fa-edit"></i>
+                                 
+                            </a>
+                                <a class="btn btn-default btn-xs black" href="javascript:void(0);" (click)="onDelete(customer)" >
+                                <i class="fa fa-trash-o"></i>
+                                 
+                            </a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <load-more [canLoad]="hasNextPage" (click)="loadMore()" [items]="customers.length" [loading]="isWating"></load-more>
+            </div>
+        </div>
+    </div>
+
+
+</main>

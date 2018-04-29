@@ -1,5 +1,0 @@
-D:\Project\RacksStand\src\backend\DataAccess\DataAccess\RacksStand.Database\bin\Debug\RacksStand.Database.dacpac
-D:\Project\RacksStand\src\backend\DataAccess\DataAccess\RacksStand.Database\bin\Debug\RacksStand.Database.dll
-D:\Project\RacksStand\src\backend\DataAccess\DataAccess\RacksStand.Database\bin\Debug\RacksStand.Database.pdb
-D:\Project\RacksStand\src\backend\DataAccess\DataAccess\RacksStand.Database\obj\Debug\RacksStand.Database.dll
-D:\Project\RacksStand\src\backend\DataAccess\DataAccess\RacksStand.Database\obj\Debug\RacksStand.Database.pdb

@@ -1,5 +1,0 @@
-﻿CREATE TABLE [dbo].[LogTypes]
-(
-	[Id] TINYINT NOT NULL PRIMARY KEY, 
-    [Name] VARCHAR(50) NOT NULL
-)

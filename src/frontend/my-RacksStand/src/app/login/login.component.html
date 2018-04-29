@@ -1,0 +1,58 @@
+<div class="container" *ngIf="!Loading">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-sm-offset-4 col-md-offset-4">
+          
+            <div class="account-wall">
+                <img class="profile-img" src="../assets/img/logo.png" 
+                     alt="logo">
+                <form class="form-signin" #loginForm="ngForm" novalidate (ngSubmit)="Login(loginForm.valid)">
+                    <div class="form-group" [ngClass]="{'has-error': email.errors && email.touched }">
+                        <input class="form-control " type="email" #email="ngModel" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required minlength="5" maxlength="50"   placeholder="John@doe.com" [(ngModel)]="loginModel.email">
+                        <div *ngIf="email.errors && email.touched">
+                            <small class="text-danger" [hidden]="!email.errors.required">
+                                Email is required.
+                            </small>
+                            <small class="text-danger" [hidden]="!email.errors.minlength">
+                                Email must be at least 5 characters long.
+                            </small>
+                            <small class="text-danger" [hidden]="!email.errors.maxlength">
+                                Email cannot be more than 50 characters long.
+                            </small>
+                            <small class="text-danger" [hidden]="!email.errors.pattern">
+                                Email format is incorrect.
+                            </small>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-error': password.errors && password.touched }">
+                        <input class="form-control" type="password" #password="ngModel" id="password" name="password" maxlength="50" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,50}" required   placeholder="Password" [(ngModel)]="loginModel.password">
+                        <div *ngIf="password.errors && password.touched">
+                            <small class="text-danger" [hidden]="!password.errors.required">
+                                Password is required.
+                            </small>
+                            <small class="text-danger" [hidden]="!password.errors.maxlength">
+                                Password cannot be more than 50 characters long.
+                            </small>
+                            <small class="text-danger" [hidden]="!password.errors.pattern">
+                                Password must contain 8 or more characters  that are of at least one number, and one uppercase and lowercase letter.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">
+                            Sign in
+                        </button>
+                        <label class="checkbox pull-left">
+                            <input type="checkbox" #rememberMe="ngModel" id="rememberMe" name="rememberMe" [(ngModel)]="loginModel.rememberMe">
+                            Remember me
+                        </label>
+                        <a href="/forgotPassword" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

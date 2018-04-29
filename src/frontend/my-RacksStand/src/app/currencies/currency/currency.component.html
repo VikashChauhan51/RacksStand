@@ -1,0 +1,73 @@
+<!-- The Modal -->
+<div id="currency" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Manage Currency</h2>
+            <span class="close" (click)="cancel()">&times;</span>
+            
+        </div>
+        <form #currencyForm="ngForm" *ngIf="currency" novalidate (ngSubmit)="save(currencyForm)">
+            <div class="modal-body">
+                <!-- content goes here -->
+<div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group" [ngClass]="{'has-danger': popName.errors && popName.touched }">
+                            <label for="example-text-input" class="col-2 col-form-label">Name</label>
+                            <div class="col-10">
+                                <input class="form-control " type="text" #popName="ngModel" id="popName" name="popName" maxlength="50" required placeholder="Name" [(ngModel)]="currency.Name">
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" [ngClass]="{'has-danger': popCode.errors && popCode.touched }">
+                            <label for="example-text-input" class="col-2 col-form-label">Code</label>
+                            <div class="col-10">
+                                <input class="form-control " type="text" #popCode="ngModel" id="popCode" name="popCode" maxlength="10" required placeholder="Code" [(ngModel)]="currency.Code">
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <label for="example-text-input" class="col-2 col-form-label">Active</label>
+                            <div class="col-10">
+                                <input class="form-control " type="checkbox" #popIsActive="ngModel" id="popIsActive" name="popIsActive"  [(ngModel)]="currency.IsActive">
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group" [ngClass]="{'has-danger': popSymbol.errors && popSymbol.touched }">
+                            <label for="example-text-input" class="col-2 col-form-label">Symbol</label>
+                            <div class="col-10">
+                                <input class="form-control " type="text" #popSymbol="ngModel" id="popSymbol" name="popSymbol" maxlength="3"  placeholder="Symbol" [(ngModel)]="currency.Symbol">
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" [ngClass]="{'has-danger': popExchangeRate.errors && popExchangeRate.touched }">
+                            <label for="example-text-input" class="col-2 col-form-label">Exchange Rate</label>
+                            <div class="col-10">
+                                <input class="form-control " type="number" step="0.01" pattern="\d+(\.\d{2})?" #popExchangeRate="ngModel" id="popExchangeRate" name="popExchangeRate" maxlength="50" required placeholder="Exchange Rate" [(ngModel)]="currency.ExchangeRate">
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" *ngIf="!isWating" >Submit</button>
+                <button class="btn btn-success" *ngIf="isWating" ><i class="fa fa-spinner fa-spin"></i> Processing</button>
+            </div>
+        </form>
+    </div>
+
+</div>

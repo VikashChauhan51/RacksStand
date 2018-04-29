@@ -1,0 +1,117 @@
+ 
+<!-- The Modal -->
+<div id="customerAddressModal" class="modal top-popup">
+  
+      <!-- Modal content -->
+      <div class="modal-content">
+          <div class="modal-header">
+           <h2>Manage Address</h2>
+              <span class="close" (click)="cancel()">&times;</span>
+              
+          </div>
+          <form #customerAddressForm="ngForm" *ngIf="customerAddress" novalidate (ngSubmit)="save(customerAddressForm)">
+              <div class="modal-body">
+                  <!-- content goes here -->
+  
+                  <div class="row pt-2">
+                      <div class="col-xs-12 col-sm-4">
+                          <div class="form-group" [ngClass]="{'has-danger': popStreet.errors && popStreet.touched }">
+            
+                              <div class="col-12">
+                                  <input class="form-control " type="text" #popStreet="ngModel" id="popStreet" name="popStreet" maxlength="150" required placeholder="Street" [(ngModel)]="customerAddress.Street">
+                                  <div>
+  
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group" [ngClass]="{'has-danger': popCity.errors && popCity.touched }">
+                               
+                              <div class="col-12">
+                                  <input class="form-control " type="text" #popCity="ngModel" id="popCity" name="popCity" maxlength="50" required placeholder="City" [(ngModel)]="customerAddress.City">
+                                  <div>
+  
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group" [ngClass]="{'has-danger': popState.errors && popState.touched }">
+                               
+                              <div class="col-12">
+                                  <input class="form-control " type="text" #popState="ngModel" id="popState" name="popState" maxlength="50" required placeholder="State" [(ngModel)]="customerAddress.State">
+                                  <div>
+  
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-xs-12 col-sm-4">
+                          <div class="form-group" [ngClass]="{'has-danger': popCountry.errors && popCountry.touched }">
+                               
+                              <div class="col-12">
+                                  <select #popCountry="ngModel" class="form-control"  id="popCountry" name="popCountry" [(ngModel)]="customerAddress.Country">
+                                      <option *ngFor="let country of countries" value={{country.id}} [selected]="customerAddress.Country == country.id">
+                                          {{country.name}}
+                                      </option>
+                                  </select>
+                                  
+                                  <div>
+  
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group" [ngClass]="{'has-danger': popRemark.errors && popRemark.touched }">
+                             
+                              <div class="col-12">
+                                  <input class="form-control " type="text" #popRemark="ngModel" id="popRemark" name="popRemark" maxlength="150" placeholder="Remark" [(ngModel)]="customerAddress.Remark">
+                                  <div>
+  
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group" [ngClass]="{'has-danger': popZipCode.errors && popZipCode.touched }">
+                              
+                              <div class="col-12">
+                                  <input class="form-control " type="text" #popZipCode="ngModel" id="popZipCode" required name="popZipCode" maxlength="10" placeholder="ZipCode" [(ngModel)]="customerAddress.ZipCode">
+                                  <div>
+  
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-xs-12 col-sm-4">
+                          <div class="form-group" [ngClass]="{'has-danger': popEmail.errors && popEmail.touched }">
+                              
+                              <div class="col-12">
+                                  <input class="form-control " type="text" #popEmail="ngModel" id="popEmail" name="popEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" maxlength="50" placeholder="Email" [(ngModel)]="customerAddress.Email">
+                                  <div>
+  
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group" [ngClass]="{'has-danger': popPhone.errors && popPhone.touched }">
+                               
+                              <div class="col-12">
+                                  <input class="form-control " type="text" #popPhone="ngModel" id="popPhone" required name="popPhone" maxlength="20" placeholder="Phone" [(ngModel)]="customerAddress.Phone">
+                                  <div>
+  
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group" [ngClass]="{'has-danger': popFax.errors && popFax.touched }">
+                            
+                              <div class="col-12">
+                                  <input class="form-control " type="text" #popFax="ngModel" id="popFax" name="popFax" maxlength="20" placeholder="Fax" [(ngModel)]="customerAddress.Fax">
+                                  <div>
+  
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-success">Submit</button>
+              </div>
+          </form>
+      </div>
+  
+  </div>

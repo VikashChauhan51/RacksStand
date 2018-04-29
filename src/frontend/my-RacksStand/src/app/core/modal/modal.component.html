@@ -1,0 +1,20 @@
+<!-- The Modal -->
+<div id="myModal" class="modal modal-message" (keyup)="onKey($event)">
+
+    <!-- Modal content -->
+    <div class="modal-content modal-dialog">
+        <div class="modal-header">
+          <h2><i [ngClass]="iconClass"></i> {{title}}</h2>
+        </div>
+        <div class="modal-body">
+            <p>{{message}}</p>
+            <p>&nbsp;</p>
+            
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" *ngIf="showCancelButton" (click)="Cancel()">Cancel</button>
+            <button type="button" class="btn btn-success" (click)="OK()">OK</button>
+        </div>
+    </div>
+
+</div>

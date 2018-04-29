@@ -1,0 +1,36 @@
+.load-more {
+ background:#fff;
+ height: 50px;
+ width: 100%;
+ color: #000;
+border-width: 0 1px 1px 0;
+    border-style: solid;
+    border-color: #fff;
+    box-shadow: 0 1px 1px #ccc;
+    transition: all 600ms ease-in-out;
+    -webkit-transition: all 600ms ease-in-out;
+    -moz-transition: all 600ms ease-in-out;
+    -o-transition: all 600ms ease-in-out;
+ position: relative;
+ text-align: center;
+ margin: 0;
+ padding: 0;
+}
+div.child {
+    margin: 0 auto;
+    vertical-align: middle;
+    height: 50px;
+    width: 100px;
+}
+.load-more a {
+    text-decoration: none;
+    color: #46C3E9;
+}
+.load-more a:hover {
+    text-decoration: none;
+    color: #46C3E9;
+}
+ .load-more p{
+      padding-top: 8px;
+   
+ }

@@ -1,0 +1,101 @@
+<main class="row">
+    <div class=" col-xs-12 col-sm-3 side-panel hidden-xs-down ">
+        <div>
+            <search-box placeholder="Search by code or name" (searchEvent)="onSearch($event)"></search-box>
+
+            <fieldset>
+                <legend>Status</legend>
+                <ul class="navbar-nav">
+                    <li>
+                        <div class="radio">
+                            <label><input type="radio" [checked]="status == 0" (change)="onStatusChange(0)" name="statusGroup">All</label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="radio">
+                            <label><input type="radio" [checked]="status == 1" (change)="onStatusChange(1)" name="statusGroup">Active</label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="radio ">
+                            <label><input type="radio" [checked]="status == 2" (change)="onStatusChange(2)" name="statusGroup" >Inactive</label>
+                        </div>
+                    </li>
+                </ul>
+            </fieldset>
+        </div>
+    </div>
+    <div class=" col-xs-12 col-sm-9 offset-sm-3 pt-1">
+        <h3>Currencies</h3>
+        <div class="row">
+            <div class="col-xs-12 col-sm-2">
+                <div class="btn-group" data-toggle="buttons">
+
+                    <button type="button" (click)="onAdd()" data-toggle="tooltip" data-placement="top" title="Add" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Import"><i class="fa fa-arrow-circle-down"></i> Import</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Export"><i class="fa fa-arrow-circle-up"></i> Export</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <table class="table table-striped ">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Code
+                            </th>
+                            <th>
+                                Symbol
+                            </th>
+                            <th>
+                                Exchange Rate
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let currency of currencies; let i = index">
+                        <tr>
+                            <th scope="row">{{i+1}}</th>
+                            <td>
+                                {{currency.Name}}
+                            </td>
+                            <td>
+                                {{currency.Code}}
+                            </td>
+                            <td>
+                                {{currency.Symbol}}
+                            </td>
+                            <td>
+                                {{currency.ExchangeRate}}
+                            </td>
+                            <td>
+                                <a class="btn btn-default btn-xs purple" href="javascript:void(0);" (click)="onEdit(currency)">
+                                <i class="fa fa-edit"></i>
+                                 
+                            </a>
+                                <a class="btn btn-default btn-xs black" href="javascript:void(0);" (click)="onDelete(currency)">
+                                <i class="fa fa-trash-o"></i>
+                                 
+                            </a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <load-more [canLoad]="hasNextPage" (click)="loadMore()" [items]="currencies.length" [loading]="isWating"></load-more>
+
+            </div>
+        </div>
+    </div>
+
+</main>
