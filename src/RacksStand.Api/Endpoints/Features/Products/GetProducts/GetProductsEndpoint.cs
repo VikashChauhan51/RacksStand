@@ -4,7 +4,7 @@ namespace RacksStand.Api.Endpoints.Features.Products.GetProducts;
 
 public class GetProductsEndpoint : EndpointBase
 {
-
+    public override string RouteName => "getProducts";
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("products", GetProducts)

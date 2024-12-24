@@ -1,6 +1,8 @@
 ﻿using Asp.Versioning;
 using Carter;
+using FluentValidation;
 using RacksStand.Api.Middlewares;
+using RacksStand.Application;
 using RacksStand.Infrastructure;
 using Scalar.AspNetCore;
 using System.Diagnostics;
@@ -11,6 +13,7 @@ public static class HostBuildingExtensions
 {
     public static WebApplication AddServices(this WebApplicationBuilder builder)
     {
+        var assembly = typeof(HostBuildingExtensions).Assembly;
         builder.Services.AddOpenApi();
         builder.AddLogger();
         builder.Services.AddProblemDetails(options =>
@@ -39,6 +42,9 @@ public static class HostBuildingExtensions
         builder.Services
             .AddHealthChecks();
 
+        builder.Services.AddValidatorsFromAssembly(assembly);
+
+        builder.Services.AddApplcationServices();
         return builder.Build();
     }
 
