@@ -1,23 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>df8fb546-8373-43d1-a1e7-7081b21985a1</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>df8fb546-8373-43d1-a1e7-7081b21985a1</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Carter" Version="9.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+		<PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
+		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+		<PackageReference Include="Scalar.AspNetCore" Version="1.2.71" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RacksStand.Application\RacksStand.Application.csproj" />
-    <ProjectReference Include="..\RacksStand.Domain\RacksStand.Domain.csproj" />
-    <ProjectReference Include="..\RacksStand.Infrastructure\RacksStand.Infrastructure.csproj" />
-    <ProjectReference Include="..\RacksStand.Utilities\RacksStand.Utilities.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\RacksStand.Application\RacksStand.Application.csproj" />
+		<ProjectReference Include="..\RacksStand.Domain\RacksStand.Domain.csproj" />
+		<ProjectReference Include="..\RacksStand.Infrastructure\RacksStand.Infrastructure.csproj" />
+		<ProjectReference Include="..\RacksStand.Utilities\RacksStand.Utilities.csproj" />
+	</ItemGroup>
 
 </Project>

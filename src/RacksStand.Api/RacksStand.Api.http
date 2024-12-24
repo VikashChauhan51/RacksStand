@@ -1,6 +1,6 @@
-@RacksStand.Api_HostAddress = http://localhost:5138
+@RacksStand.Api_HostAddress = http://localhost:5138/api/v1
 
-GET {{RacksStand.Api_HostAddress}}/weatherforecast/
+GET {{RacksStand.Api_HostAddress}}/products
 Accept: application/json
 
 ###
