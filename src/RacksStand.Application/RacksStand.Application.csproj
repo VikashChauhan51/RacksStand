@@ -9,7 +9,6 @@
 	<ItemGroup>
 		<PackageReference Include="Mapster" Version="7.4.0" />
 		<PackageReference Include="MediatorForge" Version="1.0.1" />
-		<PackageReference Include="MediatorForge.Adapters" Version="1.0.1" />
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
 	</ItemGroup>
