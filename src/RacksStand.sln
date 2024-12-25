@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacksStand.Application", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacksStand.Api", "RacksStand.Api\RacksStand.Api.csproj", "{1168C4EA-C7F7-445D-871A-D5EF562BB6B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacksStand.App", "RacksStand.App\RacksStand.App.csproj", "{7FE171FE-D915-4E2D-880C-32FB61E8A12E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{1168C4EA-C7F7-445D-871A-D5EF562BB6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1168C4EA-C7F7-445D-871A-D5EF562BB6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1168C4EA-C7F7-445D-871A-D5EF562BB6B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FE171FE-D915-4E2D-880C-32FB61E8A12E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FE171FE-D915-4E2D-880C-32FB61E8A12E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FE171FE-D915-4E2D-880C-32FB61E8A12E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FE171FE-D915-4E2D-880C-32FB61E8A12E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
