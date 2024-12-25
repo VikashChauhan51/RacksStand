@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MediatorForge.CQRS.Commands;
+using Microsoft.Extensions.Logging;
 using RacksStand.Abstraction.Services;
 using RacksStand.Domain.Entities;
 using ValueObjects = RacksStand.Domain.ValueObjects;
 
 namespace RacksStand.Application.Features.Categories.CreateCategory;
-internal class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Result<Unit>>
+internal class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryCommand, Result<Unit>>
 {
     private readonly ICategoryService categoryService;
     private readonly ILogger<CreateCategoryCommandHandler> logger;

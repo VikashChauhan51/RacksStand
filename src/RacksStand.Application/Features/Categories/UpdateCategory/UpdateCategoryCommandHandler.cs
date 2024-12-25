@@ -1,9 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MediatorForge.CQRS.Commands;
+using Microsoft.Extensions.Logging;
 using RacksStand.Abstraction.Services;
 using RacksStand.Domain.Exceptions;
 
 namespace RacksStand.Application.Features.Categories.UpdateCategory;
-internal class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, Result<Unit>>
+internal class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryCommand, Result<Unit>>
 {
     private readonly ICategoryService categoryService;
     private readonly ILogger<UpdateCategoryCommandHandler> logger;
