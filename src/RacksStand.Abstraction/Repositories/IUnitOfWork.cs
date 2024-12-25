@@ -1,5 +1,5 @@
 ﻿namespace RacksStand.Abstraction.Repositories;
-public interface IUnitOfWork<TContext> where TContext : class
+public interface IUnitOfWork
 {
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     Task BeginTransactionAsync(CancellationToken cancellationToken = default);

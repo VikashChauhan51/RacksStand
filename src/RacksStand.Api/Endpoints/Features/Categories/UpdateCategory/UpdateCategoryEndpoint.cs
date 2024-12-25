@@ -1,6 +1,5 @@
 ﻿using RacksStand.Api.Endpoints.Core;
 using RacksStand.Application.Features.Categories.UpdateCategory;
-using System.Net.Mime;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.UpdateCategory;
 

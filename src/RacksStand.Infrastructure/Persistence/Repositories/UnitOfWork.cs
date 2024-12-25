@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using RacksStand.Abstraction.Repositories;
 
 namespace RacksStand.Infrastructure.Persistence.Repositories;
-public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext
+public class UnitOfWork : IUnitOfWork
 {
-    private readonly TContext _context;
-    private EfTransaction? _transaction; 
+    private readonly DbContext _context;
+    private EfTransaction? _transaction;
 
-    public UnitOfWork(TContext context)
+    public UnitOfWork(DbContext context)
     {
         _context = context;
     }

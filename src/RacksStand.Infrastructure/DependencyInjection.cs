@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using RacksStand.Abstraction.Repositories;
 using RacksStand.Infrastructure.Persistence.Repositories;
 using RacksStand.Infrastructure.Persistence.Contexts;
+using RacksStand.Abstraction.Services;
+using RacksStand.Infrastructure.Services;
 namespace RacksStand.Infrastructure;
 
 public static class DependencyInjection
@@ -22,7 +24,21 @@ public static class DependencyInjection
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        builder.Services.AddScoped<IUnitOfWork<RacksStandContext>, UnitOfWork<RacksStandContext>>();
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        return builder;
+    }
+
+    public static WebApplicationBuilder AddApplcationRepositories(this WebApplicationBuilder builder)
+    {
+
+        return builder;
+    }
+
+    public static WebApplicationBuilder AddApplcationServices(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped(typeof(IService<,>), typeof(Service<,>));
+        builder.Services.AddScoped<ICategoryService, CategoryService>();
         return builder;
     }
     public static WebApplicationBuilder AddLogger(this WebApplicationBuilder builder)

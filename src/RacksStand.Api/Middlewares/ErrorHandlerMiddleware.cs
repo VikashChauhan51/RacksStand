@@ -99,7 +99,7 @@ public class ErrorHandlerMiddleware
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             },
-            contentType: "application/problem+json"
+            contentType: MediaTypeNames.Application.ProblemJson
         );
     }
 }

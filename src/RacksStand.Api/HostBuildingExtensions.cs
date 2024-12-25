@@ -21,7 +21,7 @@ public static class HostBuildingExtensions
             options.CustomizeProblemDetails = (context) =>
             {
                 var problemDetails = context.ProblemDetails;
-                context.HttpContext.Response.ContentType = "application/problem+json";
+                context.HttpContext.Response.ContentType = MediaTypeNames.Application.ProblemJson;
                 problemDetails.Instance = $"{context.HttpContext?.Request.Method} {context.HttpContext?.Request.Path}";
                 problemDetails.Extensions["traceId"] = Activity.Current?.Id ?? context.HttpContext?.TraceIdentifier;
 

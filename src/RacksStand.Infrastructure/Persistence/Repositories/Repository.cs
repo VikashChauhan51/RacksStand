@@ -9,7 +9,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, I
     protected readonly DbSet<TEntity> _dbSet;
     public Repository(DbContext context)
     {
-        _context = context;
+        _context = context ?? throw new ArgumentNullException(nameof(context));
         _dbSet = _context.Set<TEntity>();
     }
 
