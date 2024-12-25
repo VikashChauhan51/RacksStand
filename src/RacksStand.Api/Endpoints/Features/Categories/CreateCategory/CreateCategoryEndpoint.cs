@@ -1,10 +1,5 @@
-﻿using FluentValidation;
-using Mapster;
-using MediatR;
-using Microsoft.OpenApi.Models;
-using RacksStand.Api.Endpoints.Core;
+﻿using RacksStand.Api.Endpoints.Core;
 using RacksStand.Application.Features.Categories.CreateCategory;
-using ResultifyCore;
 using System.Net.Mime;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.CreateCategory;
@@ -53,7 +48,7 @@ public class CreateCategoryEndpoint : EndpointBase
             return Results.ValidationProblem(validationResult.ToDictionary());
         }
 
-        var response = await mediator.Send(new CreateCategoryCommand(""));
+        var response = await mediator.Send(request.Adapt<CreateCategoryCommand>());
         return response.Match
         (
             _ => Results.Created(),

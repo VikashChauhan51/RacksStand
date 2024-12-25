@@ -33,7 +33,8 @@ public class ErrorHandlerMiddleware
 
         var statusCode = exception switch
         {
-            ValidationException => StatusCodes.Status400BadRequest,
+            FluentValidation.ValidationException => StatusCodes.Status400BadRequest,
+            MediatorForge.CQRS.Exceptions.ValidationException => StatusCodes.Status400BadRequest,
             AuthorizationException => StatusCodes.Status403Forbidden,
             UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
             _ => StatusCodes.Status500InternalServerError
@@ -64,7 +65,7 @@ public class ErrorHandlerMiddleware
             }
         };
 
-        if (exception is ValidationException validation)
+        if (exception is FluentValidation.ValidationException validation)
         {
             Dictionary<string, string[]>? dictionary = validation.Errors?
                             .GroupBy(x => x.PropertyName)
@@ -78,6 +79,19 @@ public class ErrorHandlerMiddleware
             }
         }
 
+        if (exception is MediatorForge.CQRS.Exceptions.ValidationException mediatorValidation)
+        {
+            Dictionary<string, string[]>? dictionary = mediatorValidation.Errors?
+                            .GroupBy(x => x.PropertyName)
+                            .ToDictionary(
+                                g => g.Key,
+                                g => g.Select(e => e.ErrorMessage).ToArray()
+                            );
+            if (dictionary != null)
+            {
+                problemDetails.Errors = dictionary;
+            }
+        }
         await context.Response.WriteAsJsonAsync
         (
             problemDetails,

@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
+using MediatorForge.Adapters;
 using MediatorForge.CQRS.Authorizers;
 using MediatorForge.CQRS.Behaviors;
 using Microsoft.Extensions.DependencyInjection;
 using RacksStand.Application.Core;
-using RacksStand.Application.Core.Behaviors;
 
 namespace RacksStand.Application;
 public static class DependencyInjection
@@ -19,7 +19,6 @@ public static class DependencyInjection
             config.AddOpenBehavior(typeof(AuthorizationBehavior<,>));
             config.AddOpenBehavior(typeof(FluentValidationBehavior<,>));
         });
-
         // Register request authorizer
         services.AddTransient(typeof(IAuthorizer<>), typeof(RequestAuthorizer<>));
         //register validators

@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace RacksStand.Application.Features.Categories.CreateCategory;
+﻿namespace RacksStand.Application.Features.Categories.CreateCategory;
 
 public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
 {

@@ -11,12 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ResultifyCore" Version="1.0.0" />
+    <PackageReference Include="ResultifyCore" Version="1.0.1" />
   </ItemGroup>
 
 
   <ItemGroup>
     <ProjectReference Include="..\RacksStand.Domain\RacksStand.Domain.csproj" />
+    <ProjectReference Include="..\RacksStand.Models\RacksStand.Models.csproj" />
   </ItemGroup>
 
 </Project>

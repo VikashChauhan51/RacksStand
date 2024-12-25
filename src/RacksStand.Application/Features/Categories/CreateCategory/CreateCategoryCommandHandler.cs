@@ -1,8 +1,4 @@
-﻿using FluentValidation;
-using MediatR;
-using ResultifyCore;
-
-namespace RacksStand.Application.Features.Categories.CreateCategory;
+﻿namespace RacksStand.Application.Features.Categories.CreateCategory;
 internal class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Result<Unit>>
 {
     public async Task<Result<Unit>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)

@@ -1,6 +1,5 @@
 ﻿using Asp.Versioning;
 using Carter;
-using FluentValidation;
 using RacksStand.Api.Middlewares;
 using RacksStand.Application;
 using RacksStand.Infrastructure;
