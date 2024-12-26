@@ -4,6 +4,10 @@ namespace RacksStand.Api.Endpoints.Core;
 
 public abstract class EndpointBase : CarterModule
 {
+    protected EndpointBase()
+    {
+        
+    }
     public abstract string RouteName { get; }
 
     protected IResult Problem(Exception error)

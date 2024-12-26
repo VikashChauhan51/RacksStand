@@ -3,6 +3,7 @@ using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using RacksStand.Api.Endpoints.Features.Categories.Shared;
 using RacksStand.Persistence.Contexts;
 using RacksStand.Persistence.Repositories;
 using Serilog;
@@ -16,14 +17,21 @@ public static class DependencyInjection
     public static WebApplicationBuilder AddDbContext(this WebApplicationBuilder builder)
     {
         builder.Services.AddDbContext<RacksStandContext>(options =>
-        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+        {
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+        });
+        builder.Services.AddScoped<DbContext>(sp => sp.GetRequiredService<RacksStandContext>());
+        builder.Services.AddScoped<IRacksStandContext>(sp => sp.GetRequiredService<RacksStandContext>());
+        builder.Services.AddScoped<IdentityContext>(sp => sp.GetRequiredService<RacksStandContext>());
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-       // builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-       // builder.Services.AddScoped<RacksStandContext>();
         return builder;
     }
-
+    public static WebApplicationBuilder AddApplicationServices(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<ICategoryService, CategoryService>();
+        return builder;
+    }
     public static WebApplicationBuilder AddLogger(this WebApplicationBuilder builder)
     {
         // Configure Serilog

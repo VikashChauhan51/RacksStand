@@ -18,7 +18,7 @@
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
 		<PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
-		<PackageReference Include="Scalar.AspNetCore" Version="1.2.71" />
+		<PackageReference Include="Scalar.AspNetCore" Version="1.2.72" />
 		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.0" />
 		<PackageReference Include="OpenTelemetry" Version="1.10.0" />
 		<PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.10.0" />

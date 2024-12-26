@@ -5,7 +5,7 @@ using RacksStand.Domain.Entities;
 using RacksStand.Persistence.Configurations;
 
 namespace RacksStand.Persistence.Contexts;
-public class RacksStandContext: IdentityDbContext<IdentityUser>
+public class RacksStandContext : IdentityDbContext<IdentityUser>, IRacksStandContext, IdentityContext
 {
     public RacksStandContext(DbContextOptions<RacksStandContext> options) : base(options) { }
 
@@ -20,7 +20,7 @@ public class RacksStandContext: IdentityDbContext<IdentityUser>
     public DbSet<Supplier> Suppliers { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder builder)
-    {        
+    {
         builder.ApplyConfigurationsFromAssembly(typeof(CategoryConfiguration).Assembly);
         base.OnModelCreating(builder);
     }

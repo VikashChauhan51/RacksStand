@@ -1,4 +1,6 @@
 ﻿using RacksStand.Api.Endpoints.Core;
+using RacksStand.Api.Endpoints.Features.Categories.Shared;
+using RacksStand.Models;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.CreateCategory;
 
@@ -36,21 +38,22 @@ public class CreateCategoryEndpoint : EndpointBase
     private async Task<IResult> CreateCategory
     (
         CreateCategoryRequest request,
-        IValidator<CreateCategoryRequest> validator
+        IValidator<CreateCategoryRequest> validator,
+        ICategoryService categoryService,
+        CancellationToken cancellationToken = default
     )
     {
-        var validationResult = await validator.ValidateAsync(request);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
             return Results.ValidationProblem(validationResult.ToDictionary());
         }
 
-        //var response = await mediator.Send(request.Adapt<CreateCategoryCommand>());
-        //return response.Match
-        //(
-        //    _ => Results.Created(),
-        //    error => Problem(error)
-        //);
-        return Results.Created();
+        var response = await categoryService.AddCategoryAsync(request.Adapt<CategoryModel>(), cancellationToken);
+        return response.Match
+        (
+            _ => Results.Created(),
+            error => Problem(error)
+        );
     }
 }

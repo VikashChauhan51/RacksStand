@@ -1,4 +1,6 @@
 ﻿using RacksStand.Api.Endpoints.Core;
+using RacksStand.Api.Endpoints.Features.Categories.Shared;
+using RacksStand.Models;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.UpdateCategory;
 
@@ -40,24 +42,23 @@ public class UpdateCategoryEndpoint : EndpointBase
     (
        [FromRoute] string id,
         UpdateCategoryRequest request,
-        IValidator<UpdateCategoryRequest> validator
+        IValidator<UpdateCategoryRequest> validator,
+        ICategoryService categoryService,
+        CancellationToken cancellationToken = default
     )
     {
-        var validationResult = await validator.ValidateAsync(request);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
             return Results.ValidationProblem(validationResult.ToDictionary());
         }
 
-        //var command = request.Adapt<UpdateCategoryCommand>() with { Id = id };
-        //var response = await mediator.Send(command);
-        //return response.Match
-        //(
-        //    _ => Results.Ok(),
-        //    error => Problem(error)
-        //);
-
-        return Results.Ok();
+        var response = await categoryService.UpdateCategoryAsync(id, request.Adapt<CategoryModel>(), cancellationToken);
+        return response.Match
+        (
+            _ => Results.Ok(),
+            error => Problem(error)
+        );
     }
 }
 

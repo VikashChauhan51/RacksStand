@@ -5,7 +5,7 @@ namespace RacksStand.Persistence.Repositories;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly DbContext _context;
-    private EfTransaction? _transaction;
+    private ITransaction? _transaction;
 
     public UnitOfWork(DbContext context)
     {

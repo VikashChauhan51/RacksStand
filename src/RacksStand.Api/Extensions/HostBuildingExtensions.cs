@@ -40,7 +40,11 @@ public static class HostBuildingExtensions
             .AddHealthChecks();
 
         builder.Services.AddValidatorsFromAssembly(assembly);
-        builder.AddDbContext();
+        builder
+            .AddDbContext()
+            .AddApplicationServices();
+
+        MapsterConfig.RegisterMappings();
         return builder.Build();
     }
 
