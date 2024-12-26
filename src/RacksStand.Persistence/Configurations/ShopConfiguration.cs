@@ -12,7 +12,8 @@ public class ShopConfiguration : IEntityTypeConfiguration<Shop>
         builder.Property(s => s.Id)
             .HasConversion(
                 storeId => storeId.Value,
-                dbId => ShopId.Of(dbId));
+                dbId => ShopId.Of(dbId))
+            .ValueGeneratedNever();
 
         builder.Property(s => s.Name)
             .IsRequired()
@@ -32,7 +33,7 @@ public class ShopConfiguration : IEntityTypeConfiguration<Shop>
 
         builder.HasMany(s => s.Racks)
             .WithOne(r => r.Store)
-            .HasForeignKey(r => r.StoreId.Value)
+            .HasForeignKey(r => r.StoreId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -12,7 +12,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.Id)
             .HasConversion(
                 productId => productId.Value,
-                dbId => ProductId.Of(dbId));
+                dbId => ProductId.Of(dbId))
+             .ValueGeneratedNever();
 
         builder.Property(p => p.Name)
             .IsRequired()
@@ -26,17 +27,37 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(p => p.CategoryId)
             .HasConversion(
-                categoryId => categoryId.Value,
+                productId => productId.Value,
                 dbId => CategoryId.Of(dbId))
             .IsRequired();
+
+        builder.Property(p => p.PurchasePrice)
+            .HasConversion(
+                purchasePrice => purchasePrice.Value,
+                dbId => Price.Of(dbId))
+            .IsRequired();
+
+        builder.Property(p => p.SellingPrice)
+            .HasConversion(
+                sellingPrice => sellingPrice.Value,
+                dbId => Price.Of(dbId))
+            .IsRequired();
+
+        builder.Property(p => p.Unit)
+           .HasConversion(
+               unit => unit.Value,
+               dbId => Unit.Of(dbId))
+           .IsRequired();
+
         builder.HasOne(p => p.Category)
             .WithMany(c => c.Products)
             .HasForeignKey(p => p.CategoryId);
 
         builder.Property(p => p.SupplierId)
-            .HasConversion(
-                supplierId => supplierId != null ? supplierId.Value : null,
-                dbId => dbId != null ? SupplierId.Of(dbId) : null);
+          .HasConversion(
+              supplierId => supplierId != null ? supplierId.Value : null,
+              dbId => dbId != null ? SupplierId.Of(dbId) : null);
+
         builder.HasOne(p => p.Supplier)
             .WithMany(s => s.Products)
             .HasForeignKey(p => p.SupplierId);

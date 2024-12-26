@@ -13,8 +13,8 @@ public class Product : Entity<ProductId>
     public required Unit Unit { get; set; }
 
     // Navigation properties
-    public Category Category { get; set; } = default!;
-    public Supplier? Supplier { get; set; }
-    public ICollection<PocketItem> PocketItems { get; set; } = [];
+    public virtual Category Category { get; set; } = default!;
+    public virtual Supplier? Supplier { get; set; }
+    public virtual ICollection<PocketItem> PocketItems { get; set; } = [];
 
 }

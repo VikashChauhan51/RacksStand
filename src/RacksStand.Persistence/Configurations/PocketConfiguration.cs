@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RacksStand.Domain.Entities;
 using RacksStand.Domain.ValueObjects;
+using RacksStand.Domain.Enums;
 
 namespace RacksStand.Persistence.Configurations;
 public class PocketConfiguration : IEntityTypeConfiguration<Pocket>
@@ -12,11 +13,12 @@ public class PocketConfiguration : IEntityTypeConfiguration<Pocket>
         builder.Property(p => p.Id)
             .HasConversion(
                 pocketId => pocketId.Value,
-                dbId => PocketId.Of(dbId));
+                dbId => PocketId.Of(dbId))
+             .ValueGeneratedNever();
 
         builder.Property(p => p.RackRowId)
             .HasConversion(
-                rackRowId => rackRowId.Value,
+                pocketId => pocketId.Value,
                 dbId => RackRowId.Of(dbId))
             .IsRequired();
 
@@ -24,13 +26,16 @@ public class PocketConfiguration : IEntityTypeConfiguration<Pocket>
             .IsRequired()
             .HasMaxLength(50);
 
+        builder.Property(o => o.State)
+          .HasDefaultValue(PocketState.Empty)
+          .HasConversion(
+              s => s.ToString(),
+              dbStatus => Enum.Parse<PocketState>(dbStatus));
+
         builder.HasOne(p => p.RackRow)
             .WithMany(rr => rr.Pockets)
             .HasForeignKey(p => p.RackRowId)
             .OnDelete(DeleteBehavior.Cascade); 
-
-        builder.Property(p => p.State)
-            .HasConversion<string>(); 
     }
 }
 

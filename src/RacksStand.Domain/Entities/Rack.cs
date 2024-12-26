@@ -10,6 +10,6 @@ public class Rack : Entity<RackId>
     public required ShopId StoreId { get; set; }
 
     // Navigation properties
-    public Shop Store { get; set; } = default!;
-    public ICollection<RackRow> RackRows { get; set; } = [];
+    public virtual Shop Store { get; set; } = default!;
+    public virtual ICollection<RackRow> RackRows { get; set; } = [];
 }

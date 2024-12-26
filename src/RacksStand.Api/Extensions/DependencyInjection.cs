@@ -19,8 +19,8 @@ public static class DependencyInjection
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+       // builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+       // builder.Services.AddScoped<RacksStandContext>();
         return builder;
     }
 

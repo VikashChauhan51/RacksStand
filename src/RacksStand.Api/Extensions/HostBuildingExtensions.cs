@@ -40,7 +40,7 @@ public static class HostBuildingExtensions
             .AddHealthChecks();
 
         builder.Services.AddValidatorsFromAssembly(assembly);
-
+        builder.AddDbContext();
         return builder.Build();
     }
 

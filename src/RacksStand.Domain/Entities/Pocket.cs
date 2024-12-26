@@ -11,6 +11,6 @@ public class Pocket: Entity<PocketId>
     public PocketState State { get; set; }
 
     // Navigation properties
-    public RackRow RackRow { get; set; } = default!;
-    public ICollection<PocketItem> PocketItems { get; set; } = [];
+    public virtual RackRow RackRow { get; set; } = default!;
+    public virtual ICollection<PocketItem> PocketItems { get; set; } = [];
 }

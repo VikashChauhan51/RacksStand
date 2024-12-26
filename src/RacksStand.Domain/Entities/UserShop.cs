@@ -9,5 +9,5 @@ public class UserShop : Entity<UserShopId>
     public required UserRole Role { get; set; } 
 
     // Navigation properties
-    public Shop Store { get; set; } = default!;
+    public virtual Shop Store { get; set; } = default!;
 }

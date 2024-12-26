@@ -7,5 +7,5 @@ public class Category: Entity<CategoryId>
     public string? Description { get; set; }
 
     // Navigation properties
-    public ICollection<Product> Products { get; set; } = [];
+    public virtual ICollection<Product> Products { get; set; } = [];
 }

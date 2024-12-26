@@ -10,6 +10,6 @@ public class RackRow: Entity<RackRowId>
     public string? Description { get; set; }
 
     // Navigation properties
-    public Rack Rack { get; set; } = default!;
-    public ICollection<Pocket> Pockets { get; set; } = [];
+    public virtual Rack Rack { get; set; } = default!;
+    public virtual ICollection<Pocket> Pockets { get; set; } = [];
 }

@@ -19,9 +19,9 @@ public class RacksStandContext: IdentityDbContext<IdentityUser>
     public DbSet<RackRow> RackRows { get; set; } = default!;
     public DbSet<Supplier> Suppliers { get; set; } = default!;
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(CategoryConfiguration).Assembly);
+    protected override void OnModelCreating(ModelBuilder builder)
+    {        
+        builder.ApplyConfigurationsFromAssembly(typeof(CategoryConfiguration).Assembly);
+        base.OnModelCreating(builder);
     }
 }

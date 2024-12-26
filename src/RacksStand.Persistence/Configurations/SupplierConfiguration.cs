@@ -12,7 +12,8 @@ public class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
         builder.Property(s => s.Id)
             .HasConversion(
                 supplierId => supplierId.Value,
-                dbId => SupplierId.Of(dbId));
+                dbId => SupplierId.Of(dbId))
+             .ValueGeneratedNever();
 
         builder.Property(s => s.Name)
             .IsRequired()

@@ -12,7 +12,8 @@ public class PocketItemConfiguration : IEntityTypeConfiguration<PocketItem>
         builder.Property(pi => pi.Id)
             .HasConversion(
                 pocketItemId => pocketItemId.Value,
-                dbId => PocketItemId.Of(dbId));
+                dbId => PocketItemId.Of(dbId))
+             .ValueGeneratedNever();
 
         builder.Property(pi => pi.PocketId)
             .HasConversion(
@@ -24,7 +25,6 @@ public class PocketItemConfiguration : IEntityTypeConfiguration<PocketItem>
                 productId => productId.Value,
                 dbId => ProductId.Of(dbId))
             .IsRequired();
-
 
         builder.HasOne(pi => pi.Pocket)
             .WithMany(p => p.PocketItems)

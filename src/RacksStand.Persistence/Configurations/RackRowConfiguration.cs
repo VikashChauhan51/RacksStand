@@ -12,13 +12,15 @@ public class RackRowConfiguration : IEntityTypeConfiguration<RackRow>
         builder.Property(rr => rr.Id)
             .HasConversion(
                 rackRowId => rackRowId.Value,
-                dbId => RackRowId.Of(dbId));
+                dbId => RackRowId.Of(dbId))
+             .ValueGeneratedNever();
 
         builder.Property(rr => rr.RackId)
-            .HasConversion(
-                rackId => rackId.Value,
-                dbId => RackId.Of(dbId))
-            .IsRequired();
+           .HasConversion(
+               rackId => rackId.Value,
+               dbId => RackId.Of(dbId))
+           .IsRequired();
+
         builder.Property(rr => rr.Code)
             .IsRequired()
             .HasMaxLength(50);

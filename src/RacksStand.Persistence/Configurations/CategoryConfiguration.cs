@@ -11,11 +11,15 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).HasConversion(
                  categoryId => categoryId.Value,
-                 dbId => CategoryId.Of(dbId));
+                 dbId => CategoryId.Of(dbId))
+             .ValueGeneratedNever();
 
         builder.Property(c => c.Name)
             .IsRequired()
             .HasMaxLength(255);
+
+        builder.Property(c => c.Description)
+            .HasMaxLength(500);
 
         builder.HasMany(c => c.Products)
             .WithOne(p => p.Category)

@@ -8,7 +8,7 @@ public class PocketItem:Entity<PocketItemId>
     public int Quantity { get; set; }
 
     // Navigation properties
-    public Pocket Pocket { get; set; } = default!;
-    public Product Product { get; set; } = default!;
+    public virtual Pocket Pocket { get; set; } = default!;
+    public virtual Product Product { get; set; } = default!;
 
 }

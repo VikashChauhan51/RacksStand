@@ -7,5 +7,5 @@ public class Supplier: Entity<SupplierId>
     public required string Code { get; set; }
 
     // Navigation properties
-    public ICollection<Product> Products { get; set; } = [];
+    public virtual ICollection<Product> Products { get; set; } = [];
 }
