@@ -1,7 +1,21 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+// Add Identity services
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<IdentityDbContext>();
+
+builder.Services.AddDbContext<IdentityDbContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
 
 var app = builder.Build();
 
