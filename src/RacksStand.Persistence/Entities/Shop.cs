@@ -12,5 +12,6 @@ public class Shop : Entity<ShopId>
     public virtual ICollection<Category> Categories { get; set; } = [];
     public virtual ICollection<UserShop> UserStores { get; set; } = [];
     public virtual ICollection<Rack> Racks { get; set; } = [];
+    public virtual ICollection<UserInvite> UserInvites { get; set; } = [];
 }
 

@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using RacksStand.Persistence.Entities;
 
 namespace RacksStand.Persistence.Contexts;
 public interface IdentityContext
 {
-    DbSet<IdentityUser> Users { get; }
+    DbSet<User> Users { get; }
     DbSet<IdentityUserLogin<string>> UserLogins { get; }
     DbSet<IdentityUserClaim<string>> UserClaims { get; }
     DbSet<IdentityUserToken<string>> UserTokens { get; }
