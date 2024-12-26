@@ -46,6 +46,17 @@ public class ShopConfiguration : IEntityTypeConfiguration<Shop>
           .WithOne(r => r.Store)
           .HasForeignKey(r => r.ShopId)
           .OnDelete(DeleteBehavior.Cascade);
+
+        // Indexes
+        builder.HasIndex(s => s.Name) 
+            .HasDatabaseName("IX_Shop_Name");
+
+        builder.HasIndex(s => s.OwnerId) 
+            .HasDatabaseName("IX_Shop_OwnerId");
+
+        builder.HasIndex(s => new { s.Name, s.OwnerId })
+            .IsUnique()
+            .HasDatabaseName("IX_Shop_Name_OwnerId");
     }
 }
 

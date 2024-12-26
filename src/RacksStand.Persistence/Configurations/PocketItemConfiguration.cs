@@ -36,6 +36,15 @@ public class PocketItemConfiguration : IEntityTypeConfiguration<PocketItem>
             .HasForeignKey(pi => pi.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasIndex(pi => new { pi.PocketId, pi.ProductId }).IsUnique(); 
+        // Indexes
+        builder.HasIndex(pi => pi.PocketId)
+            .HasDatabaseName("IX_PocketItems_PocketId");
+
+        builder.HasIndex(pi => pi.ProductId)
+            .HasDatabaseName("IX_PocketItems_ProductId");
+
+        builder.HasIndex(pi => new { pi.PocketId, pi.ProductId })
+            .IsUnique()
+            .HasDatabaseName("IX_PocketItems_PocketId_ProductId");
     }
 }

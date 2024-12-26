@@ -61,6 +61,19 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasOne(p => p.Supplier)
             .WithMany(s => s.Products)
             .HasForeignKey(p => p.SupplierId);
+
+        // Indexes
+        builder.HasIndex(p => p.Name)
+            .HasDatabaseName("IX_Products_Name");
+
+        builder.HasIndex(p => p.Code)
+            .HasDatabaseName("IX_Products_Code");
+
+        builder.HasIndex(p => p.CategoryId)
+            .HasDatabaseName("IX_Products_CategoryId");
+
+        builder.HasIndex(p => p.SupplierId)
+            .HasDatabaseName("IX_Products_SupplierId");
     }
 }
 

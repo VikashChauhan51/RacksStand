@@ -35,7 +35,21 @@ public class PocketConfiguration : IEntityTypeConfiguration<Pocket>
         builder.HasOne(p => p.RackRow)
             .WithMany(rr => rr.Pockets)
             .HasForeignKey(p => p.RackRowId)
-            .OnDelete(DeleteBehavior.Cascade); 
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Indexes
+        builder.HasIndex(p => p.RackRowId)
+            .HasDatabaseName("IX_Pockets_RackRowId");
+
+        builder.HasIndex(p => p.Code)
+            .HasDatabaseName("IX_Pockets_Code");
+
+        builder.HasIndex(us => new { us.RackRowId, us.Code })
+          .IsUnique()
+          .HasDatabaseName("IX_Pockets_RackRowId_Code");
+
+        builder.HasIndex(p => p.State)
+          .HasDatabaseName("IX_Pockets_State");
     }
 }
 

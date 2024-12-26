@@ -32,6 +32,16 @@ public class RackRowConfiguration : IEntityTypeConfiguration<RackRow>
             .WithMany(r => r.RackRows)
             .HasForeignKey(rr => rr.RackId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Indexes
+        builder.HasIndex(rr => rr.RackId)
+            .HasDatabaseName("IX_RackRows_RackId");
+
+        builder.HasIndex(rr => rr.Code)
+            .HasDatabaseName("IX_RackRows_Code");
+
+        builder.HasIndex(rr => rr.Label)
+            .HasDatabaseName("IX_RackRows_Label");
     }
 }
 

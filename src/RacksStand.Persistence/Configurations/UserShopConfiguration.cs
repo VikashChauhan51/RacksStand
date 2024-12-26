@@ -44,5 +44,16 @@ public class UserShopConfiguration : IEntityTypeConfiguration<UserShop>
             .WithMany(s => s.UserStores)
             .HasForeignKey(us => us.StoreId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Indexes
+        builder.HasIndex(us => us.UserId)
+            .HasDatabaseName("IX_UserShop_UserId");
+
+        builder.HasIndex(us => us.StoreId)
+            .HasDatabaseName("IX_UserShop_StoreId");
+
+        builder.HasIndex(us => new { us.UserId, us.StoreId })
+            .IsUnique()
+            .HasDatabaseName("IX_UserShop_UserId_StoreId");
     }
 }

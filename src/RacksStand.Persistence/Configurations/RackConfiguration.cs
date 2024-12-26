@@ -32,5 +32,18 @@ public class RackConfiguration : IEntityTypeConfiguration<Rack>
            .HasMaxLength(255);
         builder.Property(r => r.Label)
             .HasMaxLength(50);
+
+        // Indexes
+        builder.HasIndex(r => r.StoreId)
+            .HasDatabaseName("IX_Racks_StoreId");
+
+        builder.HasIndex(r => r.Name)
+            .HasDatabaseName("IX_Racks_Name");
+
+        builder.HasIndex(r => r.Code)
+            .HasDatabaseName("IX_Racks_Code");
+
+        builder.HasIndex(r => r.Label)
+            .HasDatabaseName("IX_Racks_Label");
     }
 }

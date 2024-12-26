@@ -29,5 +29,15 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.HasMany(c => c.Products)
             .WithOne(p => p.Category)
             .HasForeignKey(p => p.CategoryId);
+
+        // Indexes
+        builder.HasIndex(pi => new { pi.Name, pi.ShopId }) 
+            .IsUnique();
+
+        builder.HasIndex(c => c.ShopId) 
+            .HasDatabaseName("IX_Category_ShopId");
+
+        builder.HasIndex(c => c.Name)
+            .HasDatabaseName("IX_Category_Name");
     }
 }

@@ -21,5 +21,12 @@ public class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
         builder.Property(s => s.Code)
             .IsRequired()
             .HasMaxLength(50);
+
+        // Indexes
+        builder.HasIndex(s => s.Name)
+            .HasDatabaseName("IX_Suppliers_Name");
+
+        builder.HasIndex(s => s.Code)
+            .HasDatabaseName("IX_Suppliers_Code");
     }
 }
