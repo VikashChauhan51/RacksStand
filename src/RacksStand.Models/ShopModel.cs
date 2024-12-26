@@ -4,6 +4,7 @@ public record ShopModel(
     string Name,
     string? Description,
     string? Address,
+    string OwnerId,
     List<UserShopModel> UserShops,
     List<RackModel> Racks
 );

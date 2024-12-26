@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using RacksStand.Domain.Entities;
 using RacksStand.Domain.ValueObjects;
 using Microsoft.AspNetCore.Identity;
+using RacksStand.Domain.Enums;
 
 namespace RacksStand.Persistence.Configurations;
 public class UserShopConfiguration : IEntityTypeConfiguration<UserShop>
 {
     public void Configure(EntityTypeBuilder<UserShop> builder)
     {
-        builder.HasKey(us => new { us.UserId, us.StoreId});
+        builder.HasKey(us => new { us.UserId, us.StoreId });
         builder.HasKey(us => us.Id);
         builder.Property(us => us.Id)
             .HasConversion(
@@ -17,8 +18,11 @@ public class UserShopConfiguration : IEntityTypeConfiguration<UserShop>
                 dbId => UserShopId.Of(dbId))
              .ValueGeneratedNever();
 
-        builder.Property(us => us.UserId).IsRequired();
-
+        builder.Property(us => us.UserId)
+            .HasConversion(
+                userId => userId.Value,
+                dbId => UserId.Of(dbId))
+             .IsRequired();
 
         builder.Property(us => us.StoreId)
           .HasConversion(
@@ -26,9 +30,11 @@ public class UserShopConfiguration : IEntityTypeConfiguration<UserShop>
               dbId => ShopId.Of(dbId))
           .IsRequired();
 
-        builder.Property(us => us.Role)
-            .IsRequired()
-            .HasConversion<string>();
+        builder.Property(o => o.Role)
+          .HasDefaultValue(UserRole.Viewer)
+          .HasConversion(
+              s => s.ToString(),
+              dbStatus => Enum.Parse<UserRole>(dbStatus));
 
         builder.HasOne<IdentityUser>() // Reference to Microsoft Identity's User
              .WithMany()

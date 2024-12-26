@@ -4,9 +4,9 @@ using RacksStand.Domain.ValueObjects;
 namespace RacksStand.Domain.Entities;
 public class UserShop : Entity<UserShopId>
 {
-    public required string UserId { get; set; }
+    public required UserId UserId { get; set; }
     public required ShopId StoreId { get; set; }
-    public required UserRole Role { get; set; } 
+    public required UserRole Role { get; set; }
 
     // Navigation properties
     public virtual Shop Store { get; set; } = default!;

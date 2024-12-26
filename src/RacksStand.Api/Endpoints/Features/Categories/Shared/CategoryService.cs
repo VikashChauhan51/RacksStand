@@ -33,6 +33,7 @@ public sealed class CategoryService : ICategoryService
         {
             Id = CategoryId.Of(Guid.NewGuid().ToString()),
             Name = model.Name,
+            ShopId = ShopId.Of(model.ShopId),
             Description = model.Description,
             CreatedAt = DateTime.UtcNow,
         };

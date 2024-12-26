@@ -1,5 +1,5 @@
 # RacksStand
-Rack-Based Inventory Management System
+Rack-Based Inventory Management System.
 
 ## Introduction
 
@@ -17,6 +17,7 @@ This document outlines the requirements and assumptions for a rack-based invento
 
 This project will focus on the following features:
 
+*   Management of shops, racks,categories, products, and users.
 *   Management of racks, rows within racks, and pockets within rows.
 *   Product cataloging with detailed product information.
 *   Assignment of products to specific pockets.
@@ -26,29 +27,46 @@ This project will focus on the following features:
 
 ## Functional Requirements
 
-*   **Rack Management:**
-    *   Ability to define racks with a specified number of rows.
-    *   Ability to define the number of pockets within each row (allowing for variations between rows).
-    *   Ability to name and describe racks for easy identification.
-    *   Ability to assign unique barcodes to racks (optional).
-*   **Pocket Management:**
-    *   Ability to define the capacity of each pocket (number of units).
-    *   Ability to assign unique barcodes to pockets.
-    *   Ability for shopkeepers to manually set the state of a pocket (empty, partially full, full).
-*   **Product Cataloging:**
-    *   Ability to add new products with details like name, description, category, supplier (optional), barcode, purchase price, selling price, and unit.
-    *   Ability to categorize products.
-    *   Ability to manage product information (edit, delete).
-*   **Inventory Management:**
-    *   Ability to assign products to specific pockets with a specified quantity.
-    *   Ability to update inventory levels (add/remove products from pockets).
-    *   System to check if adding products to a pocket exceeds its capacity.
-*   **Product Lookup:**
-    *   Ability to search for products by name, barcode, or category.
-    *   Ability to view the location of a product (rack, row, and pocket).
-*   **Reporting:**
-    *   Generate reports on current stock levels for each product.
-    *   Generate low stock alerts.
+### Shop Management
+*   Users can manage multiple shops under the same account.
+*   Each shop can be activated or deactivated.
+*   A user must be associated with at least one shop to use the system.
+*   Only super users have the ability to manage shops (add, edit, delete, activate, deactivate).
+*   Each shop has its own categories, products, racks, and associated data.
+
+### User Management
+*   Users can only access data related to the shops they are associated with.
+*   The system enforces that a user cannot exist without being linked to at least one shop.
+*   User roles include super users (with shop management permissions) and standard users (limited to inventory management).
+
+### Rack Management
+*   Ability to define racks with a specified number of rows.
+*   Ability to define the number of pockets within each row (allowing for variations between rows).
+*   Ability to name and describe racks for easy identification.
+*   Ability to assign unique barcodes to racks (optional).
+
+### Pocket Management
+*   Ability to define the capacity of each pocket (number of units).
+*   Ability to assign unique barcodes to pockets.
+*   Ability for shopkeepers to manually set the state of a pocket (empty, partially full, full).
+
+### Product Cataloging
+*   Ability to add new products with details like name, description, category, supplier (optional), barcode, purchase price, selling price, and unit.
+*   Ability to categorize products under shop-specific categories.
+*   Ability to manage product information (edit, delete).
+
+### Inventory Management
+*   Ability to assign products to specific pockets with a specified quantity.
+*   Ability to update inventory levels (add/remove products from pockets).
+*   System to check if adding products to a pocket exceeds its capacity.
+
+### Product Lookup
+*   Ability to search for products by name, barcode, or category.
+*   Ability to view the location of a product (rack, row, and pocket).
+
+### Reporting
+*   Generate reports on current stock levels for each product.
+*   Generate low stock alerts.
 
 ## Non-Functional Requirements
 
@@ -88,3 +106,4 @@ This project will focus on the following features:
 *   **Row:** A horizontal section within a rack.
 *   **Pocket:** A specific storage location within a row (also referred to as a box or compartment).
 *   **SKU:** Stock Keeping Unit (a unique identifier for a product).
+

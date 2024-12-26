@@ -4,5 +4,6 @@ public record CategoryModel
 (
     string Id,
     string Name,
-    string? Description
+    string? Description,
+    string ShopId
 );
