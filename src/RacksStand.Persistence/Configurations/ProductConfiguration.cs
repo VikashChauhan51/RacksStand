@@ -34,13 +34,13 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.PurchasePrice)
             .HasConversion(
                 purchasePrice => purchasePrice.Value,
-                dbId => Price.Of(dbId))
+                dbId => PurchasePrice.Of(dbId))
             .IsRequired();
 
         builder.Property(p => p.SellingPrice)
             .HasConversion(
                 sellingPrice => sellingPrice.Value,
-                dbId => Price.Of(dbId))
+                dbId => SellingPrice.Of(dbId))
             .IsRequired();
 
         builder.Property(p => p.Unit)

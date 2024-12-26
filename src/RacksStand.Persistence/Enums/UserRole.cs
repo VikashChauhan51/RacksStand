@@ -5,5 +5,6 @@ public enum UserRole : byte
     Staff,
     Manager,
     Admin,
-    SuperAdmin
+    SuperAdmin,
+    Owner
 }
