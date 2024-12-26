@@ -1,6 +1,6 @@
-﻿using RacksStand.Domain.Entities;
-using RacksStand.Domain.Exceptions;
-using RacksStand.Domain.ValueObjects;
+﻿using RacksStand.Persistence.Entities;
+using RacksStand.Persistence.Exceptions;
+using RacksStand.Persistence.ValueObjects;
 using RacksStand.Models;
 using RacksStand.Persistence.Repositories;
 

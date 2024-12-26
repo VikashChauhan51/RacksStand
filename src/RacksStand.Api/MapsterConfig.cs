@@ -1,5 +1,5 @@
-﻿using RacksStand.Domain.Entities;
-using RacksStand.Domain.ValueObjects;
+﻿using RacksStand.Persistence.Entities;
+using RacksStand.Persistence.ValueObjects;
 using RacksStand.Models;
 
 namespace RacksStand.Api;

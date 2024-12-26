@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using RacksStand.Domain.Entities;
-using RacksStand.Domain.ValueObjects;
+using RacksStand.Persistence.Entities;
+using RacksStand.Persistence.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 
 namespace RacksStand.Persistence.Configurations;

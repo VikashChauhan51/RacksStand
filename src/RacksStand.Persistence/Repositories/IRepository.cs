@@ -1,4 +1,4 @@
-﻿using RacksStand.Domain.Entities;
+﻿using RacksStand.Persistence.Entities;
 
 namespace RacksStand.Persistence.Repositories;
 

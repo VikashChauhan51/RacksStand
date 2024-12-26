@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using RacksStand.Domain.Entities;
-using RacksStand.Domain.ValueObjects;
+using RacksStand.Persistence.Entities;
+using RacksStand.Persistence.ValueObjects;
 using Microsoft.AspNetCore.Identity;
-using RacksStand.Domain.Enums;
+using RacksStand.Persistence.Enums;
 
 namespace RacksStand.Persistence.Configurations;
 public class UserShopConfiguration : IEntityTypeConfiguration<UserShop>

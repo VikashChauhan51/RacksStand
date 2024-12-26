@@ -1,6 +1,6 @@
 ﻿using RacksStand.Api.Endpoints.Core;
 using RacksStand.Api.Endpoints.Features.Shops.Shared;
-using RacksStand.Domain.Entities;
+using RacksStand.Persistence.Entities;
 using RacksStand.Models;
 
 namespace RacksStand.Api.Endpoints.Features.Shops.CreateShop;

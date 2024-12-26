@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using RacksStand.Domain.Entities;
+using RacksStand.Persistence.Entities;
 using RacksStand.Persistence.Configurations;
 
 namespace RacksStand.Persistence.Contexts;

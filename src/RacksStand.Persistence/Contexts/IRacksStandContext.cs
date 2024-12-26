@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RacksStand.Domain.Entities;
+using RacksStand.Persistence.Entities;
 
 namespace RacksStand.Persistence.Contexts;
 public interface IRacksStandContext
