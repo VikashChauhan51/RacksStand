@@ -10,5 +10,8 @@ public class CreateCategoryRequestValidator : AbstractValidator<CreateCategoryRe
             .NotNull()
             .NotEmpty()
             .MaximumLength(255);
+
+        RuleFor(x => x.Description)
+            .MaximumLength(500);
     }
 }

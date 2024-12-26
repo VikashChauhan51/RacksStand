@@ -64,6 +64,11 @@ public sealed class CategoryService : ICategoryService
 
     public async Task<Result<PaginatedResult<CategoryModel>>> GetCategoriesAsync(string shopId, int pageSize, int pageNumber, string? filter, CancellationToken cancellationToken = default)
     {
+        if (string.IsNullOrEmpty(shopId))
+        {
+            _logger.LogWarning("The shop ID can't be null.");
+            return Result<PaginatedResult<CategoryModel>>.Fail(new ArgumentException("The shop ID can't be null.", nameof(shopId)));
+        }
         if (pageNumber <= 0)
         {
             _logger.LogWarning("Page number must be greater than zero.");
@@ -126,7 +131,7 @@ public sealed class CategoryService : ICategoryService
         return Result<string>.Succ(id);
     }
 
-    public async Task<Result<string>> SoftDeleteCategoryAsync(string id, CancellationToken cancellationToken = default)
+    public async Task<Result<string>> DeleteCategoryAsync(string id, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(id))
         {
