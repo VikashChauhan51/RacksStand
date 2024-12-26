@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RacksStand.Domain.Entities;
 using RacksStand.Domain.ValueObjects;
+using Microsoft.AspNetCore.Identity;
 
 namespace RacksStand.Persistence.Configurations;
 public class ShopConfiguration : IEntityTypeConfiguration<Shop>
@@ -15,11 +16,7 @@ public class ShopConfiguration : IEntityTypeConfiguration<Shop>
                 dbId => ShopId.Of(dbId))
             .ValueGeneratedNever();
 
-        builder.Property(s => s.OwnerId)
-            .HasConversion(
-                userId => userId.Value,
-                dbId => UserId.Of(dbId))
-            .IsRequired();
+        builder.Property(s => s.OwnerId).IsRequired();
 
         builder.Property(s => s.Name)
             .IsRequired()
@@ -46,6 +43,10 @@ public class ShopConfiguration : IEntityTypeConfiguration<Shop>
           .WithOne(r => r.Store)
           .HasForeignKey(r => r.ShopId)
           .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne<IdentityUser>() // Reference to Microsoft Identity's User
+         .WithMany()
+         .HasForeignKey(us => us.OwnerId);
 
         // Indexes
         builder.HasIndex(s => s.Name) 

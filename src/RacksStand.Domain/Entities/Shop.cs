@@ -5,7 +5,7 @@ public class Shop : Entity<ShopId>
 {
     public required string Name { get; set; }
     public required string Address { get; set; }
-    public required UserId OwnerId { get; set; }
+    public required string OwnerId { get; set; }
     public string? Description { get; set; }
 
     // Navigation properties

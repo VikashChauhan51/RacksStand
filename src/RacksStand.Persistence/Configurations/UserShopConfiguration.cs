@@ -18,11 +18,7 @@ public class UserShopConfiguration : IEntityTypeConfiguration<UserShop>
                 dbId => UserShopId.Of(dbId))
              .ValueGeneratedNever();
 
-        builder.Property(us => us.UserId)
-            .HasConversion(
-                userId => userId.Value,
-                dbId => UserId.Of(dbId))
-             .IsRequired();
+        builder.Property(us => us.UserId).IsRequired();
 
         builder.Property(us => us.StoreId)
           .HasConversion(
