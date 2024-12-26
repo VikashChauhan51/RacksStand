@@ -1,5 +1,4 @@
 ﻿using RacksStand.Api.Endpoints.Core;
-using RacksStand.Application.Features.Categories.CreateCategory;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.CreateCategory;
 
@@ -37,7 +36,6 @@ public class CreateCategoryEndpoint : EndpointBase
     private async Task<IResult> CreateCategory
     (
         CreateCategoryRequest request,
-        IMediator mediator,
         IValidator<CreateCategoryRequest> validator
     )
     {
@@ -47,11 +45,12 @@ public class CreateCategoryEndpoint : EndpointBase
             return Results.ValidationProblem(validationResult.ToDictionary());
         }
 
-        var response = await mediator.Send(request.Adapt<CreateCategoryCommand>());
-        return response.Match
-        (
-            _ => Results.Created(),
-            error => Problem(error)
-        );
+        //var response = await mediator.Send(request.Adapt<CreateCategoryCommand>());
+        //return response.Match
+        //(
+        //    _ => Results.Created(),
+        //    error => Problem(error)
+        //);
+        return Results.Created();
     }
 }

@@ -1,4 +1,4 @@
-using RacksStand.Api;
+using RacksStand.Api.Extensions;
 
 await WebApplication.CreateBuilder(args)
     .AddServices()

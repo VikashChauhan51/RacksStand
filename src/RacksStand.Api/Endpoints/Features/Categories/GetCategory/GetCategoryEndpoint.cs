@@ -1,5 +1,4 @@
 ﻿using RacksStand.Api.Endpoints.Core;
-using RacksStand.Application.Features.Categories.GetCategory;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.GetCategory;
 
@@ -32,14 +31,16 @@ public class GetCategoryEndpoint : EndpointBase
             });
     }
 
-    private async Task<IResult> GetCategory(string id, IMediator mediator)
+    private async Task<IResult> GetCategory(string id)
     {
-        var response = await mediator.Send(new GetCategoryQuery(id));
-        return response.Match
-        (
-            data => Results.Ok(data.Category),
-            error => Problem(error)
-        );
+        //var response = await mediator.Send(new GetCategoryQuery(id));
+        //return response.Match
+        //(
+        //    data => Results.Ok(data.Category),
+        //    error => Problem(error)
+        //);
+
+        return Results.Ok();
     }
 }
 

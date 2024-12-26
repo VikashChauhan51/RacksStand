@@ -10,17 +10,37 @@
 
 	<ItemGroup>
 		<PackageReference Include="Carter" Version="9.0.0" />
+		<PackageReference Include="Mapster" Version="7.4.0" />
+		<PackageReference Include="FluentValidation" Version="11.11.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
 		<PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
 		<PackageReference Include="Scalar.AspNetCore" Version="1.2.71" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.0" />
+		<PackageReference Include="OpenTelemetry" Version="1.10.0" />
+		<PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.10.0" />
+		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.10.0" />
+		<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.10.0" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.10.1" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.10.0" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.10.0" />
+		<PackageReference Include="Serilog" Version="4.2.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+		<PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+		<PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+		<PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+		<PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.1.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\RacksStand.Application\RacksStand.Application.csproj" />
 		<ProjectReference Include="..\RacksStand.Domain\RacksStand.Domain.csproj" />
-		<ProjectReference Include="..\RacksStand.Infrastructure\RacksStand.Infrastructure.csproj" />
+		<ProjectReference Include="..\RacksStand.Models\RacksStand.Models.csproj" />
+		<ProjectReference Include="..\RacksStand.Persistence\RacksStand.Persistence.csproj" />
 		<ProjectReference Include="..\RacksStand.Utilities\RacksStand.Utilities.csproj" />
 	</ItemGroup>
 

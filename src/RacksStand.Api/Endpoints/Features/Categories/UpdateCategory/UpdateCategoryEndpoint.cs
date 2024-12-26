@@ -1,5 +1,4 @@
 ﻿using RacksStand.Api.Endpoints.Core;
-using RacksStand.Application.Features.Categories.UpdateCategory;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.UpdateCategory;
 
@@ -41,7 +40,6 @@ public class UpdateCategoryEndpoint : EndpointBase
     (
        [FromRoute] string id,
         UpdateCategoryRequest request,
-        IMediator mediator,
         IValidator<UpdateCategoryRequest> validator
     )
     {
@@ -51,13 +49,15 @@ public class UpdateCategoryEndpoint : EndpointBase
             return Results.ValidationProblem(validationResult.ToDictionary());
         }
 
-        var command = request.Adapt<UpdateCategoryCommand>() with { Id = id };
-        var response = await mediator.Send(command);
-        return response.Match
-        (
-            _ => Results.Ok(),
-            error => Problem(error)
-        );
+        //var command = request.Adapt<UpdateCategoryCommand>() with { Id = id };
+        //var response = await mediator.Send(command);
+        //return response.Match
+        //(
+        //    _ => Results.Ok(),
+        //    error => Problem(error)
+        //);
+
+        return Results.Ok();
     }
 }
 
