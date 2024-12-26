@@ -10,7 +10,7 @@ public class UpdateCategoryEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("categories/{id}", UpdateCategory)
+        app.MapPut("{shopId}/categories/{id}", UpdateCategory)
             .WithName(RouteName)
             .Accepts<UpdateCategoryRequest>(MediaTypeNames.Application.Json)
             .Produces(StatusCodes.Status200OK)

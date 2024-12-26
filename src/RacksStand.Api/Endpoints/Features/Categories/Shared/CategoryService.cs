@@ -62,7 +62,7 @@ public sealed class CategoryService : ICategoryService
         return Result<CategoryModel>.Succ(response.Adapt<CategoryModel>());
     }
 
-    public async Task<Result<PaginatedResult<CategoryModel>>> GetCategoriesAsync(int pageSize, int pageNumber, string? filter, CancellationToken cancellationToken = default)
+    public async Task<Result<PaginatedResult<CategoryModel>>> GetCategoriesAsync(string shopId, int pageSize, int pageNumber, string? filter, CancellationToken cancellationToken = default)
     {
         if (pageNumber <= 0)
         {
@@ -79,7 +79,8 @@ public sealed class CategoryService : ICategoryService
             pageNumber,
             pageSize,
             true,
-            x => (string.IsNullOrEmpty(filter) || x.Name.StartsWith(filter)),
+            x => x.ShopId.Value == shopId &&
+            (string.IsNullOrEmpty(filter) || x.Name.StartsWith(filter)),
             null,
             cancellationToken
         );

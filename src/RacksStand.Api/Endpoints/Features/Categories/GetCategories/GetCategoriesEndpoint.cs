@@ -9,7 +9,7 @@ public class GetCategoriesEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("categories", ListCategories)
+        app.MapGet("{shopId}/categories", ListCategories)
             .WithName(RouteName)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
@@ -31,6 +31,7 @@ public class GetCategoriesEndpoint : EndpointBase
     }
 
     private async Task<IResult> ListCategories(
+        [FromRoute] string shopId,
         [AsParameters] GetCategoriesRequest request,
          ICategoryService categoryService,
         CancellationToken cancellationToken = default
@@ -38,6 +39,7 @@ public class GetCategoriesEndpoint : EndpointBase
     {
         var response = await categoryService.GetCategoriesAsync
         (
+            shopId,
             request.pageSize,
             request.pageNumber,
             request.filter,

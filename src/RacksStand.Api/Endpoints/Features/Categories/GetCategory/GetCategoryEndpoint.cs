@@ -9,7 +9,7 @@ public class GetCategoryEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("categories/{id}", GetCategory)
+        app.MapGet("{shopId}/categories/{id}", GetCategory)
             .WithName(RouteName)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -34,7 +34,7 @@ public class GetCategoryEndpoint : EndpointBase
 
     private async Task<IResult> GetCategory
     (
-        string id,
+        [FromRoute] string id,
         ICategoryService categoryService,
         CancellationToken cancellationToken = default
     )

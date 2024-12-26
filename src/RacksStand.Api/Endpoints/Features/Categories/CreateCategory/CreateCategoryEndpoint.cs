@@ -9,7 +9,7 @@ public class CreateCategoryEndpoint : EndpointBase
     public override string RouteName => "createCategory";
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("categories", CreateCategory)
+        app.MapPost("{shopId}/categories", CreateCategory)
             .WithName(RouteName)
             .Accepts<CreateCategoryRequest>(MediaTypeNames.Application.Json)
             .Produces(StatusCodes.Status201Created)
@@ -37,6 +37,7 @@ public class CreateCategoryEndpoint : EndpointBase
 
     private async Task<IResult> CreateCategory
     (
+        [FromRoute] string shopId,
         CreateCategoryRequest request,
         IValidator<CreateCategoryRequest> validator,
         ICategoryService categoryService,
@@ -49,7 +50,14 @@ public class CreateCategoryEndpoint : EndpointBase
             return Results.ValidationProblem(validationResult.ToDictionary());
         }
 
-        var response = await categoryService.AddCategoryAsync(request.Adapt<CategoryModel>(), cancellationToken);
+        var response = await categoryService.AddCategoryAsync
+        (
+            request.Adapt<CategoryModel>() with
+            {
+                ShopId = shopId
+            },
+            cancellationToken
+        );
         return response.Match
         (
             _ => Results.Created(),
