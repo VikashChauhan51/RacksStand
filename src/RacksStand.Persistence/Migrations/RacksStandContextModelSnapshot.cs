@@ -73,70 +73,6 @@ namespace RacksStand.Persistence.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -218,7 +154,7 @@ namespace RacksStand.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Category", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Category", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -265,7 +201,146 @@ namespace RacksStand.Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Pocket", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Feature", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Feature_Code");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Feature_Name");
+
+                    b.ToTable("Features");
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Plan", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<string>("SupportLevel")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Plan_Name");
+
+                    b.ToTable("Plans");
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.PlanFeature", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FeatureId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PlanId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FeatureId");
+
+                    b.HasIndex("PlanId", "FeatureId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_PlanFeature_PlanId_FeatureId");
+
+                    b.ToTable("PlanFeatures");
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Pocket", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -324,7 +399,7 @@ namespace RacksStand.Persistence.Migrations
                     b.ToTable("Pockets");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.PocketItem", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.PocketItem", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -370,7 +445,7 @@ namespace RacksStand.Persistence.Migrations
                     b.ToTable("PocketItems");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Product", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Product", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -402,10 +477,17 @@ namespace RacksStand.Persistence.Migrations
                         .HasColumnType("character varying(255)");
 
                     b.Property<decimal>("PurchasePrice")
-                        .HasColumnType("numeric");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
 
                     b.Property<decimal>("SellingPrice")
-                        .HasColumnType("numeric");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<string>("Sku")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
 
                     b.Property<string>("SupplierId")
                         .HasColumnType("text");
@@ -432,13 +514,20 @@ namespace RacksStand.Persistence.Migrations
                     b.HasIndex("Name")
                         .HasDatabaseName("IX_Products_Name");
 
+                    b.HasIndex("Sku")
+                        .HasDatabaseName("IX_Products_Sku");
+
                     b.HasIndex("SupplierId")
                         .HasDatabaseName("IX_Products_SupplierId");
+
+                    b.HasIndex("CategoryId", "Name")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Products_Name_CategoryId");
 
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Rack", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Rack", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -497,7 +586,7 @@ namespace RacksStand.Persistence.Migrations
                     b.ToTable("Racks");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.RackRow", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.RackRow", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -551,7 +640,7 @@ namespace RacksStand.Persistence.Migrations
                     b.ToTable("RackRows");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Shop", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Shop", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -604,7 +693,7 @@ namespace RacksStand.Persistence.Migrations
                     b.ToTable("Shops");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Supplier", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Supplier", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -645,7 +734,156 @@ namespace RacksStand.Persistence.Migrations
                     b.ToTable("Suppliers");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.UserShop", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PlanId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("PlanId");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.UserInvite", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("InvitedByUserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("ShopId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("Pending");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("character varying(450)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .HasDatabaseName("IX_UserInvite_Email");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("ShopId", "Email")
+                        .IsUnique()
+                        .HasDatabaseName("IX_UserInvite_ShopId_Email");
+
+                    b.ToTable("UserInvites");
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.UserShop", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -705,7 +943,7 @@ namespace RacksStand.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("RacksStand.Persistence.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -714,7 +952,7 @@ namespace RacksStand.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("RacksStand.Persistence.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -729,7 +967,7 @@ namespace RacksStand.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("RacksStand.Persistence.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -738,16 +976,16 @@ namespace RacksStand.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("RacksStand.Persistence.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Category", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Category", b =>
                 {
-                    b.HasOne("RacksStand.Domain.Entities.Shop", "Store")
+                    b.HasOne("RacksStand.Persistence.Entities.Shop", "Store")
                         .WithMany("Categories")
                         .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -756,9 +994,28 @@ namespace RacksStand.Persistence.Migrations
                     b.Navigation("Store");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Pocket", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.PlanFeature", b =>
                 {
-                    b.HasOne("RacksStand.Domain.Entities.RackRow", "RackRow")
+                    b.HasOne("RacksStand.Persistence.Entities.Feature", "Feature")
+                        .WithMany("PlanFeatures")
+                        .HasForeignKey("FeatureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RacksStand.Persistence.Entities.Plan", "Plan")
+                        .WithMany("PlanFeatures")
+                        .HasForeignKey("PlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Feature");
+
+                    b.Navigation("Plan");
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Pocket", b =>
+                {
+                    b.HasOne("RacksStand.Persistence.Entities.RackRow", "RackRow")
                         .WithMany("Pockets")
                         .HasForeignKey("RackRowId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -767,15 +1024,15 @@ namespace RacksStand.Persistence.Migrations
                     b.Navigation("RackRow");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.PocketItem", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.PocketItem", b =>
                 {
-                    b.HasOne("RacksStand.Domain.Entities.Pocket", "Pocket")
+                    b.HasOne("RacksStand.Persistence.Entities.Pocket", "Pocket")
                         .WithMany("PocketItems")
                         .HasForeignKey("PocketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RacksStand.Domain.Entities.Product", "Product")
+                    b.HasOne("RacksStand.Persistence.Entities.Product", "Product")
                         .WithMany("PocketItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -786,15 +1043,15 @@ namespace RacksStand.Persistence.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Product", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Product", b =>
                 {
-                    b.HasOne("RacksStand.Domain.Entities.Category", "Category")
+                    b.HasOne("RacksStand.Persistence.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RacksStand.Domain.Entities.Supplier", "Supplier")
+                    b.HasOne("RacksStand.Persistence.Entities.Supplier", "Supplier")
                         .WithMany("Products")
                         .HasForeignKey("SupplierId");
 
@@ -803,9 +1060,9 @@ namespace RacksStand.Persistence.Migrations
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Rack", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Rack", b =>
                 {
-                    b.HasOne("RacksStand.Domain.Entities.Shop", "Store")
+                    b.HasOne("RacksStand.Persistence.Entities.Shop", "Store")
                         .WithMany("Racks")
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -814,9 +1071,9 @@ namespace RacksStand.Persistence.Migrations
                     b.Navigation("Store");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.RackRow", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.RackRow", b =>
                 {
-                    b.HasOne("RacksStand.Domain.Entities.Rack", "Rack")
+                    b.HasOne("RacksStand.Persistence.Entities.Rack", "Rack")
                         .WithMany("RackRows")
                         .HasForeignKey("RackId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -825,69 +1082,122 @@ namespace RacksStand.Persistence.Migrations
                     b.Navigation("Rack");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Shop", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Shop", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
+                    b.HasOne("RacksStand.Persistence.Entities.User", "User")
+                        .WithMany("Stores")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.UserShop", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.User", b =>
                 {
-                    b.HasOne("RacksStand.Domain.Entities.Shop", "Store")
+                    b.HasOne("RacksStand.Persistence.Entities.Plan", "Plan")
+                        .WithMany("Users")
+                        .HasForeignKey("PlanId");
+
+                    b.Navigation("Plan");
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.UserInvite", b =>
+                {
+                    b.HasOne("RacksStand.Persistence.Entities.Shop", "Shop")
+                        .WithMany("UserInvites")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RacksStand.Persistence.Entities.User", "User")
+                        .WithMany("UserInvites")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Shop");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.UserShop", b =>
+                {
+                    b.HasOne("RacksStand.Persistence.Entities.Shop", "Store")
                         .WithMany("UserStores")
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
+                    b.HasOne("RacksStand.Persistence.Entities.User", "User")
+                        .WithMany("UserStores")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Store");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Category", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Category", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Pocket", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Feature", b =>
+                {
+                    b.Navigation("PlanFeatures");
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Plan", b =>
+                {
+                    b.Navigation("PlanFeatures");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Pocket", b =>
                 {
                     b.Navigation("PocketItems");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Product", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Product", b =>
                 {
                     b.Navigation("PocketItems");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Rack", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Rack", b =>
                 {
                     b.Navigation("RackRows");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.RackRow", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.RackRow", b =>
                 {
                     b.Navigation("Pockets");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Shop", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Shop", b =>
                 {
                     b.Navigation("Categories");
 
                     b.Navigation("Racks");
 
+                    b.Navigation("UserInvites");
+
                     b.Navigation("UserStores");
                 });
 
-            modelBuilder.Entity("RacksStand.Domain.Entities.Supplier", b =>
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Supplier", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.User", b =>
+                {
+                    b.Navigation("Stores");
+
+                    b.Navigation("UserInvites");
+
+                    b.Navigation("UserStores");
                 });
 #pragma warning restore 612, 618
         }

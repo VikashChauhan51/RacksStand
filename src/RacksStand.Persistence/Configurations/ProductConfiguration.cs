@@ -38,13 +38,15 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasConversion(
                 purchasePrice => purchasePrice.Value,
                 dbId => PurchasePrice.Of(dbId))
-            .IsRequired();
+            .IsRequired()
+            .HasPrecision(18, 2);
 
         builder.Property(p => p.SellingPrice)
             .HasConversion(
                 sellingPrice => sellingPrice.Value,
                 dbId => SellingPrice.Of(dbId))
-            .IsRequired();
+            .IsRequired()
+            .HasPrecision(18, 2);
 
         builder.Property(p => p.Unit)
            .HasConversion(
