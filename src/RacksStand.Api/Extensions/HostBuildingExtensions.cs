@@ -1,8 +1,13 @@
 ﻿using Asp.Versioning;
 using Carter;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using RacksStand.Api.Middlewares;
 using Scalar.AspNetCore;
 using System.Diagnostics;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Json;
 
 namespace RacksStand.Api.Extensions;
 
@@ -44,6 +49,63 @@ public static class HostBuildingExtensions
             .AddDbContext()
             .AddApplicationServices();
 
+        // Add Authentication with JWT Bearer
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.Events = new JwtBearerEvents
+            {
+                OnChallenge = context =>
+                {
+                    context.HandleResponse();
+                    context.Response.StatusCode = 401;
+                    context.Response.ContentType = "application/json";
+                    var result = JsonSerializer.Serialize(new { error = "Unauthorized access" });
+                    return context.Response.WriteAsync(result);
+                },
+                OnForbidden = context =>
+                {
+                    context.Response.StatusCode = 403;
+                    context.Response.ContentType = "application/json";
+                    var result = JsonSerializer.Serialize(new { error = "Forbidden" });
+                    return context.Response.WriteAsync(result);
+                },
+                OnTokenValidated = context =>
+                {
+                    // Custom logic here, e.g., checking revoked tokens
+                    var userId = context!.Principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                    if (string.IsNullOrEmpty(userId))
+                    {
+                        context!.Fail("Unauthorized: Missing user ID.");
+                    }
+
+                    return Task.CompletedTask;
+                },
+                OnAuthenticationFailed = context =>
+                {
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
+                },
+
+            };
+
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidAudience = builder.Configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            };
+        });
+
+
         MapsterConfig.RegisterMappings();
         return builder.Build();
     }
@@ -59,6 +121,8 @@ public static class HostBuildingExtensions
 
         app.UseHttpsRedirection();
         app.UseMiddleware<ErrorHandlerMiddleware>();
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         // Configure the HTTP request pipeline.
         app.NewVersionedApi()

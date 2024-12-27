@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -10,6 +12,7 @@ using RacksStand.Persistence.Repositories;
 using RacksStand.UnifiedServices.DataServices;
 using Serilog;
 using Serilog.Events;
+using System.Text;
 
 namespace RacksStand.Api.Extensions;
 
@@ -41,6 +44,7 @@ public static class DependencyInjection
         })
         .AddEntityFrameworkStores<RacksStandContext>()
         .AddDefaultTokenProviders();
+       
 
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<IShopService, ShopService>();
