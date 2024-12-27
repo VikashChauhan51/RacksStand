@@ -24,7 +24,7 @@ public class PlanService : IPlanService
         }
         var plan = await _context.Plans
            .AsNoTracking()
-           .Where(x => x.Id.Value == id)
+           .Where(x => x.Id == PlanId.Of(id))
            .Include(x => x.PlanFeatures)
            .ThenInclude(x => x.Feature)
            .FirstOrDefaultAsync(cancellationToken);

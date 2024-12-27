@@ -1,0 +1,42 @@
+﻿@page
+@model RacksStand.UserManagementApp.Pages.Plans.IndexModel
+@{
+    ViewData["Title"] = "Choose a Plan";
+}
+
+<h2>Choose Your Plan</h2>
+<p>Select the best plan that fits your needs and proceed to signup.</p>
+
+<div class="row">
+    @if (Model.Plans != null && Model.Plans.Any())
+    {
+        @foreach (var plan in Model.Plans)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>@plan.Name</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>@plan.Description</p>
+                        <p><strong>Price:</strong> $@plan.Price</p>
+                        <button class="btn btn-primary" onclick="proceedToSignup('@plan.Id')">Select Plan</button>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <p>No plans available at this time.</p>
+        </div>
+    }
+</div>
+
+<script>
+    function proceedToSignup(planId) {
+        const url = '/Onboarding?planId=' + planId;
+        window.location.href = url;
+    }
+</script>

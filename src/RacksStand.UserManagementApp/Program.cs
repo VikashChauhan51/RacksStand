@@ -1,20 +1,23 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RacksStand.Persistence.Contexts;
+using RacksStand.Persistence.Repositories;
+using RacksStand.UnifiedServices.DataServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-// Add Identity services
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<IdentityDbContext>();
-
-builder.Services.AddDbContext<IdentityDbContext>(options =>
+builder.Services.AddDbContext<RacksStandContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddScoped<DbContext>(sp => sp.GetRequiredService<RacksStandContext>());
+builder.Services.AddScoped<IRacksStandContext>(sp => sp.GetRequiredService<RacksStandContext>());
+builder.Services.AddScoped<IdentityContext>(sp => sp.GetRequiredService<RacksStandContext>());
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IPlanService, PlanService>();
 
 
 var app = builder.Build();

@@ -1,0 +1,37 @@
+﻿@page
+@model RacksStand.UserManagementApp.Pages.Onboarding.IndexModel
+@{
+    ViewData["Title"] = "Onboarding - Plan Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model.Plan != null)
+{
+    <!-- Plan Details -->
+    <div class="plan-details">
+        <h3>@Model.Plan.Name</h3>
+        <p><strong>Price:</strong> $@Model.Plan.Price</p>
+        <p><strong>Support Level:</strong> @Model.Plan.SupportLevel</p>
+        <p><strong>Description:</strong> @Model.Plan.Description</p>
+
+        <h4>Plan Features</h4>
+        <ul>
+            @foreach (var feature in Model.Plan.PlanFeatures)
+            {
+                <li>
+                    <strong>@feature.Name</strong> - @feature.Description
+                    <br />
+                    <small><strong>Value:</strong> @feature.Value</small>
+                </li>
+            }
+        </ul>
+    </div>
+    <!-- Proceed Button -->
+    <form method="post">
+        <button type="submit" class="btn btn-primary">Proceed to Signup</button>
+    </form>
+}
+
+
+
