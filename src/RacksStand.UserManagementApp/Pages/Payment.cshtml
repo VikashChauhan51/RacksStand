@@ -1,0 +1,29 @@
+﻿@page
+@model RacksStand.UserManagementApp.Pages.PaymentModel
+@{
+    ViewData["Title"] = "Payment - Complete Your Signup";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p><strong>Plan:</strong> @Model.Plan.Name</p>
+<p><strong>Amount:</strong> $@Model.Plan.Price</p>
+
+<form method="post">
+    <div class="form-group">
+        <label for="CreditCardNumber">Credit Card Number</label>
+        <input type="text" id="CreditCardNumber" name="CreditCardNumber" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="ExpirationDate">Expiration Date</label>
+        <input type="text" id="ExpirationDate" name="ExpirationDate" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Cvc">CVC</label>
+        <input type="text" id="Cvc" name="Cvc" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Payment</button>
+</form>}

@@ -1,0 +1,49 @@
+﻿@page "{planId}"
+@model RacksStand.UserManagementApp.Pages.SignupModel
+@{
+    ViewData["Title"] = "Signup - Plan Selection";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="Name">Full Name</label>
+        <input type="text" id="Name" name="Name" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" id="Email" name="Email" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Password">Password</label>
+        <input type="password" id="Password" name="Password" class="form-control" required />
+    </div>
+
+    <h4>Selected Plan</h4>
+    <div class="plan-details">
+        <h3>@Model.Plan.Name</h3>
+        <p><strong>Price:</strong> $@Model.Plan.Price</p>
+        <p><strong>Support Level:</strong> @Model.Plan.SupportLevel</p>
+        <p><strong>Description:</strong> @Model.Plan.Description</p>
+
+        <h5>Plan Features:</h5>
+        <ul>
+            @foreach (var feature in Model.Plan.PlanFeatures)
+            {
+                <li>@feature.Name - @feature.Description</li>
+            }
+        </ul>
+    </div>
+
+    @if (Model.Plan.Price > 0)
+    {
+        <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+    }
+    else
+    {
+        <button type="submit" class="btn btn-success">Sign Up for Free Plan</button>
+    }
+</form>
