@@ -10,4 +10,5 @@ public class UserShop : Entity<UserShopId>
 
     // Navigation properties
     public virtual Shop Store { get; set; } = default!;
+    public User User { get; set; } = null!;
 }

@@ -9,6 +9,7 @@ public class Shop : Entity<ShopId>
     public string? Description { get; set; }
 
     // Navigation properties
+    public virtual User User { get; set; } = default!;
     public virtual ICollection<Category> Categories { get; set; } = [];
     public virtual ICollection<UserShop> UserStores { get; set; } = [];
     public virtual ICollection<Rack> Racks { get; set; } = [];

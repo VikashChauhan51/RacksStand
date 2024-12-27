@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using RacksStand.Persistence.Entities;
 using RacksStand.Persistence.ValueObjects;
-using Microsoft.AspNetCore.Identity;
 using RacksStand.Persistence.Enums;
 
 namespace RacksStand.Persistence.Configurations;
@@ -32,8 +31,8 @@ public class UserShopConfiguration : IEntityTypeConfiguration<UserShop>
               s => s.ToString(),
               dbStatus => Enum.Parse<UserRole>(dbStatus));
 
-        builder.HasOne<IdentityUser>() // Reference to Microsoft Identity's User
-             .WithMany()
+        builder.HasOne(us => us.User)
+             .WithMany(u => u.UserStores)
              .HasForeignKey(us => us.UserId);
 
         builder.HasOne(us => us.Store)

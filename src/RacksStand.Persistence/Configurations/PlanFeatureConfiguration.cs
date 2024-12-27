@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RacksStand.Persistence.Entities;
+using RacksStand.Persistence.ValueObjects;
 
 namespace RacksStand.Infrastructure.Persistence.Configurations;
 
@@ -14,25 +15,29 @@ public class PlanFeatureConfiguration : IEntityTypeConfiguration<PlanFeature>
 {
     public void Configure(EntityTypeBuilder<PlanFeature> builder)
     {
-        builder.HasKey(pf => pf.PlanFeatureId);
+        builder.HasKey(pf => pf.Id);
 
-        builder.Property(pf => pf.PlanFeatureId)
-               .ValueGeneratedOnAdd();
+        builder.Property(pf => pf.Id)
+               .HasConversion(
+                 planFeatureId => planFeatureId.Value,
+                 dbId => PlanFeatureId.Of(dbId))
+             .ValueGeneratedNever();
 
         builder.Property(pf => pf.PlanId)
+                .HasConversion(
+                 planId => planId.Value,
+                 dbId => PlanId.Of(dbId))
                .IsRequired();
 
         builder.Property(pf => pf.FeatureId)
+            .HasConversion(
+                 featureId => featureId.Value,
+                 dbId => FeatureId.Of(dbId))
                .IsRequired();
 
-        builder.Property(pf => pf.Limit)
-               .HasDefaultValue(null);
-
-        builder.Property(pf => pf.CreatedAt)
-               .IsRequired();
-
-        builder.Property(pf => pf.UpdatedAt)
-               .IsRequired();
+        builder.Property(pf => pf.Value)
+               .IsRequired()
+               .HasMaxLength(150);
 
         builder.HasOne(pf => pf.Plan)
                .WithMany(p => p.PlanFeatures)

@@ -11,6 +11,7 @@ public class UserInvite : Entity<UserInviteId>
     public DateTime ExpiryDate { get; set; }
     public InviteState Status { get; set; }
 
-    // Navigation property to the associated Shop
+    // Navigation properties
     public Shop Shop { get; set; } = null!;
+    public User User { get; set; } = null!;
 }

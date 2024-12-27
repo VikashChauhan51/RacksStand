@@ -8,6 +8,6 @@ public class Category : Entity<CategoryId>
     public required ShopId ShopId { get; set; }
 
     // Navigation properties
-    public Shop Store { get; set; } = default!;
+    public virtual Shop Store { get; set; } = default!;
     public virtual ICollection<Product> Products { get; set; } = [];
 }

@@ -21,6 +21,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.Code)
             .IsRequired()
             .HasMaxLength(50);
+        builder.Property(p => p.Sku)
+            .IsRequired()
+            .HasMaxLength(150);
         builder.Property(p => p.Unit)
             .IsRequired()
             .HasMaxLength(50);
@@ -63,11 +66,18 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasForeignKey(p => p.SupplierId);
 
         // Indexes
+        builder.HasIndex(pf => new { pf.CategoryId, pf.Name })
+              .IsUnique()
+              .HasDatabaseName("IX_Products_Name_CategoryId");
+
         builder.HasIndex(p => p.Name)
             .HasDatabaseName("IX_Products_Name");
 
         builder.HasIndex(p => p.Code)
             .HasDatabaseName("IX_Products_Code");
+
+        builder.HasIndex(p => p.Sku)
+           .HasDatabaseName("IX_Products_Sku");
 
         builder.HasIndex(p => p.CategoryId)
             .HasDatabaseName("IX_Products_CategoryId");

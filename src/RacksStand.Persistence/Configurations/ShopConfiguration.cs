@@ -44,15 +44,31 @@ public class ShopConfiguration : IEntityTypeConfiguration<Shop>
           .HasForeignKey(r => r.ShopId)
           .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne<IdentityUser>() // Reference to Microsoft Identity's User
-         .WithMany()
+        builder.HasOne(s => s.User)
+         .WithMany(u => u.Stores)
          .HasForeignKey(us => us.OwnerId);
 
+        builder.HasMany(c => c.Categories)
+            .WithOne(p => p.Store)
+            .HasForeignKey(p => p.ShopId);
+
+        builder.HasMany(c => c.UserStores)
+            .WithOne(p => p.Store)
+            .HasForeignKey(p => p.StoreId);
+
+        builder.HasMany(c => c.Racks)
+            .WithOne(p => p.Store)
+            .HasForeignKey(p => p.StoreId);
+
+        builder.HasMany(c => c.UserInvites)
+           .WithOne(p => p.Shop)
+           .HasForeignKey(p => p.ShopId);
+
         // Indexes
-        builder.HasIndex(s => s.Name) 
+        builder.HasIndex(s => s.Name)
             .HasDatabaseName("IX_Shop_Name");
 
-        builder.HasIndex(s => s.OwnerId) 
+        builder.HasIndex(s => s.OwnerId)
             .HasDatabaseName("IX_Shop_OwnerId");
 
         builder.HasIndex(s => new { s.Name, s.OwnerId })

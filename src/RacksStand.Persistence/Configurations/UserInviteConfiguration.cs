@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RacksStand.Persistence.Entities;
+using RacksStand.Persistence.Enums;
+using RacksStand.Persistence.ValueObjects;
 
 namespace RacksStand.Infrastructure.Persistence.Configurations;
 
@@ -11,9 +13,15 @@ public class UserInviteConfiguration : IEntityTypeConfiguration<UserInvite>
         builder.HasKey(ui => ui.Id);
 
         builder.Property(ui => ui.Id)
-               .ValueGeneratedOnAdd();
+               .HasConversion(
+                userInviteId => userInviteId.Value,
+                dbId => UserInviteId.Of(dbId))
+            .ValueGeneratedNever();
 
         builder.Property(ui => ui.ShopId)
+            .HasConversion(
+                shopId => shopId.Value,
+                dbId => ShopId.Of(dbId))
                .IsRequired();
 
         builder.Property(ui => ui.Email)
@@ -24,15 +32,15 @@ public class UserInviteConfiguration : IEntityTypeConfiguration<UserInvite>
                .IsRequired()
                .HasMaxLength(450);
 
-        builder.Property(ui => ui.CreatedAt)
-               .IsRequired();
-
-        builder.Property(ui => ui.ExpiryDate)
-               .IsRequired();
-
-        builder.Property(ui => ui.IsAccepted)
+        builder.Property(ui => ui.Token)
                .IsRequired()
-               .HasDefaultValue(false);
+               .HasMaxLength(450);
+
+        builder.Property(o => o.Status)
+          .HasDefaultValue(InviteState.Pending)
+          .HasConversion(
+              s => s.ToString(),
+              dbStatus => Enum.Parse<InviteState>(dbStatus));
 
         builder.HasOne(ui => ui.Shop)
                .WithMany(s => s.UserInvites)
