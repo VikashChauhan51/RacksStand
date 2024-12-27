@@ -1,6 +1,6 @@
-﻿using RacksStand.Models;
+﻿
+namespace RacksStand.UnifiedServices.DataServices;
 
-namespace RacksStand.Api.Endpoints.Features.Shops.Shared;
 public interface IShopService
 {
     Task<Result<string>> AddShopAsync(ShopModel model, CancellationToken cancellationToken = default);

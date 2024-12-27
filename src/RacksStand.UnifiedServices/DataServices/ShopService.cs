@@ -1,12 +1,4 @@
-﻿using RacksStand.Api.Endpoints.Features.Shops.CreateShop;
-using RacksStand.Persistence.Entities;
-using RacksStand.Persistence.Exceptions;
-using RacksStand.Persistence.ValueObjects;
-using RacksStand.Models;
-using RacksStand.Persistence.Repositories;
-
-namespace RacksStand.Api.Endpoints.Features.Shops.Shared;
-
+﻿namespace RacksStand.UnifiedServices.DataServices;
 public sealed class ShopService : IShopService
 {
     private readonly IRepository<Shop> _shopRepository;
@@ -152,4 +144,3 @@ public sealed class ShopService : IShopService
         return Result<string>.Succ(id);
     }
 }
-

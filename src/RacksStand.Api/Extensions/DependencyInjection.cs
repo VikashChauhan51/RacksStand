@@ -3,10 +3,9 @@ using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using RacksStand.Api.Endpoints.Features.Categories.Shared;
-using RacksStand.Api.Endpoints.Features.Shops.Shared;
 using RacksStand.Persistence.Contexts;
 using RacksStand.Persistence.Repositories;
+using RacksStand.UnifiedServices.DataServices;
 using Serilog;
 using Serilog.Events;
 
@@ -32,7 +31,7 @@ public static class DependencyInjection
     {
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<IShopService, ShopService>();
-
+        builder.Services.AddScoped<IPlanService, PlanService>();
         return builder;
     }
     public static WebApplicationBuilder AddLogger(this WebApplicationBuilder builder)

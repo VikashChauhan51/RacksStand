@@ -1,5 +1,5 @@
 ﻿using RacksStand.Api.Endpoints.Core;
-using RacksStand.Api.Endpoints.Features.Categories.Shared;
+using RacksStand.UnifiedServices.DataServices;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.GetCategory;
 

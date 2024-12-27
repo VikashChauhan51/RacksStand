@@ -6,6 +6,7 @@ public record ProductModel(
     string CategoryId,
     string? SupplierId,
     string Code,
+    string Sku,
     decimal PurchasePrice,
     decimal SellingPrice,
     string Unit

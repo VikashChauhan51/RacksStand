@@ -1,12 +1,4 @@
-﻿using RacksStand.Persistence.Entities;
-using RacksStand.Persistence.Exceptions;
-using RacksStand.Persistence.ValueObjects;
-using RacksStand.Models;
-using RacksStand.Persistence.Repositories;
-
-
-
-namespace RacksStand.Api.Endpoints.Features.Categories.Shared;
+﻿namespace RacksStand.UnifiedServices.DataServices;
 
 public sealed class CategoryService : ICategoryService
 {
@@ -156,4 +148,3 @@ public sealed class CategoryService : ICategoryService
         return Result<string>.Succ(id);
     }
 }
-

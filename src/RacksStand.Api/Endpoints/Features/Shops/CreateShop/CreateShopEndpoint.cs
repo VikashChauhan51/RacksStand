@@ -1,5 +1,5 @@
 ﻿using RacksStand.Api.Endpoints.Core;
-using RacksStand.Api.Endpoints.Features.Shops.Shared;
+using RacksStand.UnifiedServices.DataServices;
 using RacksStand.Persistence.Entities;
 using RacksStand.Models;
 
