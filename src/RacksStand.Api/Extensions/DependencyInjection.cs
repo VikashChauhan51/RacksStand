@@ -32,6 +32,8 @@ public static class DependencyInjection
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<IShopService, ShopService>();
         builder.Services.AddScoped<IPlanService, PlanService>();
+        builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IPaymentService, PaymentService>();
         return builder;
     }
     public static WebApplicationBuilder AddLogger(this WebApplicationBuilder builder)

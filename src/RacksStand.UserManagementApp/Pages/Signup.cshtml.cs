@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RacksStand.Models;
-using RacksStand.Persistence.Entities;
-using RacksStand.Persistence.ValueObjects;
 using RacksStand.UnifiedServices.DataServices;
 
 namespace RacksStand.UserManagementApp.Pages;
 
-public class SignupModel(IPlanService planService) : PageModel
+public class SignupModel(IPlanService planService, IUserService userService, IPaymentService paymentService) : PageModel
 {
 
     [BindProperty]
@@ -36,28 +34,24 @@ public class SignupModel(IPlanService planService) : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        // Handle the signup process
-        var user = new User
-        {
-            Name = Name,
-            Email = Email,
-            Password = Password
-        };
 
-        var result = await _userService.CreateUserAsync(user);
-        if (!result.Success)
+        var result = await userService.RegisterAsync(new Models.SignupModel
+        (
+        FullName: "Vikash Chauhan",
+        Email: "Vikashchauhan51@gmail.com",
+        PhoneNumber: "7355093955",
+        Password: "Welcome@123",
+        PlanId: Plan.Id
+        ));
+        if (!result.IsSuccess)
         {
             ModelState.AddModelError(string.Empty, "There was an error creating your account.");
             return Page();
         }
-
-        // If the plan is paid, redirect to the payment page
         if (Plan.Price > 0)
         {
-            return RedirectToPage("/Payment", new { planId = Plan.Id });
+            return RedirectToPage("/Payment", new { planId = Plan.Id, userId = result.Value });
         }
-
-        // Otherwise, complete the signup process
-        return RedirectToPage("/Home");  // Redirect to the home page or dashboard
+        return RedirectToPage("/Home");
     }
 }

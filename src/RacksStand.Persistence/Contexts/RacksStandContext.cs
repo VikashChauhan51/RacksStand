@@ -8,6 +8,8 @@ public class RacksStandContext : IdentityDbContext<User>, IRacksStandContext, Id
 {
     public RacksStandContext(DbContextOptions<RacksStandContext> options) : base(options) { }
 
+    public DbSet<UserPlan> UserPlans { get; set; }
+    public DbSet<Payment> Payments { get; set; }
     public DbSet<UserInvite> UserInvites { get; set; }
     public DbSet<Plan> Plans { get; set; }
     public DbSet<Feature> Features { get; set; }

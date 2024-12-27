@@ -4,6 +4,8 @@ using RacksStand.Persistence.Entities;
 namespace RacksStand.Persistence.Contexts;
 public interface IRacksStandContext
 {
+    DbSet<UserPlan> UserPlans { get; }
+    DbSet<Payment> Payments { get; }
     DbSet<UserInvite> UserInvites { get; }
     DbSet<Plan> Plans { get; }
     DbSet<Feature> Features { get; }

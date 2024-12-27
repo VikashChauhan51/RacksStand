@@ -18,7 +18,8 @@ builder.Services.AddScoped<IdentityContext>(sp => sp.GetRequiredService<RacksSta
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IPlanService, PlanService>();
-
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 var app = builder.Build();
 

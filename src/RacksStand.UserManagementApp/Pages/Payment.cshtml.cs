@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RacksStand.Models;
-using RacksStand.Persistence.ValueObjects;
 using RacksStand.UnifiedServices.DataServices;
 
 namespace RacksStand.UserManagementApp.Pages;
@@ -35,12 +34,12 @@ public class PaymentModel(IPlanService planService) : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         // Process payment
-        var paymentResult = await _paymentService.ProcessPaymentAsync(CreditCardNumber, ExpirationDate, Cvc, Plan.Price);
-        if (!paymentResult.Success)
-        {
-            ModelState.AddModelError(string.Empty, "Payment failed. Please try again.");
-            return Page();
-        }
+        //var paymentResult = await _paymentService.ProcessPaymentAsync(CreditCardNumber, ExpirationDate, Cvc, Plan.Price);
+        //if (!paymentResult.Success)
+        //{
+        //    ModelState.AddModelError(string.Empty, "Payment failed. Please try again.");
+        //    return Page();
+        //}
 
         // On success, complete the signup and redirect to the dashboard
         return RedirectToPage("/Home");

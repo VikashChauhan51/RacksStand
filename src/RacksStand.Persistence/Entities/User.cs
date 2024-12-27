@@ -5,6 +5,7 @@ using RacksStand.Persistence.ValueObjects;
 namespace RacksStand.Persistence.Entities;
 public class User : IdentityUser, IEntity
 {
+    public required string FullName { get; set; }
     public DateTime? CreatedAt { get; set; }
     public string? CreatedBy { get; set; }
     public DateTime? UpdatedAt { get; set; }
