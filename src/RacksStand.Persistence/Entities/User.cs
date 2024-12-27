@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using RacksStand.Persistence.ValueObjects;
-
 
 namespace RacksStand.Persistence.Entities;
 public class User : IdentityUser, IEntity

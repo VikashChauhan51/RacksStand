@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using RacksStand.Persistence.Contexts;
+using RacksStand.Persistence.Entities;
 using RacksStand.Persistence.Repositories;
 using RacksStand.UnifiedServices.DataServices;
 using Serilog;
@@ -29,6 +31,17 @@ public static class DependencyInjection
     }
     public static WebApplicationBuilder AddApplicationServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddIdentity<User, IdentityRole>(options =>
+        {
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequiredLength = 8;
+            options.User.RequireUniqueEmail = true;
+        })
+        .AddEntityFrameworkStores<RacksStandContext>()
+        .AddDefaultTokenProviders();
+
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<IShopService, ShopService>();
         builder.Services.AddScoped<IPlanService, PlanService>();

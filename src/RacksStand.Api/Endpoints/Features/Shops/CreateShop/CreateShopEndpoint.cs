@@ -52,7 +52,7 @@ public class CreateShopEndpoint : EndpointBase
         }
 
         var response = await shopService.AddShopAsync(
-            request.Adapt<ShopModel>() with { OwnerId = "123" }, //TODO:replace with userId
+            request.Adapt<ShopModel>() with { OwnerId = "55fddc82-40cf-4ba0-ad8e-b02dfcc8d9d0" }, //TODO:replace with userId
             cancellationToken
         );
 

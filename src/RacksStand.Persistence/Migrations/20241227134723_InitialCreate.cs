@@ -109,6 +109,7 @@ namespace RacksStand.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -284,7 +285,7 @@ namespace RacksStand.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Payment",
+                name: "Payments",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -304,15 +305,15 @@ namespace RacksStand.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payment", x => x.Id);
+                    table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payment_AspNetUsers_UserId",
+                        name: "FK_Payments_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Payment_Plans_PlanId",
+                        name: "FK_Payments_Plans_PlanId",
                         column: x => x.PlanId,
                         principalTable: "Plans",
                         principalColumn: "Id",
@@ -346,7 +347,7 @@ namespace RacksStand.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserPlan",
+                name: "UserPlans",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -362,15 +363,15 @@ namespace RacksStand.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserPlan", x => x.Id);
+                    table.PrimaryKey("PK_UserPlans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserPlan_AspNetUsers_UserId",
+                        name: "FK_UserPlans_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserPlan_Plans_PlanId",
+                        name: "FK_UserPlans_Plans_PlanId",
                         column: x => x.PlanId,
                         principalTable: "Plans",
                         principalColumn: "Id",
@@ -702,12 +703,12 @@ namespace RacksStand.Persistence.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payment_PlanId",
-                table: "Payment",
+                table: "Payments",
                 column: "PlanId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payment_UserId",
-                table: "Payment",
+                table: "Payments",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -878,15 +879,15 @@ namespace RacksStand.Persistence.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserPlan_PlanId",
-                table: "UserPlan",
-                column: "PlanId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserPlan_UserId_PlanId_IsActive",
-                table: "UserPlan",
+                table: "UserPlans",
                 columns: new[] { "UserId", "PlanId", "IsActive" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPlans_PlanId",
+                table: "UserPlans",
+                column: "PlanId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserShop_StoreId",
@@ -927,7 +928,7 @@ namespace RacksStand.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Payment");
+                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "PlanFeatures");
@@ -939,7 +940,7 @@ namespace RacksStand.Persistence.Migrations
                 name: "UserInvites");
 
             migrationBuilder.DropTable(
-                name: "UserPlan");
+                name: "UserPlans");
 
             migrationBuilder.DropTable(
                 name: "UserShops");

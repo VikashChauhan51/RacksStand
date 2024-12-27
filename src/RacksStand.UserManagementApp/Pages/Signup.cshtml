@@ -1,4 +1,4 @@
-﻿@page "{planId}"
+﻿@page
 @model RacksStand.UserManagementApp.Pages.SignupModel
 @{
     ViewData["Title"] = "Signup - Plan Selection";
@@ -22,28 +22,34 @@
         <input type="password" id="Password" name="Password" class="form-control" required />
     </div>
 
-    <h4>Selected Plan</h4>
-    <div class="plan-details">
-        <h3>@Model.Plan.Name</h3>
-        <p><strong>Price:</strong> $@Model.Plan.Price</p>
-        <p><strong>Support Level:</strong> @Model.Plan.SupportLevel</p>
-        <p><strong>Description:</strong> @Model.Plan.Description</p>
-
-        <h5>Plan Features:</h5>
-        <ul>
-            @foreach (var feature in Model.Plan.PlanFeatures)
-            {
-                <li>@feature.Name - @feature.Description</li>
-            }
-        </ul>
-    </div>
-
-    @if (Model.Plan.Price > 0)
+    @if (Model.Plan != null)
     {
-        <button type="submit" class="btn btn-primary">Proceed to Payment</button>
-    }
-    else
-    {
-        <button type="submit" class="btn btn-success">Sign Up for Free Plan</button>
+
+        <h4>Selected Plan</h4>
+        <!-- Include Plan.Id in a hidden input field -->
+        <input type="hidden" asp-for="Plan.Id" />
+        <div class="plan-details">
+            <h3>@Model.Plan.Name</h3>
+            <p><strong>Price:</strong> $@Model.Plan.Price</p>
+            <p><strong>Support Level:</strong> @Model.Plan.SupportLevel</p>
+            <p><strong>Description:</strong> @Model.Plan.Description</p>
+
+            <h5>Plan Features:</h5>
+            <ul>
+                @foreach (var feature in Model.Plan.PlanFeatures)
+                {
+                    <li>@feature.Name - @feature.Description</li>
+                }
+            </ul>
+        </div>
+
+        @if (Model.Plan.Price > 0)
+        {
+            <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-success">Sign Up for Free Plan</button>
+        }
     }
 </form>

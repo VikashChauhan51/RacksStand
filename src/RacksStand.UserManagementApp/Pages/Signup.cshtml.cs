@@ -5,8 +5,9 @@ using RacksStand.UnifiedServices.DataServices;
 
 namespace RacksStand.UserManagementApp.Pages;
 
-public class SignupModel(IPlanService planService, IUserService userService, IPaymentService paymentService) : PageModel
+public class SignupModel(IPlanService planService, IUserService userService) : PageModel
 {
+ 
 
     [BindProperty]
     public PlanDetailsModel Plan { get; set; }
@@ -52,6 +53,6 @@ public class SignupModel(IPlanService planService, IUserService userService, IPa
         {
             return RedirectToPage("/Payment", new { planId = Plan.Id, userId = result.Value });
         }
-        return RedirectToPage("/Home");
+        return RedirectToPage("/Index");
     }
 }

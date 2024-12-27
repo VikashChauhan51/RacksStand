@@ -12,7 +12,7 @@ using RacksStand.Persistence.Contexts;
 namespace RacksStand.Persistence.Migrations
 {
     [DbContext(typeof(RacksStandContext))]
-    [Migration("20241227082510_InitialCreate")]
+    [Migration("20241227134723_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -379,7 +379,7 @@ namespace RacksStand.Persistence.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("IX_Payment_UserId");
 
-                    b.ToTable("Payment");
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("RacksStand.Persistence.Entities.Plan", b =>
@@ -917,6 +917,10 @@ namespace RacksStand.Persistence.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -1091,7 +1095,7 @@ namespace RacksStand.Persistence.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_UserPlan_UserId_PlanId_IsActive");
 
-                    b.ToTable("UserPlan");
+                    b.ToTable("UserPlans");
                 });
 
             modelBuilder.Entity("RacksStand.Persistence.Entities.UserShop", b =>

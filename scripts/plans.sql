@@ -1,11 +1,11 @@
 -- Insert Plans
 INSERT INTO public."Plans"(
-    "Id", "Name", "Price", "Description", "CreatedAt", "CreatedBy", "UpdatedAt", "UpdatedBy", "IsActive")
+    "Id", "Name", "Price", "Description", "CreatedAt", "CreatedBy", "UpdatedAt", "UpdatedBy", "IsActive","SupportLevel")
 VALUES
-    ('free', 'Free Plan', 0, 'A basic plan for individuals with limited needs.', NOW(), 'System', NULL, NULL, TRUE),
-    ('starter', 'Starter Plan', 9.99, 'An affordable plan for small businesses.', NOW(), 'System', NULL, NULL, TRUE),
-    ('economy', 'Economy Plan', 29.99, 'A mid-tier plan for growing businesses.', NOW(), 'System', NULL, NULL, TRUE),
-    ('premium', 'Premium Plan', 49.99, 'A top-tier plan for large businesses with premium support.', NOW(), 'System', NULL, NULL, TRUE);
+    ('free', 'Free Plan', 0, 'A basic plan for individuals with limited needs.', NOW(), 'System', NULL, NULL, TRUE,NULL),
+    ('starter', 'Starter Plan', 9.99, 'An affordable plan for small businesses.', NOW(), 'System', NULL, NULL, TRUE,NULL),
+    ('economy', 'Economy Plan', 29.99, 'A mid-tier plan for growing businesses.', NOW(), 'System', NULL, NULL, TRUE,'1-5 business days support'),
+    ('premium', 'Premium Plan', 49.99, 'A top-tier plan for large businesses with premium support.', NOW(), 'System', NULL, NULL, TRUE,'24*7 support');
 
 -- Insert Features
 INSERT INTO public."Features"(

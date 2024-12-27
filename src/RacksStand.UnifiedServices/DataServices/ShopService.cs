@@ -71,7 +71,7 @@ public sealed class ShopService : IShopService
             pageNumber,
             pageSize,
             true,
-            x => x.OwnerId == "123" &&
+            x => x.OwnerId == "55fddc82-40cf-4ba0-ad8e-b02dfcc8d9d0" &&
             (string.IsNullOrEmpty(filter) || x.Name.StartsWith(filter)), //TODO: update with actual user ID.
             null,
             cancellationToken

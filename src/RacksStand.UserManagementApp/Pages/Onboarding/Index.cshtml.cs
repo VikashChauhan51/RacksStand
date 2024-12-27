@@ -28,6 +28,7 @@ public class IndexModel(IPlanService planService) : PageModel
 
     public IActionResult OnPost()
     {
-        return RedirectToPage("/Signup");
+        return RedirectToPage("/Signup", new { PlanId = PlanId });
+      
     }
 }
