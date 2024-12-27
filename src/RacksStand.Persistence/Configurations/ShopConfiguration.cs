@@ -14,9 +14,12 @@ public class ShopConfiguration : IEntityTypeConfiguration<Shop>
             .HasConversion(
                 storeId => storeId.Value,
                 dbId => ShopId.Of(dbId))
-            .ValueGeneratedNever();
+            .ValueGeneratedNever()
+            .HasMaxLength(100);
 
-        builder.Property(s => s.OwnerId).IsRequired();
+        builder.Property(s => s.OwnerId)
+            .IsRequired()
+            .HasMaxLength(455);
 
         builder.Property(s => s.Name)
             .IsRequired()
@@ -44,9 +47,6 @@ public class ShopConfiguration : IEntityTypeConfiguration<Shop>
           .HasForeignKey(r => r.ShopId)
           .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne(s => s.User)
-         .WithMany(u => u.Stores)
-         .HasForeignKey(us => us.OwnerId);
 
         builder.HasMany(c => c.Categories)
             .WithOne(p => p.Store)

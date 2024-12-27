@@ -15,21 +15,26 @@ public class UserShopConfiguration : IEntityTypeConfiguration<UserShop>
             .HasConversion(
                 userStoreId => userStoreId.Value,
                 dbId => UserShopId.Of(dbId))
-             .ValueGeneratedNever();
+             .ValueGeneratedNever()
+             .HasMaxLength(100);
 
-        builder.Property(us => us.UserId).IsRequired();
+        builder.Property(us => us.UserId)
+            .IsRequired()
+            .HasMaxLength(455);
 
         builder.Property(us => us.StoreId)
           .HasConversion(
               storeId => storeId.Value,
               dbId => ShopId.Of(dbId))
-          .IsRequired();
+          .IsRequired()
+          .HasMaxLength(100);
 
         builder.Property(o => o.Role)
           .HasDefaultValue(UserRole.Viewer)
           .HasConversion(
               s => s.ToString(),
-              dbStatus => Enum.Parse<UserRole>(dbStatus));
+              dbStatus => Enum.Parse<UserRole>(dbStatus))
+          .HasMaxLength(50);
 
         builder.HasOne(us => us.User)
              .WithMany(u => u.UserStores)

@@ -11,4 +11,5 @@ public class Plan : Entity<PlanId>
     // Navigation properties
     public virtual ICollection<PlanFeature> PlanFeatures { get; set; } = [];
     public virtual ICollection<User> Users { get; set; } = [];
+    public virtual ICollection<UserPlan> UserPlans { get; set; } = [];
 }

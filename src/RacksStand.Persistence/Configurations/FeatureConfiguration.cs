@@ -15,7 +15,8 @@ public class FeatureConfiguration : IEntityTypeConfiguration<Feature>
                .HasConversion(
                  featureId => featureId.Value,
                  dbId => FeatureId.Of(dbId))
-             .ValueGeneratedNever();
+             .ValueGeneratedNever()
+             .HasMaxLength(100);
 
         builder.Property(f => f.Name)
                .IsRequired()

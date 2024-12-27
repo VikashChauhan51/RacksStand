@@ -14,13 +14,15 @@ public class PocketConfiguration : IEntityTypeConfiguration<Pocket>
             .HasConversion(
                 pocketId => pocketId.Value,
                 dbId => PocketId.Of(dbId))
-             .ValueGeneratedNever();
+             .ValueGeneratedNever()
+             .HasMaxLength(100);
 
         builder.Property(p => p.RackRowId)
             .HasConversion(
                 pocketId => pocketId.Value,
                 dbId => RackRowId.Of(dbId))
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(100);
 
         builder.Property(p => p.Code)
             .IsRequired()
@@ -30,7 +32,9 @@ public class PocketConfiguration : IEntityTypeConfiguration<Pocket>
           .HasDefaultValue(PocketState.Empty)
           .HasConversion(
               s => s.ToString(),
-              dbStatus => Enum.Parse<PocketState>(dbStatus));
+              dbStatus => Enum.Parse<PocketState>(dbStatus))
+          .IsRequired()
+          .HasMaxLength(50);
 
         builder.HasOne(p => p.RackRow)
             .WithMany(rr => rr.Pockets)

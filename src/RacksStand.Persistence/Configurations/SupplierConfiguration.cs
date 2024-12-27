@@ -13,7 +13,8 @@ public class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
             .HasConversion(
                 supplierId => supplierId.Value,
                 dbId => SupplierId.Of(dbId))
-             .ValueGeneratedNever();
+             .ValueGeneratedNever()
+             .HasMaxLength(100);
 
         builder.Property(s => s.Name)
             .IsRequired()

@@ -15,7 +15,8 @@ public class PlanConfiguration : IEntityTypeConfiguration<Plan>
             .HasConversion(
                  planId => planId.Value,
                  dbId => PlanId.Of(dbId))
-             .ValueGeneratedNever();
+             .ValueGeneratedNever()
+             .HasMaxLength(100);
 
         builder.Property(p => p.Name)
                .IsRequired()
@@ -38,9 +39,9 @@ public class PlanConfiguration : IEntityTypeConfiguration<Plan>
            .WithOne(p => p.Plan)
            .HasForeignKey(p => p.PlanId);
 
-        builder.HasMany(c => c.Users)
-           .WithOne(p => p.Plan)
-           .HasForeignKey(p => p.PlanId);
+        builder.HasMany(p => p.UserPlans)
+         .WithOne(up => up.Plan)
+         .HasForeignKey(up => up.PlanId);
 
         // Indexes
         builder.HasIndex(p => p.Name)

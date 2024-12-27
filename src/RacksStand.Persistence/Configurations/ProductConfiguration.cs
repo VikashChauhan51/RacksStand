@@ -13,7 +13,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasConversion(
                 productId => productId.Value,
                 dbId => ProductId.Of(dbId))
-             .ValueGeneratedNever();
+             .ValueGeneratedNever()
+             .HasMaxLength(100);
 
         builder.Property(p => p.Name)
             .IsRequired()
@@ -32,7 +33,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasConversion(
                 productId => productId.Value,
                 dbId => CategoryId.Of(dbId))
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(100);
 
         builder.Property(p => p.PurchasePrice)
             .HasConversion(
@@ -52,7 +54,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
            .HasConversion(
                unit => unit.Value,
                dbId => Unit.Of(dbId))
-           .IsRequired();
+           .IsRequired()
+           .HasMaxLength(20);
 
         builder.HasOne(p => p.Category)
             .WithMany(c => c.Products)
@@ -61,7 +64,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.SupplierId)
           .HasConversion(
               supplierId => supplierId != null ? supplierId.Value : null,
-              dbId => dbId != null ? SupplierId.Of(dbId) : null);
+              dbId => dbId != null ? SupplierId.Of(dbId) : null)
+          .HasMaxLength(100);
 
         builder.HasOne(p => p.Supplier)
             .WithMany(s => s.Products)

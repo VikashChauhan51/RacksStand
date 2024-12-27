@@ -12,7 +12,7 @@ using RacksStand.Persistence.Contexts;
 namespace RacksStand.Persistence.Migrations
 {
     [DbContext(typeof(RacksStandContext))]
-    [Migration("20241227043905_InitialCreate")]
+    [Migration("20241227082510_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -157,10 +157,67 @@ namespace RacksStand.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Activity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Metadata")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(455)
+                        .HasColumnType("character varying(455)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Action")
+                        .HasDatabaseName("IX_Activity_Action");
+
+                    b.HasIndex("Timestamp")
+                        .HasDatabaseName("IX_Activity_Timestamp");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_Activity_UserId");
+
+                    b.ToTable("Activity");
+                });
+
             modelBuilder.Entity("RacksStand.Persistence.Entities.Category", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -182,7 +239,8 @@ namespace RacksStand.Persistence.Migrations
 
                     b.Property<string>("ShopId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -207,7 +265,8 @@ namespace RacksStand.Persistence.Migrations
             modelBuilder.Entity("RacksStand.Persistence.Entities.Feature", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -252,10 +311,82 @@ namespace RacksStand.Persistence.Migrations
                     b.ToTable("Features");
                 });
 
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Payment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FailureReason")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasDefaultValue("None");
+
+                    b.Property<string>("PlanId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasDefaultValue("None");
+
+                    b.Property<string>("TransactionId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(455)
+                        .HasColumnType("character varying(455)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlanId")
+                        .HasDatabaseName("IX_Payment_PlanId");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_Payment_UserId");
+
+                    b.ToTable("Payment");
+                });
+
             modelBuilder.Entity("RacksStand.Persistence.Entities.Plan", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -302,7 +433,8 @@ namespace RacksStand.Persistence.Migrations
             modelBuilder.Entity("RacksStand.Persistence.Entities.PlanFeature", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -312,14 +444,16 @@ namespace RacksStand.Persistence.Migrations
 
                     b.Property<string>("FeatureId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
                     b.Property<string>("PlanId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -346,7 +480,8 @@ namespace RacksStand.Persistence.Migrations
             modelBuilder.Entity("RacksStand.Persistence.Entities.Pocket", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<int?>("Capacity")
                         .HasColumnType("integer");
@@ -370,12 +505,14 @@ namespace RacksStand.Persistence.Migrations
 
                     b.Property<string>("RackRowId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("State")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasDefaultValue("Empty");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -405,7 +542,8 @@ namespace RacksStand.Persistence.Migrations
             modelBuilder.Entity("RacksStand.Persistence.Entities.PocketItem", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -418,11 +556,13 @@ namespace RacksStand.Persistence.Migrations
 
                     b.Property<string>("PocketId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("ProductId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -451,11 +591,13 @@ namespace RacksStand.Persistence.Migrations
             modelBuilder.Entity("RacksStand.Persistence.Entities.Product", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("CategoryId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -493,12 +635,13 @@ namespace RacksStand.Persistence.Migrations
                         .HasColumnType("character varying(150)");
 
                     b.Property<string>("SupplierId")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Unit")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -533,7 +676,8 @@ namespace RacksStand.Persistence.Migrations
             modelBuilder.Entity("RacksStand.Persistence.Entities.Rack", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -564,7 +708,8 @@ namespace RacksStand.Persistence.Migrations
 
                     b.Property<string>("StoreId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -592,7 +737,8 @@ namespace RacksStand.Persistence.Migrations
             modelBuilder.Entity("RacksStand.Persistence.Entities.RackRow", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -618,7 +764,8 @@ namespace RacksStand.Persistence.Migrations
 
                     b.Property<string>("RackId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<int>("RowNumber")
                         .HasColumnType("integer");
@@ -646,7 +793,8 @@ namespace RacksStand.Persistence.Migrations
             modelBuilder.Entity("RacksStand.Persistence.Entities.Shop", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -673,12 +821,16 @@ namespace RacksStand.Persistence.Migrations
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(455)
+                        .HasColumnType("character varying(455)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -688,6 +840,8 @@ namespace RacksStand.Persistence.Migrations
 
                     b.HasIndex("OwnerId")
                         .HasDatabaseName("IX_Shop_OwnerId");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex("Name", "OwnerId")
                         .IsUnique()
@@ -699,7 +853,8 @@ namespace RacksStand.Persistence.Migrations
             modelBuilder.Entity("RacksStand.Persistence.Entities.Supplier", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -789,7 +944,7 @@ namespace RacksStand.Persistence.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("PlanId")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -824,7 +979,8 @@ namespace RacksStand.Persistence.Migrations
             modelBuilder.Entity("RacksStand.Persistence.Entities.UserInvite", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -842,20 +998,22 @@ namespace RacksStand.Persistence.Migrations
 
                     b.Property<string>("InvitedByUserId")
                         .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)");
+                        .HasMaxLength(455)
+                        .HasColumnType("character varying(455)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
                     b.Property<string>("ShopId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasDefaultValue("Pending");
 
                     b.Property<string>("Token")
@@ -886,10 +1044,61 @@ namespace RacksStand.Persistence.Migrations
                     b.ToTable("UserInvites");
                 });
 
+            modelBuilder.Entity("RacksStand.Persistence.Entities.UserPlan", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("PlanId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(455)
+                        .HasColumnType("character varying(455)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlanId");
+
+                    b.HasIndex("UserId", "PlanId", "IsActive")
+                        .IsUnique()
+                        .HasDatabaseName("IX_UserPlan_UserId_PlanId_IsActive");
+
+                    b.ToTable("UserPlan");
+                });
+
             modelBuilder.Entity("RacksStand.Persistence.Entities.UserShop", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -903,12 +1112,14 @@ namespace RacksStand.Persistence.Migrations
                     b.Property<string>("Role")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasDefaultValue("Viewer");
 
                     b.Property<string>("StoreId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -918,7 +1129,8 @@ namespace RacksStand.Persistence.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(455)
+                        .HasColumnType("character varying(455)");
 
                     b.HasKey("Id");
 
@@ -986,6 +1198,17 @@ namespace RacksStand.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Activity", b =>
+                {
+                    b.HasOne("RacksStand.Persistence.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("RacksStand.Persistence.Entities.Category", b =>
                 {
                     b.HasOne("RacksStand.Persistence.Entities.Shop", "Store")
@@ -995,6 +1218,25 @@ namespace RacksStand.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Payment", b =>
+                {
+                    b.HasOne("RacksStand.Persistence.Entities.Plan", "Plan")
+                        .WithMany()
+                        .HasForeignKey("PlanId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("RacksStand.Persistence.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plan");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RacksStand.Persistence.Entities.PlanFeature", b =>
@@ -1088,21 +1330,17 @@ namespace RacksStand.Persistence.Migrations
             modelBuilder.Entity("RacksStand.Persistence.Entities.Shop", b =>
                 {
                     b.HasOne("RacksStand.Persistence.Entities.User", "User")
-                        .WithMany("Stores")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("RacksStand.Persistence.Entities.User", b =>
                 {
-                    b.HasOne("RacksStand.Persistence.Entities.Plan", "Plan")
+                    b.HasOne("RacksStand.Persistence.Entities.Plan", null)
                         .WithMany("Users")
                         .HasForeignKey("PlanId");
-
-                    b.Navigation("Plan");
                 });
 
             modelBuilder.Entity("RacksStand.Persistence.Entities.UserInvite", b =>
@@ -1118,6 +1356,25 @@ namespace RacksStand.Persistence.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("Shop");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.UserPlan", b =>
+                {
+                    b.HasOne("RacksStand.Persistence.Entities.Plan", "Plan")
+                        .WithMany("UserPlans")
+                        .HasForeignKey("PlanId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("RacksStand.Persistence.Entities.User", "User")
+                        .WithMany("UserPlans")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plan");
 
                     b.Navigation("User");
                 });
@@ -1154,6 +1411,8 @@ namespace RacksStand.Persistence.Migrations
             modelBuilder.Entity("RacksStand.Persistence.Entities.Plan", b =>
                 {
                     b.Navigation("PlanFeatures");
+
+                    b.Navigation("UserPlans");
 
                     b.Navigation("Users");
                 });
@@ -1196,9 +1455,9 @@ namespace RacksStand.Persistence.Migrations
 
             modelBuilder.Entity("RacksStand.Persistence.Entities.User", b =>
                 {
-                    b.Navigation("Stores");
-
                     b.Navigation("UserInvites");
+
+                    b.Navigation("UserPlans");
 
                     b.Navigation("UserStores");
                 });

@@ -13,18 +13,22 @@ public class PocketItemConfiguration : IEntityTypeConfiguration<PocketItem>
             .HasConversion(
                 pocketItemId => pocketItemId.Value,
                 dbId => PocketItemId.Of(dbId))
-             .ValueGeneratedNever();
+             .ValueGeneratedNever()
+             .HasMaxLength(100);
 
         builder.Property(pi => pi.PocketId)
             .HasConversion(
                 pocketId => pocketId.Value,
                 dbId => PocketId.Of(dbId))
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(100);
+
         builder.Property(pi => pi.ProductId)
             .HasConversion(
                 productId => productId.Value,
                 dbId => ProductId.Of(dbId))
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(100);
 
         builder.HasOne(pi => pi.Pocket)
             .WithMany(p => p.PocketItems)

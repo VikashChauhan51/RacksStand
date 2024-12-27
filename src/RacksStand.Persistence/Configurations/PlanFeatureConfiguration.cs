@@ -21,19 +21,22 @@ public class PlanFeatureConfiguration : IEntityTypeConfiguration<PlanFeature>
                .HasConversion(
                  planFeatureId => planFeatureId.Value,
                  dbId => PlanFeatureId.Of(dbId))
-             .ValueGeneratedNever();
+             .ValueGeneratedNever()
+             .HasMaxLength(100);
 
         builder.Property(pf => pf.PlanId)
                 .HasConversion(
                  planId => planId.Value,
                  dbId => PlanId.Of(dbId))
-               .IsRequired();
+               .IsRequired()
+               .HasMaxLength(100);
 
         builder.Property(pf => pf.FeatureId)
             .HasConversion(
                  featureId => featureId.Value,
                  dbId => FeatureId.Of(dbId))
-               .IsRequired();
+               .IsRequired()
+               .HasMaxLength(100);
 
         builder.Property(pf => pf.Value)
                .IsRequired()

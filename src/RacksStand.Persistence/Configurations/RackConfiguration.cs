@@ -13,13 +13,15 @@ public class RackConfiguration : IEntityTypeConfiguration<Rack>
             .HasConversion(
                 rackId => rackId.Value,
                 dbId => RackId.Of(dbId))
-             .ValueGeneratedNever();
+             .ValueGeneratedNever()
+             .HasMaxLength(100);
 
         builder.Property(r => r.StoreId)
           .HasConversion(
               storeId => storeId.Value,
               dbId => ShopId.Of(dbId))
-          .IsRequired();
+          .IsRequired()
+          .HasMaxLength(100);
 
         builder.Property(r => r.Name)
             .IsRequired()

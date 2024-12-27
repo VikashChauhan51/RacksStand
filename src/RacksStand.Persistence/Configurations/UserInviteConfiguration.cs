@@ -16,13 +16,15 @@ public class UserInviteConfiguration : IEntityTypeConfiguration<UserInvite>
                .HasConversion(
                 userInviteId => userInviteId.Value,
                 dbId => UserInviteId.Of(dbId))
-            .ValueGeneratedNever();
+            .ValueGeneratedNever()
+            .HasMaxLength(100);
 
         builder.Property(ui => ui.ShopId)
             .HasConversion(
                 shopId => shopId.Value,
                 dbId => ShopId.Of(dbId))
-               .IsRequired();
+               .IsRequired()
+               .HasMaxLength(100);
 
         builder.Property(ui => ui.Email)
                .IsRequired()
@@ -30,7 +32,7 @@ public class UserInviteConfiguration : IEntityTypeConfiguration<UserInvite>
 
         builder.Property(ui => ui.InvitedByUserId)
                .IsRequired()
-               .HasMaxLength(450);
+               .HasMaxLength(455);
 
         builder.Property(ui => ui.Token)
                .IsRequired()
@@ -40,7 +42,8 @@ public class UserInviteConfiguration : IEntityTypeConfiguration<UserInvite>
           .HasDefaultValue(InviteState.Pending)
           .HasConversion(
               s => s.ToString(),
-              dbStatus => Enum.Parse<InviteState>(dbStatus));
+              dbStatus => Enum.Parse<InviteState>(dbStatus))
+          .HasMaxLength(50);
 
         builder.HasOne(ui => ui.Shop)
                .WithMany(s => s.UserInvites)

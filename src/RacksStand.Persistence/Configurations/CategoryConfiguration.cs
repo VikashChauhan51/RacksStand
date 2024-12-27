@@ -12,12 +12,14 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.Property(c => c.Id).HasConversion(
                  categoryId => categoryId.Value,
                  dbId => CategoryId.Of(dbId))
-             .ValueGeneratedNever();
+             .ValueGeneratedNever()
+              .HasMaxLength(100);
 
         builder.Property(c => c.ShopId).HasConversion(
                  shopId => shopId.Value,
                  dbId => ShopId.Of(dbId))
-             .IsRequired();
+             .IsRequired()
+             .HasMaxLength(100);
 
         builder.Property(c => c.Name)
             .IsRequired()
