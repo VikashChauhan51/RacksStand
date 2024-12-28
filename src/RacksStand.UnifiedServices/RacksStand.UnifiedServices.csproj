@@ -16,11 +16,11 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\RacksStand.Models\RacksStand.Models.csproj" />
-		<ProjectReference Include="..\RacksStand.Persistence\RacksStand.Persistence.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Abstractions\" />
+	  <Folder Include="DataServices\" />
 	</ItemGroup>
 
 
