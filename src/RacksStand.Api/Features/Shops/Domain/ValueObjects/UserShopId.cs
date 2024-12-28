@@ -1,6 +1,6 @@
 ﻿using RacksStand.Api.Core.Domain.Exceptions;
 
-namespace RacksStand.Api.Core.Domain.ValueObjects;
+namespace RacksStand.Api.Features.Shops.Domain.ValueObjects;
 public record UserShopId
 {
     public string Value { get; }

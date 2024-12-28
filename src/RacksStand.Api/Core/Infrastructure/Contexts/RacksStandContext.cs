@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using RacksStand.Api.Core.Domain.Configurations;
 using RacksStand.Api.Core.Domain.Entities;
+using RacksStand.Api.Features.Categories.Domain.Entities;
+using RacksStand.Api.Features.Products.Domain.Entities;
+using RacksStand.Api.Features.Shops.Domain.Entities;
+using RacksStand.Api.Features.Suppliers.Domain.Entities;
 
 namespace RacksStand.Api.Core.Infrastructure.Contexts;
 public class RacksStandContext : IdentityDbContext<User>, IRacksStandContext, IdentityContext
@@ -26,7 +29,7 @@ public class RacksStandContext : IdentityDbContext<User>, IRacksStandContext, Id
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfigurationsFromAssembly(typeof(CategoryConfiguration).Assembly);
+        builder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
         base.OnModelCreating(builder);
     }
 }

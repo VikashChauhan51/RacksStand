@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RacksStand.Api.Core.Domain.Entities;
 using RacksStand.Api.Core.Domain.Enums;
 using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Api.Features.Shops.Domain.ValueObjects;
 
 namespace RacksStand.Api.Core.Domain.Configurations;
 

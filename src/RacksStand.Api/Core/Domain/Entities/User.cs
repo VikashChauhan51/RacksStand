@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RacksStand.Api.Features.Shops.Domain.Entities;
 
 namespace RacksStand.Api.Core.Domain.Entities;
 public class User : IdentityUser, IEntity

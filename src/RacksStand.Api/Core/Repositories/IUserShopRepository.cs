@@ -1,7 +1,7 @@
-﻿using RacksStand.Api.Core.Domain.Entities;
-using RacksStand.Api.Core.Domain.Enums;
-using RacksStand.Api.Core.Domain.ValueObjects;
+﻿using RacksStand.Api.Core.Domain.Enums;
 using RacksStand.Api.Core.Repositories;
+using RacksStand.Api.Features.Shops.Domain.Entities;
+using RacksStand.Api.Features.Shops.Domain.ValueObjects;
 
 namespace RacksStand.Persistence.Repositories;
 public interface IUserShopRepository : IRepository<UserShop, UserShopId>

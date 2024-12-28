@@ -1,6 +1,11 @@
-﻿using RacksStand.Api.Core.Domain.ValueObjects;
+﻿using RacksStand.Api.Core.Domain.Entities;
+using RacksStand.Api.Features.Categories.Domain.Entities;
+using RacksStand.Api.Features.Categories.Domain.ValueObjects;
+using RacksStand.Api.Features.Products.Domain.ValueObjects;
+using RacksStand.Api.Features.Suppliers.Domain.Entities;
+using RacksStand.Api.Features.Suppliers.Domain.ValueObjects;
 
-namespace RacksStand.Api.Core.Domain.Entities;
+namespace RacksStand.Api.Features.Products.Domain.Entities;
 public class Product : Entity<ProductId>
 {
     public required string Name { get; set; }

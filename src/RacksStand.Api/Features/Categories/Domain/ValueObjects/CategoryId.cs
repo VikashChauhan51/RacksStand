@@ -1,6 +1,6 @@
 ﻿using RacksStand.Api.Core.Domain.Exceptions;
 
-namespace RacksStand.Api.Core.Domain.ValueObjects;
+namespace RacksStand.Api.Features.Categories.Domain.ValueObjects;
 public record CategoryId
 {
     public string Value { get; }

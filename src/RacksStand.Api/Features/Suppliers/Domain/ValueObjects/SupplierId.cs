@@ -1,6 +1,6 @@
 ﻿using RacksStand.Api.Core.Domain.Exceptions;
 
-namespace RacksStand.Api.Core.Domain.ValueObjects;
+namespace RacksStand.Api.Features.Suppliers.Domain.ValueObjects;
 public record SupplierId
 {
     public string Value { get; }

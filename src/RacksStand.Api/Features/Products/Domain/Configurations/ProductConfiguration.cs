@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using RacksStand.Api.Core.Domain.Entities;
-using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Api.Features.Products.Domain.Entities;
+using RacksStand.Api.Features.Categories.Domain.ValueObjects;
+using RacksStand.Api.Features.Products.Domain.ValueObjects;
+using RacksStand.Api.Features.Suppliers.Domain.ValueObjects;
 
-namespace RacksStand.Api.Core.Domain.Configurations;
+namespace RacksStand.Api.Features.Products.Domain.Configurations;
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)

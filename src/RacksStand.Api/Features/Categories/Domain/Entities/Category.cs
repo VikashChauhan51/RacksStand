@@ -1,6 +1,10 @@
-﻿using RacksStand.Api.Core.Domain.ValueObjects;
+﻿using RacksStand.Api.Core.Domain.Entities;
+using RacksStand.Api.Features.Categories.Domain.ValueObjects;
+using RacksStand.Api.Features.Products.Domain.Entities;
+using RacksStand.Api.Features.Shops.Domain.Entities;
+using RacksStand.Api.Features.Shops.Domain.ValueObjects;
 
-namespace RacksStand.Api.Core.Domain.Entities;
+namespace RacksStand.Api.Features.Categories.Domain.Entities;
 public class Category : Entity<CategoryId>
 {
     public required string Name { get; set; }

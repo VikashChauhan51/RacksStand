@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RacksStand.Api.Core.Domain.Entities;
 using RacksStand.Api.Core.Domain.Enums;
 using RacksStand.Api.Core.Domain.Exceptions;
-using RacksStand.Api.Core.Domain.ValueObjects;
 using RacksStand.Api.Core.Repositories;
+using RacksStand.Api.Features.Shops.Domain.Entities;
 using RacksStand.Api.Features.Shops.Domain.Repositories;
+using RacksStand.Api.Features.Shops.Domain.ValueObjects;
 using RacksStand.Models;
 using RacksStand.Persistence.Repositories;
 

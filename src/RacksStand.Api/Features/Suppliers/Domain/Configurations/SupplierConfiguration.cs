@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using RacksStand.Api.Core.Domain.Entities;
-using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Api.Features.Suppliers.Domain.Entities;
+using RacksStand.Api.Features.Shops.Domain.ValueObjects;
+using RacksStand.Api.Features.Suppliers.Domain.ValueObjects;
 
-namespace RacksStand.Api.Core.Domain.Configurations;
+namespace RacksStand.Api.Features.Suppliers.Domain.Configurations;
 public class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
 {
     public void Configure(EntityTypeBuilder<Supplier> builder)

@@ -1,7 +1,9 @@
-﻿using RacksStand.Api.Core.Domain.Entities;
-using RacksStand.Api.Core.Domain.ValueObjects;
-using RacksStand.Api.Core.Infrastructure;
+﻿using RacksStand.Api.Core.Infrastructure;
+using RacksStand.Api.Features.Categories.Domain.ValueObjects;
+using RacksStand.Api.Features.Products.Domain.Entities;
+using RacksStand.Api.Features.Products.Domain.ValueObjects;
 using RacksStand.Api.Features.Products.Endpoints.Requests;
+using RacksStand.Api.Features.Suppliers.Domain.ValueObjects;
 using RacksStand.Models;
 
 namespace RacksStand.Api.Features.Products.Shared;

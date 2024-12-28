@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RacksStand.Api.Core.Domain.Entities;
 using RacksStand.Api.Core.Domain.Exceptions;
-using RacksStand.Api.Core.Domain.ValueObjects;
 using RacksStand.Api.Core.Repositories;
+using RacksStand.Api.Features.Categories.Domain.Entities;
 using RacksStand.Api.Features.Categories.Domain.Repositories;
+using RacksStand.Api.Features.Categories.Domain.ValueObjects;
+using RacksStand.Api.Features.Shops.Domain.ValueObjects;
 using RacksStand.Models;
 
 namespace RacksStand.Api.Features.Categories.Domain.Services;

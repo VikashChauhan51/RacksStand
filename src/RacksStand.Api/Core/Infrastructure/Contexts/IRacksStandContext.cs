@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RacksStand.Api.Core.Domain.Entities;
+using RacksStand.Api.Features.Categories.Domain.Entities;
+using RacksStand.Api.Features.Products.Domain.Entities;
+using RacksStand.Api.Features.Shops.Domain.Entities;
+using RacksStand.Api.Features.Suppliers.Domain.Entities;
 
 namespace RacksStand.Api.Core.Infrastructure.Contexts;
 public interface IRacksStandContext

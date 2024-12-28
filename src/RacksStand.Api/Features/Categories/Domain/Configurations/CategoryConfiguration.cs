@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using RacksStand.Api.Core.Domain.Entities;
-using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Api.Features.Categories.Domain.Entities;
+using RacksStand.Api.Features.Categories.Domain.ValueObjects;
+using RacksStand.Api.Features.Shops.Domain.ValueObjects;
 
-namespace RacksStand.Api.Core.Domain.Configurations;
+namespace RacksStand.Api.Features.Categories.Domain.Configurations;
 public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 {
     public void Configure(EntityTypeBuilder<Category> builder)
@@ -33,10 +34,10 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             .HasForeignKey(p => p.CategoryId);
 
         // Indexes
-        builder.HasIndex(pi => new { pi.Name, pi.ShopId }) 
+        builder.HasIndex(pi => new { pi.Name, pi.ShopId })
             .IsUnique().HasDatabaseName("IX_Category_Name_ShopId");
 
-        builder.HasIndex(c => c.ShopId) 
+        builder.HasIndex(c => c.ShopId)
             .HasDatabaseName("IX_Category_ShopId");
 
         builder.HasIndex(c => c.Name)

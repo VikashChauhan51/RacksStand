@@ -1,6 +1,7 @@
-﻿using RacksStand.Api.Core.Domain.Entities;
-using RacksStand.Api.Core.Domain.ValueObjects;
-using RacksStand.Api.Core.Repositories;
+﻿using RacksStand.Api.Core.Repositories;
+using RacksStand.Api.Features.Categories.Domain.ValueObjects;
+using RacksStand.Api.Features.Products.Domain.Entities;
+using RacksStand.Api.Features.Products.Domain.ValueObjects;
 
 namespace RacksStand.Api.Features.Products.Domain.Repositories;
 public interface IProductRepository : IRepository<Product, ProductId>

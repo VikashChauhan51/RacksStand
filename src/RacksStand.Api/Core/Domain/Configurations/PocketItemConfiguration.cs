@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RacksStand.Api.Core.Domain.Entities;
 using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Api.Features.Products.Domain.ValueObjects;
 
 namespace RacksStand.Api.Core.Domain.Configurations;
 public class PocketItemConfiguration : IEntityTypeConfiguration<PocketItem>

@@ -1,7 +1,8 @@
-﻿using RacksStand.Api.Core.Domain.Enums;
-using RacksStand.Api.Core.Domain.ValueObjects;
+﻿using RacksStand.Api.Core.Domain.Entities;
+using RacksStand.Api.Core.Domain.Enums;
+using RacksStand.Api.Features.Shops.Domain.ValueObjects;
 
-namespace RacksStand.Api.Core.Domain.Entities;
+namespace RacksStand.Api.Features.Shops.Domain.Entities;
 public class UserShop : Entity<UserShopId>
 {
     public required string UserId { get; set; }

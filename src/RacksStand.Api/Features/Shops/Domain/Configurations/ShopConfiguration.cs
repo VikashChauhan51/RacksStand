@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using RacksStand.Api.Core.Domain.Entities;
-using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Api.Features.Shops.Domain.Entities;
+using RacksStand.Api.Features.Shops.Domain.ValueObjects;
 
-namespace RacksStand.Api.Core.Domain.Configurations;
+namespace RacksStand.Api.Features.Shops.Domain.Configurations;
 public class ShopConfiguration : IEntityTypeConfiguration<Shop>
 {
     public void Configure(EntityTypeBuilder<Shop> builder)
