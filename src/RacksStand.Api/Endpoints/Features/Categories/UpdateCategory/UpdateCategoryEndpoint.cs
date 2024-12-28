@@ -12,7 +12,7 @@ public class UpdateCategoryEndpoint : EndpointBase
     {
         app.MapPut("{shopId}/categories/{id}", UpdateCategory)
             .WithName(RouteName)
-            .Accepts<UpdateSupplierRequest>(MediaTypeNames.Application.Json)
+            .Accepts<UpdateCategoryRequest>(MediaTypeNames.Application.Json)
             .Produces(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
@@ -41,8 +41,8 @@ public class UpdateCategoryEndpoint : EndpointBase
     private async Task<IResult> UpdateCategory
     (
        [FromRoute] string id,
-        UpdateSupplierRequest request,
-        IValidator<UpdateSupplierRequest> validator,
+        UpdateCategoryRequest request,
+        IValidator<UpdateCategoryRequest> validator,
         ICategoryService categoryService,
         CancellationToken cancellationToken = default
     )

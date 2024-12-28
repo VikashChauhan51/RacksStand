@@ -1,8 +1,8 @@
 ﻿namespace RacksStand.Api.Endpoints.Features.Categories.UpdateCategory;
 
-public class UpdateSupplierRequestValidator : AbstractValidator<UpdateSupplierRequest>
+public class UpdateCategoryRequestValidator : AbstractValidator<UpdateCategoryRequest>
 {
-    public UpdateSupplierRequestValidator()
+    public UpdateCategoryRequestValidator()
     {
         RuleFor(x => x.Name)
             .NotNull()
