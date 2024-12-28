@@ -15,7 +15,7 @@ public sealed class ProductService : IProductService
     }
 
     // Check if a product already exists with the same categoryId and name
-    private async Task<Result<bool>> CheckIfProductExistsAsync(string name, string categoryId, CancellationToken cancellationToken = default)
+    public async Task<Result<bool>> CheckIfProductExistsAsync(string name, string categoryId, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
