@@ -1,6 +1,7 @@
 ﻿using RacksStand.Api.Endpoints.Core;
 using RacksStand.UnifiedServices.DataServices;
 using RacksStand.Models;
+using RacksStand.Api.Endpoints.Features.Suppliers.Shared;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.UpdateSupplier;
 
@@ -10,9 +11,9 @@ public class UpdateSupplierEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("{shopId}/suppliers/{id}", UpdateSupplier)
+        app.MapPut("shops/{shopId}/suppliers/{id}", UpdateSupplier)
             .WithName(RouteName)
-            .Accepts<UpdateSupplierRequest>(MediaTypeNames.Application.Json)
+            .Accepts<SupplierRequest>(MediaTypeNames.Application.Json)
             .Produces(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
@@ -41,8 +42,8 @@ public class UpdateSupplierEndpoint : EndpointBase
     private async Task<IResult> UpdateSupplier
     (
        [FromRoute] string id,
-        UpdateSupplierRequest request,
-        IValidator<UpdateSupplierRequest> validator,
+        SupplierRequest request,
+        IValidator<SupplierRequest> validator,
         ISupplierService supplierService,
         CancellationToken cancellationToken = default
     )

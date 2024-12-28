@@ -1,4 +1,5 @@
 ﻿using RacksStand.Api.Endpoints.Core;
+using RacksStand.Api.Endpoints.Features.Categories.Shared;
 using RacksStand.Models;
 using RacksStand.UnifiedServices.DataServices;
 
@@ -9,9 +10,9 @@ public class CreateCategoryEndpoint : EndpointBase
     public override string RouteName => "createCategory";
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("{shopId}/categories", CreateCategory)
+        app.MapPost("shops/{shopId}/categories", CreateCategory)
             .WithName(RouteName)
-            .Accepts<CreateCategoryRequest>(MediaTypeNames.Application.Json)
+            .Accepts<CategoryRequest>(MediaTypeNames.Application.Json)
             .Produces(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
@@ -38,13 +39,20 @@ public class CreateCategoryEndpoint : EndpointBase
     private async Task<IResult> CreateCategory
     (
         [FromRoute] string shopId,
-        CreateCategoryRequest request,
-        IValidator<CreateCategoryRequest> validator,
+        CategoryRequest request,
+        IValidator<CategoryRequest> validator,
+        IValidator<string> idValidator,
         ICategoryService categoryService,
         CancellationToken cancellationToken = default
     )
     {
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
+        validationResult = await idValidator.ValidateAsync(shopId, cancellationToken);
+
         if (!validationResult.IsValid)
         {
             return Results.ValidationProblem(validationResult.ToDictionary());

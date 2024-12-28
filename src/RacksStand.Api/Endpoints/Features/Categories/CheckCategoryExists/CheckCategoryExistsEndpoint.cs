@@ -9,7 +9,7 @@ public class CheckCategoryExistsEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("{shopId}/categories/exists", CheckCategoryExists)
+        app.MapGet("shops/{shopId}/categories/exists", CheckCategoryExists)
             .WithName(RouteName)
             .Produces<bool>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
@@ -46,11 +46,18 @@ public class CheckCategoryExistsEndpoint : EndpointBase
     private async Task<IResult> CheckCategoryExists
     (
         [FromRoute] string shopId,
+        IValidator<string> idValidator,
         [FromQuery] string categoryName,
         ICategoryService categoryService,
         CancellationToken cancellationToken = default
     )
     {
+        var validationResult = await idValidator.ValidateAsync(shopId, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
+
         if (string.IsNullOrEmpty(categoryName))
         {
             return Results.BadRequest("Category name must be provided.");

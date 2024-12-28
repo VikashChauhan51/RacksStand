@@ -1,6 +1,7 @@
 ﻿using RacksStand.Api.Endpoints.Core;
 using RacksStand.UnifiedServices.DataServices;
 using RacksStand.Models;
+using RacksStand.Api.Endpoints.Features.Categories.Shared;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.UpdateCategory;
 
@@ -10,9 +11,9 @@ public class UpdateCategoryEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("{shopId}/categories/{id}", UpdateCategory)
+        app.MapPut("shops/{shopId}/categories/{id}", UpdateCategory)
             .WithName(RouteName)
-            .Accepts<UpdateCategoryRequest>(MediaTypeNames.Application.Json)
+            .Accepts<CategoryRequest>(MediaTypeNames.Application.Json)
             .Produces(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
@@ -41,8 +42,8 @@ public class UpdateCategoryEndpoint : EndpointBase
     private async Task<IResult> UpdateCategory
     (
        [FromRoute] string id,
-        UpdateCategoryRequest request,
-        IValidator<UpdateCategoryRequest> validator,
+        CategoryRequest request,
+        IValidator<CategoryRequest> validator,
         ICategoryService categoryService,
         CancellationToken cancellationToken = default
     )

@@ -1,6 +1,6 @@
 ﻿namespace RacksStand.Api.Endpoints.Features.Categories.GetCategories;
 
-public record GetCategoryRequest
+public record GetCategoriesRequest
 (
     [FromQuery] int pageSize,
     [FromQuery] int pageNumber,

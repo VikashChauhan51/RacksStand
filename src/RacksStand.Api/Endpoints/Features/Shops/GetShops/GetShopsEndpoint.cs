@@ -1,6 +1,7 @@
 ﻿using RacksStand.Api.Endpoints.Core;
 using RacksStand.UnifiedServices.DataServices;
 using RacksStand.Models;
+using RacksStand.Api.Endpoints.Features.Shops.Shared;
 
 namespace RacksStand.Api.Endpoints.Features.Shops.GetShops;
 
@@ -31,11 +32,19 @@ public class GetShopsEndpoint : EndpointBase
     }
 
     private async Task<IResult> ListShops(
-        [AsParameters] GetShopRequest request,
+        [AsParameters] GetShopsRequest request,
         IShopService shopService,
+        IValidator<GetShopsRequest> validator,
         CancellationToken cancellationToken = default
     )
     {
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
+
+
         var ownerId = "55fddc82-40cf-4ba0-ad8e-b02dfcc8d9d0";
         var response = await shopService.GetShopsAsync(
             request.pageSize,

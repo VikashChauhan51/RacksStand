@@ -2,6 +2,7 @@
 using RacksStand.UnifiedServices.DataServices;
 using RacksStand.Persistence.Entities;
 using RacksStand.Models;
+using RacksStand.Api.Endpoints.Features.Shops.Shared;
 
 namespace RacksStand.Api.Endpoints.Features.Shops.CreateShop;
 
@@ -13,8 +14,8 @@ public class CreateShopEndpoint : EndpointBase
     {
         app.MapPost("shops", CreateShop)
             .WithName(RouteName)
-            .Accepts<CreateShopRequest>(MediaTypeNames.Application.Json)
-            .Produces<Shop>(StatusCodes.Status201Created)
+            .Accepts<ShopRequest>(MediaTypeNames.Application.Json)
+            .Produces<ShopRequest>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
             .Produces(StatusCodes.Status401Unauthorized)
@@ -39,8 +40,8 @@ public class CreateShopEndpoint : EndpointBase
 
     private async Task<IResult> CreateShop
     (
-        CreateShopRequest request,
-        IValidator<CreateShopRequest> validator,
+        Shared.ShopRequest request,
+        IValidator<Shared.ShopRequest> validator,
         IShopService shopService,
         CancellationToken cancellationToken = default
     )

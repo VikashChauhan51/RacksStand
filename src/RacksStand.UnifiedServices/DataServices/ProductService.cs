@@ -14,7 +14,6 @@ public sealed class ProductService : IProductService
         _logger = logger;
     }
 
-    // Check if a product already exists with the same categoryId and name
     public async Task<Result<bool>> CheckIfProductExistsAsync(string name, string categoryId, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -46,7 +45,6 @@ public sealed class ProductService : IProductService
         return Result<bool>.Succ(exists);
     }
 
-    // Add new product
     public async Task<Result<string>> AddProductAsync(ProductModel model, CancellationToken cancellationToken = default)
     {
         if (model == null)
@@ -84,7 +82,6 @@ public sealed class ProductService : IProductService
         return Result<string>.Succ(product.Id.Value);
     }
 
-    // Get product by Id
     public async Task<Result<ProductModel>> GetProductAsync(string id, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(id))
@@ -104,7 +101,49 @@ public sealed class ProductService : IProductService
         return Result<ProductModel>.Succ(response.Adapt<ProductModel>());
     }
 
-    // Update product
+    public async Task<Result<PaginatedResult<ProductModel>>> GetProductsAsync(string categoryId, int pageSize, int pageNumber, string? filter, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrEmpty(categoryId))
+        {
+            _logger.LogWarning("The category ID can't be null.");
+            return Result<PaginatedResult<ProductModel>>.Fail(new ArgumentException("The shop ID can't be null.", nameof(categoryId)));
+        }
+        if (pageNumber <= 0)
+        {
+            _logger.LogWarning("Page number must be greater than zero.");
+            return Result<PaginatedResult<ProductModel>>.Fail(new ArgumentException("Page number must be greater than zero.", nameof(pageNumber)));
+        }
+        if (pageSize <= 0)
+        {
+            _logger.LogWarning("Page size must be greater than zero.");
+            return Result<PaginatedResult<ProductModel>>.Fail(new ArgumentException("Page size must be greater than zero.", nameof(pageSize)));
+        }
+
+        var response = await _productRepository.GetPaginatedAsync(
+            pageNumber,
+            pageSize,
+            true,
+            x => x.CategoryId == CategoryId.Of(categoryId) &&
+            (string.IsNullOrEmpty(filter) || x.Name.StartsWith(filter)),
+            null,
+            cancellationToken
+        );
+
+        if (response == null)
+        {
+            _logger.LogWarning("The product not exists.");
+            return Result<PaginatedResult<ProductModel>>.Fail(new EntityNotFoundException("The product not exists"));
+        }
+
+        return Result<PaginatedResult<ProductModel>>.Succ(new PaginatedResult<ProductModel>
+        {
+            Items = response.Items.Select(x => x.Adapt<ProductModel>()),
+            TotalItems = response.TotalItems,
+            PageNumber = response.PageNumber,
+            PageSize = response.PageSize
+        });
+    }
+
     public async Task<Result<string>> UpdateProductAsync(string id, ProductModel model, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(id))
@@ -147,7 +186,6 @@ public sealed class ProductService : IProductService
         return Result<string>.Succ(id);
     }
 
-    // Delete product
     public async Task<Result<string>> DeleteProductAsync(string id, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(id))

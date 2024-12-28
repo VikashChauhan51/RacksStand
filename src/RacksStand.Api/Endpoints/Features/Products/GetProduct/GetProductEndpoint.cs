@@ -9,7 +9,7 @@ public class GetProductEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("products/{id}", GetProduct)
+        app.MapGet("categories/{categoryId}/products/{id}", GetProduct)
             .WithName(RouteName)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -26,9 +26,17 @@ public class GetProductEndpoint : EndpointBase
 
     private async Task<IResult> GetProduct(
         [FromRoute] string id,
+        IValidator<string> idValidator,
         IProductService productService,
         CancellationToken cancellationToken = default)
     {
+        var validationResult = await idValidator.ValidateAsync(id, cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
+
         var response = await productService.GetProductAsync(id, cancellationToken);
         return response.Match(
             data => Results.Ok(data),

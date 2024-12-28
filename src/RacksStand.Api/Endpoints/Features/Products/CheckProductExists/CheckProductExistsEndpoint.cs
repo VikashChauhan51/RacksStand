@@ -9,7 +9,7 @@ public class CheckProductExistsEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("products/check", CheckProductExists)
+        app.MapGet("categories/{categoryId}/products/exists", CheckProductExists)
             .WithName(RouteName)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
@@ -25,13 +25,21 @@ public class CheckProductExistsEndpoint : EndpointBase
 
     private async Task<IResult> CheckProductExists(
         [FromQuery] string name,
-        [FromQuery] string categoryId,
+        [FromRoute] string categoryId,
+        IValidator<string> idValidator,
         IProductService productService,
         CancellationToken cancellationToken = default)
     {
+        var validationResult = await idValidator.ValidateAsync(categoryId, cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
+
         var response = await productService.CheckIfProductExistsAsync(name, categoryId, cancellationToken);
         return response.Match(
-            exists => Results.Ok(new { Exists = exists }),
+            exists => Results.Ok(exists),
             error => Problem(error)
         );
     }

@@ -1,4 +1,5 @@
 ﻿using RacksStand.Api.Endpoints.Core;
+using RacksStand.Api.Endpoints.Features.Suppliers.Shared;
 using RacksStand.Models;
 using RacksStand.UnifiedServices.DataServices;
 
@@ -9,9 +10,9 @@ public class CreateSupplierEndpoint : EndpointBase
     public override string RouteName => "createSupplier";
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("{shopId}/suppliers", CreateSupplier)
+        app.MapPost("shops/{shopId}/suppliers", CreateSupplier)
             .WithName(RouteName)
-            .Accepts<CreateSupplierRequest>(MediaTypeNames.Application.Json)
+            .Accepts<SupplierRequest>(MediaTypeNames.Application.Json)
             .Produces(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
@@ -38,8 +39,8 @@ public class CreateSupplierEndpoint : EndpointBase
     private async Task<IResult> CreateSupplier
     (
         [FromRoute] string shopId,
-        CreateSupplierRequest request,
-        IValidator<CreateSupplierRequest> validator,
+        SupplierRequest request,
+        IValidator<SupplierRequest> validator,
         ISupplierService supplierService,
         CancellationToken cancellationToken = default
     )

@@ -1,4 +1,5 @@
 ﻿using RacksStand.Api.Endpoints.Core;
+using RacksStand.Persistence.ValueObjects;
 using RacksStand.UnifiedServices.DataServices;
 
 namespace RacksStand.Api.Endpoints.Features.Products.DeleteProduct;
@@ -9,7 +10,7 @@ public class DeleteProductEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("products/{id}", DeleteProduct)
+        app.MapDelete("categories/{categoryId}/products/{id}", DeleteProduct)
             .WithName(RouteName)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -26,9 +27,16 @@ public class DeleteProductEndpoint : EndpointBase
 
     private async Task<IResult> DeleteProduct(
         [FromRoute] string id,
+        IValidator<string> idValidator,
         IProductService productService,
         CancellationToken cancellationToken = default)
     {
+        var validationResult = await idValidator.ValidateAsync(id, cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
         var response = await productService.DeleteProductAsync(id, cancellationToken);
         return response.Match(
             data => Results.Ok(new { Message = "Product deleted successfully.", ProductId = data }),

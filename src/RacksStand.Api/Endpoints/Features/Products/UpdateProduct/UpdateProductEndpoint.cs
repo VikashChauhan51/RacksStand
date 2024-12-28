@@ -1,4 +1,5 @@
 ﻿using RacksStand.Api.Endpoints.Core;
+using RacksStand.Api.Endpoints.Features.Products.Shared;
 using RacksStand.Models;
 using RacksStand.UnifiedServices.DataServices;
 
@@ -10,7 +11,7 @@ public class UpdateProductEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("products/{id}", UpdateProduct)
+        app.MapPut("categories/{categoryId}/products/{id}", UpdateProduct)
             .WithName(RouteName)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
@@ -27,12 +28,37 @@ public class UpdateProductEndpoint : EndpointBase
     }
 
     private async Task<IResult> UpdateProduct(
+        [FromRoute] string categoryId,
         [FromRoute] string id,
-        [FromBody] ProductModel model,
+        [FromBody] ProductRequest request,
+        IValidator<ProductRequest> validator,
+        IValidator<string> idValidator,
         IProductService productService,
         CancellationToken cancellationToken = default)
     {
-        var response = await productService.UpdateProductAsync(id, model, cancellationToken);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
+        validationResult = await idValidator.ValidateAsync(id, cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
+
+        validationResult = await idValidator.ValidateAsync(categoryId, cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
+
+        var response = await productService.UpdateProductAsync(id, request.Adapt<ProductModel>() with
+        {
+            CategoryId = categoryId
+        }, cancellationToken);
         return response.Match(
             data => Results.Ok(new { Message = "Product updated successfully.", ProductId = data }),
             error => Problem(error)

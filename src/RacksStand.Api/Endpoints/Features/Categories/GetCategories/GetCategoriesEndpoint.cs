@@ -1,4 +1,5 @@
 ﻿using RacksStand.Api.Endpoints.Core;
+using RacksStand.Api.Endpoints.Features.Shops.GetShops;
 using RacksStand.UnifiedServices.DataServices;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.GetCategories;
@@ -9,7 +10,7 @@ public class GetCategoriesEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("{shopId}/categories", ListCategories)
+        app.MapGet("shops/{shopId}/categories", ListCategories)
             .WithName(RouteName)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
@@ -32,11 +33,17 @@ public class GetCategoriesEndpoint : EndpointBase
 
     private async Task<IResult> ListCategories(
         [FromRoute] string shopId,
-        [AsParameters] GetCategoryRequest request,
+        [AsParameters] GetCategoriesRequest request,
+        IValidator<GetCategoriesRequest> validator,
          ICategoryService categoryService,
         CancellationToken cancellationToken = default
         )
     {
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
         var response = await categoryService.GetCategoriesAsync
         (
             shopId,

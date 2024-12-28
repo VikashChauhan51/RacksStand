@@ -1,8 +1,8 @@
-﻿namespace RacksStand.Api.Endpoints.Features.Shops.CreateShop;
+﻿namespace RacksStand.Api.Endpoints.Features.Shops.Shared;
 
-public class CreateShopRequestValidator : AbstractValidator<CreateShopRequest>
+public class ShopRequestValidator : AbstractValidator<ShopRequest>
 {
-    public CreateShopRequestValidator()
+    public ShopRequestValidator() 
     {
         RuleFor(x => x.Name)
         .NotNull()

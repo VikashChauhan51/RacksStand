@@ -9,7 +9,7 @@ public class DeleteSupplierEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("{shopId}/suppliers/{id}", DeleteSupplier)
+        app.MapDelete("shops/{shopId}/suppliers/{id}", DeleteSupplier)
             .WithName(RouteName)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)

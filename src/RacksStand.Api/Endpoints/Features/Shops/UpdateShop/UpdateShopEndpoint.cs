@@ -1,6 +1,7 @@
 ﻿using RacksStand.Api.Endpoints.Core;
 using RacksStand.UnifiedServices.DataServices;
 using RacksStand.Models;
+using RacksStand.Api.Endpoints.Features.Shops.Shared;
 
 namespace RacksStand.Api.Endpoints.Features.Shops.UpdateShop;
 
@@ -36,8 +37,8 @@ public class UpdateShopEndpoint : EndpointBase
 
     private async Task<IResult> UpdateShop(
         [FromRoute] string id,
-        [FromBody] UpdateShopRequest request,
-        IValidator<UpdateShopRequest> validator,
+        [FromBody] ShopRequest request,
+        IValidator<ShopRequest> validator,
         IShopService shopService,
         CancellationToken cancellationToken = default
     )

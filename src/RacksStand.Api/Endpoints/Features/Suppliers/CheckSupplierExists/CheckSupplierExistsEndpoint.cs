@@ -9,7 +9,7 @@ public class CheckSupplierExistsEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("{shopId}/suppliers/exists", CheckSupplierExists)
+        app.MapGet("shops/{shopId}/suppliers/exists", CheckSupplierExists)
             .WithName(RouteName)
             .Produces<bool>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status500InternalServerError)

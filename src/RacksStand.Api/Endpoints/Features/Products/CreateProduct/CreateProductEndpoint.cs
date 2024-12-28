@@ -1,4 +1,5 @@
 ﻿using RacksStand.Api.Endpoints.Core;
+using RacksStand.Api.Endpoints.Features.Products.Shared;
 using RacksStand.Models;
 using RacksStand.UnifiedServices.DataServices;
 
@@ -10,7 +11,7 @@ public class CreateProductEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("products", CreateProduct)
+        app.MapPost("/categories/{categoryId}/products", CreateProduct)
             .WithName(RouteName)
             .Produces(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status400BadRequest)
@@ -26,13 +27,33 @@ public class CreateProductEndpoint : EndpointBase
     }
 
     private async Task<IResult> CreateProduct(
-        [FromBody] ProductModel model,
+        [FromRoute] string categoryId,
+        [FromBody] ProductRequest request,
+        IValidator<ProductRequest> validator,
+        IValidator<string> idValidator,
         IProductService productService,
         CancellationToken cancellationToken = default)
     {
-        var response = await productService.AddProductAsync(model, cancellationToken);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
+        validationResult = await idValidator.ValidateAsync(categoryId, cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
+
+        var response = await productService.AddProductAsync(
+        request.Adapt<ProductModel>() with
+        {
+            CategoryId = categoryId
+        },
+        cancellationToken);
         return response.Match(
-            id => Results.Created($"products/{id}", new { ProductId = id }),
+            id => Results.Created(),
             error => Problem(error)
         );
     }

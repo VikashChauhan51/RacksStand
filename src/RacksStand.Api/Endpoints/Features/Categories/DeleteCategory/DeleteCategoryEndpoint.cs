@@ -9,7 +9,7 @@ public class DeleteCategoryEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("{shopId}/categories/{id}", DeleteCategory)
+        app.MapDelete("shops/{shopId}/categories/{id}", DeleteCategory)
             .WithName(RouteName)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -35,10 +35,16 @@ public class DeleteCategoryEndpoint : EndpointBase
     private async Task<IResult> DeleteCategory
     (
         [FromRoute] string id,
+        IValidator<string> idValidator,
         ICategoryService categoryService,
         CancellationToken cancellationToken = default
     )
     {
+        var validationResult = await idValidator.ValidateAsync(id, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
         var response = await categoryService.DeleteCategoryAsync(id, cancellationToken);
         return response.Match
         (

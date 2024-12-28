@@ -9,7 +9,7 @@ public class GetSupplierEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("{shopId}/suppliers/{id}", GetSupplier)
+        app.MapGet("shops/{shopId}/suppliers/{id}", GetSupplier)
             .WithName(RouteName)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)

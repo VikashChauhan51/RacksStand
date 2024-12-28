@@ -9,7 +9,7 @@ public class GetProductsEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("products", GetProducts)
+        app.MapGet("categories/{categoryId}/products", GetProducts)
             .WithName(RouteName)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
@@ -24,11 +24,33 @@ public class GetProductsEndpoint : EndpointBase
     }
 
     private async Task<IResult> GetProducts(
+         [FromRoute] string categoryId,
+        [AsParameters] GetProductsRequest request,
+        IValidator<GetProductsRequest> validator,
+         IValidator<string> idValidator,
         IProductService productService,
         CancellationToken cancellationToken = default)
     {
-        // Replace with your actual method to fetch all products.
-        var response = await productService.GetAllProductsAsync(cancellationToken);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
+
+        validationResult = await idValidator.ValidateAsync(categoryId, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
+
+        var response = await productService.GetProductsAsync
+        (
+            categoryId,
+            request.pageSize,
+            request.pageNumber,
+            request.filter,
+            cancellationToken
+        );
         return Results.Ok(response);
     }
 }

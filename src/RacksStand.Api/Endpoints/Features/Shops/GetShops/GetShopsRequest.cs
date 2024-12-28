@@ -1,6 +1,6 @@
 ﻿namespace RacksStand.Api.Endpoints.Features.Shops.GetShops;
 
-public record GetShopRequest
+public record GetShopsRequest
 (
     [FromQuery] int pageSize,
     [FromQuery] int pageNumber,

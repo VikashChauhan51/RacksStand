@@ -1,4 +1,5 @@
 ﻿using RacksStand.Api.Endpoints.Core;
+using RacksStand.Persistence.ValueObjects;
 using RacksStand.UnifiedServices.DataServices;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.GetCategory;
@@ -9,7 +10,7 @@ public class GetCategoryEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("{shopId}/categories/{id}", GetCategory)
+        app.MapGet("shops/{shopId}/categories/{id}", GetCategory)
             .WithName(RouteName)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -35,10 +36,17 @@ public class GetCategoryEndpoint : EndpointBase
     private async Task<IResult> GetCategory
     (
         [FromRoute] string id,
+        IValidator<string> idValidator,
         ICategoryService categoryService,
         CancellationToken cancellationToken = default
     )
     {
+        var validationResult = await idValidator.ValidateAsync(id, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
+
         var response = await categoryService.GetCategoryAsync(id, cancellationToken);
         return response.Match
         (

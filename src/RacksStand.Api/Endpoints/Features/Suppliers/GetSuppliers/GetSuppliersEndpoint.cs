@@ -9,7 +9,7 @@ public class GetSuppliersEndpoint : EndpointBase
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("{shopId}/suppliers", ListSuppliers)
+        app.MapGet("shops/{shopId}/suppliers", ListSuppliers)
             .WithName(RouteName)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
@@ -32,7 +32,7 @@ public class GetSuppliersEndpoint : EndpointBase
 
     private async Task<IResult> ListSuppliers(
         [FromRoute] string shopId,
-        [AsParameters] GetSupplierRequest request,
+        [AsParameters] GetSuppliersRequest request,
          ISupplierService supplierService,
         CancellationToken cancellationToken = default
         )
