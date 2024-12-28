@@ -1,4 +1,4 @@
-﻿namespace RacksStand.Api.Core.Infrastructure.Validator;
+﻿namespace RacksStand.Api.Core.Infrastructure.Validators;
 
 public class IdValidator : AbstractValidator<string>
 {
