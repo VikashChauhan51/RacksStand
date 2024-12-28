@@ -23,7 +23,17 @@ public class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
             .IsRequired()
             .HasMaxLength(50);
 
+        builder.Property(c => c.ShopId).HasConversion(
+                 shopId => shopId.Value,
+                 dbId => ShopId.Of(dbId))
+             .IsRequired()
+             .HasMaxLength(100);
+
         // Indexes
+
+        builder.HasIndex(pi => new { pi.Name, pi.ShopId })
+           .IsUnique().HasDatabaseName("IX_Suppliers_Name_ShopId");
+
         builder.HasIndex(s => s.Name)
             .HasDatabaseName("IX_Suppliers_Name");
 

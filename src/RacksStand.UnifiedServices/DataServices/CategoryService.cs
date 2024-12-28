@@ -86,7 +86,7 @@ public sealed class CategoryService : ICategoryService
 
         var response = await _categoryRepository.GetByIdAsync<CategoryId>(CategoryId.Of(id), cancellationToken);
 
-        if (response == null)
+        if (response == null || !response.IsActive)
         {
             _logger.LogWarning("The category for ID:{Id} is not found.", id);
             return Result<CategoryModel>.Fail(new EntityNotFoundException(nameof(id)));
@@ -148,7 +148,7 @@ public sealed class CategoryService : ICategoryService
 
         var existingCategory = await _categoryRepository.GetByIdAsync<CategoryId>(CategoryId.Of(id), cancellationToken);
 
-        if (existingCategory == null)
+        if (existingCategory == null || !existingCategory.IsActive)
         {
             _logger.LogWarning("The category for ID:{Id} is not found.", id);
             return Result<string>.Fail(new EntityNotFoundException(nameof(id)));
@@ -184,7 +184,7 @@ public sealed class CategoryService : ICategoryService
 
         var existingCategory = await _categoryRepository.GetByIdAsync<CategoryId>(CategoryId.Of(id), cancellationToken);
 
-        if (existingCategory == null)
+        if (existingCategory == null || !existingCategory.IsActive)
         {
             _logger.LogWarning("The category for ID:{Id} is not found.", id);
             return Result<string>.Fail(new EntityNotFoundException(nameof(id)));

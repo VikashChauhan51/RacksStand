@@ -34,7 +34,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 
         // Indexes
         builder.HasIndex(pi => new { pi.Name, pi.ShopId }) 
-            .IsUnique();
+            .IsUnique().HasDatabaseName("IX_Category_Name_ShopId");
 
         builder.HasIndex(c => c.ShopId) 
             .HasDatabaseName("IX_Category_ShopId");

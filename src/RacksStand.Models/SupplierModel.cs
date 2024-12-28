@@ -2,5 +2,6 @@
 public record SupplierModel(
     string Id,
     string Name,
-    string Code
+    string Code,
+    string ShopId
 );

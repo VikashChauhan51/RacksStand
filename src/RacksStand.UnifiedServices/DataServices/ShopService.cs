@@ -221,7 +221,7 @@ public sealed class ShopService : IShopService
 
         var existingShop = await _shopRepository.GetByIdAsync<ShopId>(ShopId.Of(id), cancellationToken);
 
-        if (existingShop == null)
+        if (existingShop == null || !existingShop.IsActive)
         {
             _logger.LogWarning("The shop for ID:{Id} is not found.", id);
             return Result<string>.Fail(new EntityNotFoundException(nameof(id)));

@@ -254,7 +254,8 @@ namespace RacksStand.Persistence.Migrations
                         .HasDatabaseName("IX_Category_ShopId");
 
                     b.HasIndex("Name", "ShopId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("IX_Category_Name_ShopId");
 
                     b.ToTable("Categories");
                 });
@@ -872,6 +873,11 @@ namespace RacksStand.Persistence.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
+                    b.Property<string>("ShopId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -885,6 +891,12 @@ namespace RacksStand.Persistence.Migrations
 
                     b.HasIndex("Name")
                         .HasDatabaseName("IX_Suppliers_Name");
+
+                    b.HasIndex("ShopId");
+
+                    b.HasIndex("Name", "ShopId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Suppliers_Name_ShopId");
 
                     b.ToTable("Suppliers");
                 });
@@ -1335,6 +1347,17 @@ namespace RacksStand.Persistence.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RacksStand.Persistence.Entities.Supplier", b =>
+                {
+                    b.HasOne("RacksStand.Persistence.Entities.Shop", "Store")
+                        .WithMany()
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Store");
                 });
 
             modelBuilder.Entity("RacksStand.Persistence.Entities.User", b =>
