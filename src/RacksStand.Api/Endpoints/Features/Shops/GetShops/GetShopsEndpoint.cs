@@ -36,9 +36,11 @@ public class GetShopsEndpoint : EndpointBase
         CancellationToken cancellationToken = default
     )
     {
+        var ownerId = "55fddc82-40cf-4ba0-ad8e-b02dfcc8d9d0";
         var response = await shopService.GetShopsAsync(
             request.pageSize,
             request.pageNumber,
+            ownerId,
             request.filter,
             cancellationToken
         );
