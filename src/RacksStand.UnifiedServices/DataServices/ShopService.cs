@@ -125,7 +125,7 @@ public sealed class ShopService : IShopService
         return Result<ShopModel>.Succ(response.Adapt<ShopModel>());
     }
 
-    public async Task<Result<PaginatedResult<ShopModel>>> GetShopsAsync(int pageSize, int pageNumber,string userId, string? filter, CancellationToken cancellationToken = default)
+    public async Task<Result<PaginatedResult<ShopModel>>> GetShopsAsync(int pageSize, int pageNumber, string userId, string? filter, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(userId))
         {
@@ -187,6 +187,17 @@ public sealed class ShopService : IShopService
         {
             _logger.LogWarning("The shop for ID:{Id} is not found.", id);
             return Result<string>.Fail(new EntityNotFoundException(nameof(id)));
+        }
+
+        if (existingShop.Name != model.Name)
+        {
+            var exists = await CheckIfShopExistsAsync(model.Name, model.OwnerId, cancellationToken);
+
+            if (exists.Value)
+            {
+                _logger.LogWarning("A shop with the same name already exists: {ShopName}", model.Name);
+                return Result<string>.Fail(new DuplicateEntityException($"A shop with the name '{model.Name}' already exists."));
+            }
         }
 
         existingShop.Name = model.Name;
