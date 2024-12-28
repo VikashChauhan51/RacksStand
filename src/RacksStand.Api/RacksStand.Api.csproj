@@ -58,6 +58,10 @@
 
 	<ItemGroup>
 	  <Folder Include="Core\Exceptions\" />
+	  <Folder Include="Features\Categories\Endpoints\Responses\" />
+	  <Folder Include="Features\Products\Endpoints\Responses\" />
+	  <Folder Include="Features\Shops\Endpoints\Responses\" />
+	  <Folder Include="Features\Suppliers\Endpoints\Responses\" />
 	  <Folder Include="Migrations\" />
 	</ItemGroup>
 
