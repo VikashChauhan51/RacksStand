@@ -1,3 +1,3 @@
 ﻿namespace RacksStand.Api.Endpoints.Features.Categories.UpdateCategory;
 
-public record UpdateCategoryRequest(string Name, string? Description);
+public record UpdateSupplierRequest(string Name, string? Description);

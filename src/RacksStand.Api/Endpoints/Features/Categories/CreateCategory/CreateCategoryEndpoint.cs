@@ -4,14 +4,14 @@ using RacksStand.UnifiedServices.DataServices;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.CreateCategory;
 
-public class CreateCategoryEndpoint : EndpointBase
+public class CreateSupplierEndpoint : EndpointBase
 {
     public override string RouteName => "createCategory";
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("{shopId}/categories", CreateCategory)
             .WithName(RouteName)
-            .Accepts<CreateCategoryRequest>(MediaTypeNames.Application.Json)
+            .Accepts<CreateSupplierRequest>(MediaTypeNames.Application.Json)
             .Produces(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
@@ -38,8 +38,8 @@ public class CreateCategoryEndpoint : EndpointBase
     private async Task<IResult> CreateCategory
     (
         [FromRoute] string shopId,
-        CreateCategoryRequest request,
-        IValidator<CreateCategoryRequest> validator,
+        CreateSupplierRequest request,
+        IValidator<CreateSupplierRequest> validator,
         ICategoryService categoryService,
         CancellationToken cancellationToken = default
     )

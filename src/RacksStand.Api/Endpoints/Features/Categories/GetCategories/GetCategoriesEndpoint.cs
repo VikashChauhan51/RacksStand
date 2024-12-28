@@ -3,7 +3,7 @@ using RacksStand.UnifiedServices.DataServices;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.GetCategories;
 
-public class GetCategoriesEndpoint : EndpointBase
+public class GetSuppliersEndpoint : EndpointBase
 {
     public override string RouteName => "getCategories";
 
@@ -32,7 +32,7 @@ public class GetCategoriesEndpoint : EndpointBase
 
     private async Task<IResult> ListCategories(
         [FromRoute] string shopId,
-        [AsParameters] GetCategoriesRequest request,
+        [AsParameters] GetSuppliersRequest request,
          ICategoryService categoryService,
         CancellationToken cancellationToken = default
         )

@@ -44,13 +44,15 @@ public static class DependencyInjection
         })
         .AddEntityFrameworkStores<RacksStandContext>()
         .AddDefaultTokenProviders();
-       
+
 
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<IShopService, ShopService>();
         builder.Services.AddScoped<IPlanService, PlanService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IPaymentService, PaymentService>();
+        builder.Services.AddScoped<IProductService, ProductService>();
+        builder.Services.AddScoped<ISupplierService, SupplierService>();
         return builder;
     }
     public static WebApplicationBuilder AddLogger(this WebApplicationBuilder builder)

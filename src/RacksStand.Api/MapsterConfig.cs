@@ -37,6 +37,20 @@ public static class MapsterConfig
            .Map(dest => dest.Address, src => src.Address)
            .Map(dest => dest.OwnerId, src => src.OwnerId)
            .Map(dest => dest.Description, src => src.Description);
+
+        TypeAdapterConfig<Supplier, SupplierModel>
+          .NewConfig()
+          .Map(dest => dest.Id, src => src.Id.Value)
+          .Map(dest => dest.Name, src => src.Name)
+          .Map(dest => dest.ShopId, src => src.ShopId.Value)
+          .Map(dest => dest.Code, src => src.Code);
+
+        TypeAdapterConfig<SupplierModel, Supplier>
+            .NewConfig()
+            .Map(dest => dest.Id, src => CategoryId.Of(src.Id))
+            .Map(dest => dest.Name, src => src.Name)
+            .Map(dest => dest.ShopId, src => ShopId.Of(src.ShopId))
+            .Map(dest => dest.Code, src => src.Code);
     }
 }
 

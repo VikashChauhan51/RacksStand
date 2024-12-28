@@ -3,7 +3,7 @@ using RacksStand.UnifiedServices.DataServices;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.CheckCategoryExists;
 
-public class CheckCategoryExistsEndpoint : EndpointBase
+public class CheckSupplierExistsEndpoint : EndpointBase
 {
     public override string RouteName => "checkCategoryExists";
 

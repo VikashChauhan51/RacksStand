@@ -3,7 +3,7 @@ using RacksStand.UnifiedServices.DataServices;
 
 namespace RacksStand.Api.Endpoints.Features.Categories.GetCategory;
 
-public class GetCategoryEndpoint : EndpointBase
+public class GetsupplierEndpoint : EndpointBase
 {
     public override string RouteName => "getCategory";
 

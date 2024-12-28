@@ -2,9 +2,9 @@
 
 namespace RacksStand.Api.Endpoints.Features.Categories.CreateCategory;
 
-public class CreateCategoryRequestValidator : AbstractValidator<CreateCategoryRequest>
+public class CreateSupplierRequestValidator : AbstractValidator<CreateSupplierRequest>
 {
-    public CreateCategoryRequestValidator()
+    public CreateSupplierRequestValidator()
     {
         RuleFor(x => x.Name)
             .NotNull()
