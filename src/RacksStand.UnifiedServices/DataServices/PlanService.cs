@@ -1,15 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RacksStand.Persistence.Contexts;
-
-namespace RacksStand.UnifiedServices.DataServices;
+﻿namespace RacksStand.UnifiedServices.DataServices;
 public class PlanService : IPlanService
 {
-    private readonly IRacksStandContext _context;
+    private readonly IPlanRepository _planRepository;
     private readonly ILogger<PlanService> _logger;
 
-    public PlanService(IRacksStandContext context, ILogger<PlanService> logger)
+    public PlanService(IPlanRepository planRepository, ILogger<PlanService> logger)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _planRepository = planRepository ?? throw new ArgumentNullException(nameof(planRepository));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
     }
@@ -22,12 +19,7 @@ public class PlanService : IPlanService
             _logger.LogWarning("The plan ID can't be null.");
             return Result<PlanDetailsModel>.Fail(new ArgumentNullException(nameof(id)));
         }
-        var plan = await _context.Plans
-           .AsNoTracking()
-           .Where(x => x.Id == PlanId.Of(id))
-           .Include(x => x.PlanFeatures)
-           .ThenInclude(x => x.Feature)
-           .FirstOrDefaultAsync(cancellationToken);
+        var plan = await _planRepository.GetPlanWithFeaturesAsync(PlanId.Of(id), cancellationToken);
 
         if (plan == null)
         {
@@ -60,11 +52,7 @@ public class PlanService : IPlanService
     {
         _logger.LogDebug("Fetching plans");
 
-        var plans = await _context.Plans
-            .AsNoTracking()
-            .Include(x => x.PlanFeatures)
-            .ThenInclude(x => x.Feature)
-            .ToListAsync(cancellationToken);
+        var plans = await _planRepository.GetPlansWithFeaturesAsync(cancellationToken);
 
         return plans.Select(static x => new PlanDetailsModel
         (

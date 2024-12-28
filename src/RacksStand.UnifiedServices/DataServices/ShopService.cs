@@ -4,16 +4,16 @@ using RacksStand.Persistence.Enums;
 namespace RacksStand.UnifiedServices.DataServices;
 public sealed class ShopService : IShopService
 {
-    private readonly IRepository<Shop> _shopRepository;
-    private readonly IRepository<UserShop> _userShopRepository;
+    private readonly IShopRepository _shopRepository;
+    private readonly IUserShopRepository _userShopRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ShopService> _logger;
 
     public ShopService
     (
-        IRepository<Shop> shopRepository,
+        IShopRepository shopRepository,
         IUnitOfWork unitOfWork,
-        IRepository<UserShop> userShopRepository,
+        IUserShopRepository userShopRepository,
         ILogger<ShopService> logger)
     {
         _shopRepository = shopRepository;
@@ -114,7 +114,7 @@ public sealed class ShopService : IShopService
             return Result<ShopModel>.Fail(new ArgumentNullException(nameof(id)));
         }
 
-        var response = await _shopRepository.GetByIdAsync<ShopId>(ShopId.Of(id), cancellationToken);
+        var response = await _shopRepository.GetByIdAsync(ShopId.Of(id), cancellationToken);
 
         if (response == null || !response.IsActive)
         {
@@ -181,7 +181,7 @@ public sealed class ShopService : IShopService
             return Result<string>.Fail(new ArgumentNullException(nameof(id)));
         }
 
-        var existingShop = await _shopRepository.GetByIdAsync<ShopId>(ShopId.Of(id), cancellationToken);
+        var existingShop = await _shopRepository.GetByIdAsync(ShopId.Of(id), cancellationToken);
 
         if (existingShop == null || !existingShop.IsActive)
         {
@@ -219,7 +219,7 @@ public sealed class ShopService : IShopService
             return Result<string>.Fail(new ArgumentNullException(nameof(id)));
         }
 
-        var existingShop = await _shopRepository.GetByIdAsync<ShopId>(ShopId.Of(id), cancellationToken);
+        var existingShop = await _shopRepository.GetByIdAsync(ShopId.Of(id), cancellationToken);
 
         if (existingShop == null || !existingShop.IsActive)
         {

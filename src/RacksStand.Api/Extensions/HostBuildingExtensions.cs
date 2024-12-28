@@ -48,6 +48,7 @@ public static class HostBuildingExtensions
         builder.Services.AddValidatorsFromAssembly(assembly);
         builder
             .AddDbContext()
+            .AddApplicationRepositories()
             .AddApplicationServices();
 
         // Add Authentication with JWT Bearer

@@ -3,11 +3,11 @@
 namespace RacksStand.UnifiedServices.DataServices;
 public sealed class ProductService : IProductService
 {
-    private readonly IRepository<Product> _productRepository;
+    private readonly IProductRepository _productRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ProductService> _logger;
 
-    public ProductService(IRepository<Product> productRepository, IUnitOfWork unitOfWork, ILogger<ProductService> logger)
+    public ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork, ILogger<ProductService> logger)
     {
         _productRepository = productRepository;
         _unitOfWork = unitOfWork;
@@ -90,7 +90,7 @@ public sealed class ProductService : IProductService
             return Result<ProductModel>.Fail(new ArgumentNullException(nameof(id)));
         }
 
-        var response = await _productRepository.GetByIdAsync<ProductId>(ProductId.Of(id), cancellationToken);
+        var response = await _productRepository.GetByIdAsync(ProductId.Of(id), cancellationToken);
 
         if (response == null || !response.IsActive)
         {
@@ -152,7 +152,7 @@ public sealed class ProductService : IProductService
             return Result<string>.Fail(new ArgumentNullException(nameof(id)));
         }
 
-        var existingProduct = await _productRepository.GetByIdAsync<ProductId>(ProductId.Of(id), cancellationToken);
+        var existingProduct = await _productRepository.GetByIdAsync(ProductId.Of(id), cancellationToken);
 
         if (existingProduct == null || !existingProduct.IsActive)
         {
@@ -194,7 +194,7 @@ public sealed class ProductService : IProductService
             return Result<string>.Fail(new ArgumentNullException(nameof(id)));
         }
 
-        var existingProduct = await _productRepository.GetByIdAsync<ProductId>(ProductId.Of(id), cancellationToken);
+        var existingProduct = await _productRepository.GetByIdAsync(ProductId.Of(id), cancellationToken);
 
         if (existingProduct == null || !existingProduct.IsActive)
         {

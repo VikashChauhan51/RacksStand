@@ -1,7 +1,7 @@
 ﻿using RacksStand.Persistence.Entities;
 
 namespace RacksStand.Persistence.Repositories;
-public interface IWriteRepository<in TEntity> where TEntity : IEntity
+public interface IWriteRepository<in TEntity, in TId> where TEntity : IEntity<TId> where TId : notnull
 {
     void Add(TEntity entity);
     Task AddAsync(TEntity entity, CancellationToken cancellationToken);

@@ -18,7 +18,11 @@ builder.Services.AddScoped<DbContext>(sp => sp.GetRequiredService<RacksStandCont
 builder.Services.AddScoped<IRacksStandContext>(sp => sp.GetRequiredService<RacksStandContext>());
 builder.Services.AddScoped<IdentityContext>(sp => sp.GetRequiredService<RacksStandContext>());
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IShopRepository, ShopRepository>();
+builder.Services.AddScoped<IPlanRepository, PlanRepository>();
+builder.Services.AddScoped<IUserPlanRepository, UserPlanRepository>();
+builder.Services.AddScoped<IUserShopRepository, UserShopRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IPlanService, PlanService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();

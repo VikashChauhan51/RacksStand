@@ -3,11 +3,11 @@
 namespace RacksStand.UnifiedServices.DataServices;
 public sealed class SupplierService : ISupplierService
 {
-    private readonly IRepository<Supplier> _supplierRepository;
+    private readonly ISupplierRepository _supplierRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<SupplierService> _logger;
 
-    public SupplierService(IRepository<Supplier> supplierRepository, IUnitOfWork unitOfWork, ILogger<SupplierService> logger)
+    public SupplierService(ISupplierRepository supplierRepository, IUnitOfWork unitOfWork, ILogger<SupplierService> logger)
     {
         _supplierRepository = supplierRepository;
         _unitOfWork = unitOfWork;
@@ -84,7 +84,7 @@ public sealed class SupplierService : ISupplierService
             return Result<SupplierModel>.Fail(new ArgumentNullException(nameof(id)));
         }
 
-        var response = await _supplierRepository.GetByIdAsync<SupplierId>(SupplierId.Of(id), cancellationToken);
+        var response = await _supplierRepository.GetByIdAsync(SupplierId.Of(id), cancellationToken);
 
         if (response == null || !response.IsActive)
         {
@@ -146,7 +146,7 @@ public sealed class SupplierService : ISupplierService
             return Result<string>.Fail(new ArgumentNullException(nameof(id)));
         }
 
-        var existingSupplier = await _supplierRepository.GetByIdAsync<SupplierId>(SupplierId.Of(id), cancellationToken);
+        var existingSupplier = await _supplierRepository.GetByIdAsync(SupplierId.Of(id), cancellationToken);
 
         if (existingSupplier == null || !existingSupplier.IsActive)
         {
@@ -183,7 +183,7 @@ public sealed class SupplierService : ISupplierService
             return Result<string>.Fail(new ArgumentNullException(nameof(id)));
         }
 
-        var existingSupplier = await _supplierRepository.GetByIdAsync<SupplierId>(SupplierId.Of(id), cancellationToken);
+        var existingSupplier = await _supplierRepository.GetByIdAsync(SupplierId.Of(id), cancellationToken);
 
         if (existingSupplier == null || !existingSupplier.IsActive)
         {

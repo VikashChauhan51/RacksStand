@@ -4,11 +4,11 @@ namespace RacksStand.UnifiedServices.DataServices;
 
 public sealed class CategoryService : ICategoryService
 {
-    private readonly IRepository<Category> _categoryRepository;
+    private readonly ICategoryRepository _categoryRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<CategoryService> _logger;
 
-    public CategoryService(IRepository<Category> categoryRepository, IUnitOfWork unitOfWork, ILogger<CategoryService> logger)
+    public CategoryService(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork, ILogger<CategoryService> logger)
     {
         _categoryRepository = categoryRepository;
         _unitOfWork = unitOfWork;
@@ -84,7 +84,7 @@ public sealed class CategoryService : ICategoryService
             return Result<CategoryModel>.Fail(new ArgumentNullException(nameof(id)));
         }
 
-        var response = await _categoryRepository.GetByIdAsync<CategoryId>(CategoryId.Of(id), cancellationToken);
+        var response = await _categoryRepository.GetByIdAsync(CategoryId.Of(id), cancellationToken);
 
         if (response == null || !response.IsActive)
         {
@@ -146,7 +146,7 @@ public sealed class CategoryService : ICategoryService
             return Result<string>.Fail(new ArgumentNullException(nameof(id)));
         }
 
-        var existingCategory = await _categoryRepository.GetByIdAsync<CategoryId>(CategoryId.Of(id), cancellationToken);
+        var existingCategory = await _categoryRepository.GetByIdAsync(CategoryId.Of(id), cancellationToken);
 
         if (existingCategory == null || !existingCategory.IsActive)
         {
@@ -182,7 +182,7 @@ public sealed class CategoryService : ICategoryService
             return Result<string>.Fail(new ArgumentNullException(nameof(id)));
         }
 
-        var existingCategory = await _categoryRepository.GetByIdAsync<CategoryId>(CategoryId.Of(id), cancellationToken);
+        var existingCategory = await _categoryRepository.GetByIdAsync(CategoryId.Of(id), cancellationToken);
 
         if (existingCategory == null || !existingCategory.IsActive)
         {

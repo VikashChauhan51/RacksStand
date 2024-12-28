@@ -6,7 +6,7 @@ public class UserService : IUserService
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
     private readonly IPlanService _planService;
-    private readonly IRepository<UserPlan> _userPlanRepository;
+    private readonly IUserPlanRepository _userPlanRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<UserService> _logger;
 
@@ -15,7 +15,7 @@ public class UserService : IUserService
         UserManager<User> userManager,
         SignInManager<User> signInManager,
         IPlanService planService,
-        IRepository<UserPlan> userPlanRepository,
+        IUserPlanRepository userPlanRepository,
         IUnitOfWork unitOfWork,
         ILogger<UserService> logger
     )

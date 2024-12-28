@@ -3,13 +3,13 @@
 namespace RacksStand.UnifiedServices.DataServices;
 public class PaymentService : IPaymentService
 {
-    private readonly IRepository<Payment> _paymentRepository;
+    private readonly IPaymentRepository _paymentRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<PaymentService> _logger;
 
     public PaymentService
     (
-        IRepository<Payment> paymentRepository,
+        IPaymentRepository paymentRepository,
         IUnitOfWork unitOfWork,
         ILogger<PaymentService> logger
     )

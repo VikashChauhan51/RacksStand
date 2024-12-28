@@ -4,82 +4,90 @@ using RacksStand.Models;
 using System.Linq.Expressions;
 
 namespace RacksStand.Persistence.Repositories;
-public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
+public abstract class Repository<TEntity, TId>
+    : IRepository<TEntity, TId>
+    where TEntity : class, IEntity<TId>
+    where TId : notnull
 {
-    protected readonly DbContext _context;
-    protected readonly DbSet<TEntity> _dbSet;
-    public Repository(DbContext context)
+    protected readonly DbContext Context;
+
+    protected Repository(DbContext context)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-        _dbSet = _context.Set<TEntity>();
+        Context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
     public virtual void Add(TEntity entity)
     {
-        _dbSet.Add(entity);
+        if (entity == null) throw new ArgumentNullException(nameof(entity));
+        Context.Set<TEntity>().Add(entity);
     }
+
     public async virtual Task AddAsync(TEntity entity, CancellationToken cancellationToken)
     {
-        await _dbSet.AddAsync(entity);
+        if (entity == null) throw new ArgumentNullException(nameof(entity));
+        await Context.Set<TEntity>().AddAsync(entity, cancellationToken).ConfigureAwait(false);
     }
 
     public async virtual Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
     {
-        await _dbSet.AddRangeAsync(entities, cancellationToken);
+        if (entities == null) throw new ArgumentNullException(nameof(entities));
+        await Context.Set<TEntity>().AddRangeAsync(entities, cancellationToken).ConfigureAwait(false);
     }
 
     public virtual void Delete(TEntity entity)
     {
-        if (_context.Entry(entity).State == EntityState.Detached)
+        if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+        if (Context.Entry(entity).State == EntityState.Detached)
         {
-            _dbSet.Attach(entity);
+            Context.Set<TEntity>().Attach(entity);
         }
-        _dbSet.Remove(entity);
+        Context.Set<TEntity>().Remove(entity);
     }
 
     public virtual void DeleteRange(IEnumerable<TEntity> entities)
     {
-        _dbSet.RemoveRange(entities);
+        if (entities == null) throw new ArgumentNullException(nameof(entities));
+        Context.Set<TEntity>().RemoveRange(entities);
     }
 
-    public virtual IQueryable<TEntity> GetAll()
+    public virtual IQueryable<TEntity> GetAll(bool trackChanges = false)
     {
-        return _dbSet.AsNoTracking();
+        var query = Context.Set<TEntity>().AsQueryable();
+        return trackChanges ? query : query.AsNoTracking();
     }
 
-    public async virtual Task<TEntity?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken) where TId : notnull
+    public async virtual Task<TEntity?> GetByIdAsync(TId id, CancellationToken cancellationToken)
     {
-        return await _dbSet.FindAsync([id], cancellationToken: cancellationToken);
+        var entity = await Context.Set<TEntity>().FindAsync([id], cancellationToken: cancellationToken).ConfigureAwait(false);
+        return entity;
     }
 
     public async Task<PaginatedResult<TEntity>> GetPaginatedAsync(int pageNumber, int pageSize, bool includeCount, Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, CancellationToken cancellationToken = default)
     {
         IQueryable<TEntity> query = this.GetAll();
 
-        // Apply the predicate if provided
         if (predicate != null)
         {
             query = query.Where(predicate);
         }
 
-        // Get the total item count if required
         int totalItems = 0;
         if (includeCount)
         {
-            totalItems = await query.CountAsync(cancellationToken);
+            totalItems = await query.CountAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        // Apply ordering if provided
         if (orderBy != null)
         {
             query = orderBy(query);
         }
 
-        // Apply pagination
         var items = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
 
         return new PaginatedResult<TEntity>
         {
@@ -92,11 +100,18 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, I
 
     public virtual void Update(TEntity entity)
     {
-        _context.Entry(entity).State = EntityState.Modified;
+        if (entity == null) throw new ArgumentNullException(nameof(entity));
+        Context.Entry(entity).State = EntityState.Modified;
     }
 
     public virtual void UpdateRange(IEnumerable<TEntity> entities)
     {
-        _dbSet.UpdateRange(entities);
+        if (entities == null) throw new ArgumentNullException(nameof(entities));
+        Context.Set<TEntity>().UpdateRange(entities);
+    }
+
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+    {
+        return await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 }

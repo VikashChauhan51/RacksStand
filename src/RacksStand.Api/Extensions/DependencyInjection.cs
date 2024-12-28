@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -12,7 +10,6 @@ using RacksStand.Persistence.Repositories;
 using RacksStand.UnifiedServices.DataServices;
 using Serilog;
 using Serilog.Events;
-using System.Text;
 
 namespace RacksStand.Api.Extensions;
 
@@ -29,7 +26,20 @@ public static class DependencyInjection
         builder.Services.AddScoped<IRacksStandContext>(sp => sp.GetRequiredService<RacksStandContext>());
         builder.Services.AddScoped<IdentityContext>(sp => sp.GetRequiredService<RacksStandContext>());
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-        builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+        return builder;
+    }
+    public static WebApplicationBuilder AddApplicationRepositories(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+        builder.Services.AddScoped<IShopRepository, ShopRepository>();
+        builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+        builder.Services.AddScoped<IProductRepository, ProductRepository>();
+        builder.Services.AddScoped<IPlanRepository, PlanRepository>();
+        builder.Services.AddScoped<IUserPlanRepository, UserPlanRepository>();
+        builder.Services.AddScoped<IUserShopRepository, UserShopRepository>();
+        builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();   
+
         return builder;
     }
     public static WebApplicationBuilder AddApplicationServices(this WebApplicationBuilder builder)
