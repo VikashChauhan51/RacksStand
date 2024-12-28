@@ -2,9 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using RacksStand.Api.Core.Domain.Enums;
 using RacksStand.Api.Features.Shops.Domain.ValueObjects;
-using RacksStand.Api.Features.Shops.Domain.Entities;
+using RacksStand.Api.Features.UserShops.Domain.Entities;
+using RacksStand.Api.Features.UserShops.Domain.ValueObjects;
 
-namespace RacksStand.Api.Features.Shops.Domain.Configurations;
+namespace RacksStand.Api.Features.UserShops.Domain.Configurations;
 public class UserShopConfiguration : IEntityTypeConfiguration<UserShop>
 {
     public void Configure(EntityTypeBuilder<UserShop> builder)

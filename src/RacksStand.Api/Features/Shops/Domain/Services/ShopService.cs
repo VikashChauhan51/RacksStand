@@ -5,6 +5,8 @@ using RacksStand.Api.Core.Repositories;
 using RacksStand.Api.Features.Shops.Domain.Entities;
 using RacksStand.Api.Features.Shops.Domain.Repositories;
 using RacksStand.Api.Features.Shops.Domain.ValueObjects;
+using RacksStand.Api.Features.UserShops.Domain.Entities;
+using RacksStand.Api.Features.UserShops.Domain.ValueObjects;
 using RacksStand.Models;
 using RacksStand.Persistence.Repositories;
 
@@ -12,7 +14,6 @@ namespace RacksStand.Api.Features.Shops.Domain.Services;
 public sealed class ShopService : IShopService
 {
     private readonly IShopRepository _shopRepository;
-    private readonly IUserShopRepository _userShopRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ShopService> _logger;
 
@@ -25,7 +26,6 @@ public sealed class ShopService : IShopService
     {
         _shopRepository = shopRepository;
         _unitOfWork = unitOfWork;
-        _userShopRepository = userShopRepository;
         _logger = logger;
     }
 
@@ -96,12 +96,12 @@ public sealed class ShopService : IShopService
             IsActive = true
 
         };
+        shop.UserStores.Add(userShop);
 
         try
         {
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
             await _shopRepository.AddAsync(shop, cancellationToken);
-            await _userShopRepository.AddAsync(userShop, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
         }

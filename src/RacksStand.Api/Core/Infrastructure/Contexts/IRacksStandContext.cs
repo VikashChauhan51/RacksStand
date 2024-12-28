@@ -4,6 +4,7 @@ using RacksStand.Api.Features.Categories.Domain.Entities;
 using RacksStand.Api.Features.Products.Domain.Entities;
 using RacksStand.Api.Features.Shops.Domain.Entities;
 using RacksStand.Api.Features.Suppliers.Domain.Entities;
+using RacksStand.Api.Features.UserShops.Domain.Entities;
 
 namespace RacksStand.Api.Core.Infrastructure.Contexts;
 public interface IRacksStandContext
