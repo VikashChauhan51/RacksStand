@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Polly;
+using Polly.Registry;
 using RacksStand.App.Core.Services;
 using RacksStand.App.Features.Shops.Services;
 using Refit;
@@ -14,6 +15,7 @@ public static class DependencyInjection
     {
         
         builder.Services.AddSingleton<ITokenService, TokenService>();
+        builder.Services.AddSingleton<IAsyncPolicy>(Policy.TimeoutAsync(TimeSpan.FromSeconds(30)));
 
         // Register the Refit API client
         builder.Services.AddRefitClient<IShopService>()
@@ -33,8 +35,7 @@ public static class DependencyInjection
             .AddTransientHttpErrorPolicy(policyBuilder =>
                 policyBuilder.WaitAndRetryAsync(3, _ => TimeSpan.FromSeconds(2)))
             .AddTransientHttpErrorPolicy(policyBuilder =>
-                policyBuilder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(10)))
-            .AddPolicyHandlerFromRegistry("CustomPolicy");
+                policyBuilder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(10)));
 
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 

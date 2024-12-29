@@ -1,5 +1,10 @@
-﻿namespace RacksStand.App.Features.Shops.Services;
+﻿using RacksStand.App.Features.Shops.Models;
+using Refit;
 
-public class IShopService
+namespace RacksStand.App.Features.Shops.Services;
+
+public interface IShopService
 {
+    [Get("/users/{user}")]
+    Task<ShopModel> GetUser(string user);
 }
