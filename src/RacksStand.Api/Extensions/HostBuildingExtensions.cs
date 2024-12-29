@@ -51,6 +51,15 @@ public static class HostBuildingExtensions
             .AddApplicationRepositories()
             .AddApplicationServices();
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+            });
+        });
         // Add Authentication with JWT Bearer
         builder.Services.AddAuthentication(options =>
         {
@@ -120,9 +129,9 @@ public static class HostBuildingExtensions
             app.MapScalarApiReference(); // scalar/v1
             app.MapOpenApi();
         }
-
-        app.UseHttpsRedirection();
         app.UseMiddleware<ErrorHandlerMiddleware>();
+        app.UseCors("AllowAll");
+        app.UseHttpsRedirection(); 
         app.UseAuthentication();
         app.UseAuthorization();
 

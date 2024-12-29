@@ -1,0 +1,39 @@
+﻿@page "/add-shop"
+
+@using Models
+@using Microsoft.Fast.Components.FluentUI
+@using System.ComponentModel.DataAnnotations
+
+<FluentForm @ref="form" @bind-Valid="isValid" OnSubmit="SubmitForm">
+    <FluentTextField Label="Shop Name" 
+                    @bind-Value="addShopModel.Name" 
+                    Placeholder="Enter shop name" 
+                    Required MaxLength="150" />
+    <FluentTextField Label="Description" 
+                    @bind-Value="addShopModel.Description" 
+                    Placeholder="Enter shop description" 
+                    MaxLength="500" />
+    <FluentTextField Label="Address" 
+                    @bind-Value="addShopModel.Address" 
+                    Placeholder="Enter shop address" 
+                    Required MaxLength="300" />
+
+    <FluentButton Type="submit" Disabled="@(!isValid)">Submit</FluentButton>
+</FluentForm>
+
+@code {
+    private AddShopModel addShopModel = new AddShopModel();
+    private bool isValid;
+
+    private FluentForm form;
+
+    private void SubmitForm()
+    {
+        if (isValid)
+        {
+            // Handle form submission logic here
+            // e.g., Save the data or call a service
+            Console.WriteLine($"Shop Name: {addShopModel.Name}");
+        }
+    }
+}
