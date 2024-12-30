@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using RacksStand.Api.Core.Abstractions;
+using System.Reflection;
 
 namespace RacksStand.Api.Core.Infrastructure;
 
@@ -8,7 +9,10 @@ public static class MapsterConfig
     {
         var mappingConfigurations = assembly
             .GetTypes()
-            .Where(t => typeof(IMappingConfiguration).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+            .Where(t =>
+            typeof(IMappingConfiguration).IsAssignableFrom(t) &&
+            !t.IsInterface &&
+            !t.IsAbstract)
             .ToList();
 
         foreach (var configType in mappingConfigurations)

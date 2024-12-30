@@ -1,4 +1,4 @@
-﻿namespace RacksStand.Api.Core.Infrastructure;
+﻿namespace RacksStand.Api.Core.Abstractions;
 
 public interface IMappingConfiguration
 {

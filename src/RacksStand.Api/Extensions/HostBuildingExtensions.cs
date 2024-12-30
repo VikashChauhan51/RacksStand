@@ -118,6 +118,8 @@ public static class HostBuildingExtensions
 
         builder.Services.AddAuthorization();
         MapsterConfig.RegisterMappings(assembly);
+        RegisterFeatureModules.RegisterModules(builder.Services, assembly);
+
         return builder.Build();
     }
 
@@ -131,7 +133,7 @@ public static class HostBuildingExtensions
         }
         app.UseMiddleware<ErrorHandlerMiddleware>();
         app.UseCors("AllowAll");
-        app.UseHttpsRedirection(); 
+        app.UseHttpsRedirection();
         app.UseAuthentication();
         app.UseAuthorization();
 

@@ -1,6 +1,6 @@
-﻿using RacksStand.Api.Core.Domain.Entities;
+﻿using RacksStand.Api.Core.Abstractions;
+using RacksStand.Api.Core.Domain.Entities;
 using RacksStand.Api.Core.Domain.ValueObjects;
-using RacksStand.Api.Core.Infrastructure;
 using RacksStand.Api.Features.Products.Models;
 using RacksStand.Models;
 
