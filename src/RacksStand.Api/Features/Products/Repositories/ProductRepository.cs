@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RacksStand.Api.Core.Domain.Entities;
 using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Api.Core.Infrastructure.Data.Contexts;
 using RacksStand.Api.Core.Infrastructure.Repositories;
-using RacksStand.Api.Features.Products.Infrastructure.Data.Contexts;
 
 namespace RacksStand.Api.Features.Products.Repositories;
 public class ProductRepository : Repository<Product, ProductId>, IProductRepository
 {
-    public ProductRepository(ProductContext context) : base(context)
+    public ProductRepository(RacksStandContext context) : base(context)
     {
     }
 

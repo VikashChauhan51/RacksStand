@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RacksStand.Api.Core.Domain.Entities;
 using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Api.Core.Infrastructure.Data.Contexts;
 using RacksStand.Api.Core.Infrastructure.Repositories;
-using RacksStand.Api.Features.Users.Infrastructure.Data.Contexts;
 
 namespace RacksStand.Api.Features.Users.Repositories;
 public class UserPlanRepository : Repository<UserPlan, UserPlanId>, IUserPlanRepository
 {
-    public UserPlanRepository(UserContext context) : base(context) { }
+    public UserPlanRepository(RacksStandContext context) : base(context) { }
 
     public async Task<IEnumerable<UserPlan>> GetActiveUserPlansAsync(CancellationToken cancellationToken)
     {

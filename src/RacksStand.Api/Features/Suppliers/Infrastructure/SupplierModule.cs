@@ -1,5 +1,4 @@
 ﻿using RacksStand.Api.Core.Abstractions;
-using RacksStand.Api.Features.Suppliers.Infrastructure.Data.Contexts;
 using RacksStand.Api.Features.Suppliers.Repositories;
 using RacksStand.Api.Features.Suppliers.Services;
 
@@ -9,7 +8,6 @@ public class SupplierModule : IFeatureModule
 {
     public void RegisterServices(IServiceCollection services)
     {
-        services.AddScoped<SupplierContext>();
         services.AddScoped<ISupplierRepository, SupplierRepository>();
         services.AddScoped<ISupplierService, SupplierService>();
         SupplierMappings.Configure();

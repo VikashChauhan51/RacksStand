@@ -2,13 +2,13 @@
 using RacksStand.Api.Core.Domain.Entities;
 using RacksStand.Api.Core.Domain.ValueObjects;
 using RacksStand.Api.Core.Enums;
+using RacksStand.Api.Core.Infrastructure.Data.Contexts;
 using RacksStand.Api.Core.Infrastructure.Repositories;
-using RacksStand.Api.Features.Users.Infrastructure.Data.Contexts;
 
 namespace RacksStand.Api.Features.Users.Repositories;
 public class UserShopRepository : Repository<UserShop, UserShopId>, IUserShopRepository
 {
-    public UserShopRepository(UserContext context) : base(context) { }
+    public UserShopRepository(RacksStandContext context) : base(context) { }
 
     public async Task<IEnumerable<UserShop>> GetUserShopsByUserIdAsync(string userId, CancellationToken cancellationToken)
     {
