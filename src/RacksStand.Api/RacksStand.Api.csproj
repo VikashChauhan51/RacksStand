@@ -9,6 +9,45 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Core\Exceptions\**" />
+	  <Compile Remove="Features\Categories\Endpoints\Responses\**" />
+	  <Compile Remove="Features\Products\Endpoints\Responses\**" />
+	  <Compile Remove="Features\Shops\Endpoints\Responses\**" />
+	  <Compile Remove="Features\Suppliers\Endpoints\Responses\**" />
+	  <Compile Remove="Features\UserShops\**" />
+	  <Compile Remove="Features\Users\Endpoints\Responses\**" />
+	  <Compile Remove="Features\Users\Shared\**" />
+	  <Compile Remove="Migrations\**" />
+	  <Content Remove="Core\Exceptions\**" />
+	  <Content Remove="Features\Categories\Endpoints\Responses\**" />
+	  <Content Remove="Features\Products\Endpoints\Responses\**" />
+	  <Content Remove="Features\Shops\Endpoints\Responses\**" />
+	  <Content Remove="Features\Suppliers\Endpoints\Responses\**" />
+	  <Content Remove="Features\UserShops\**" />
+	  <Content Remove="Features\Users\Endpoints\Responses\**" />
+	  <Content Remove="Features\Users\Shared\**" />
+	  <Content Remove="Migrations\**" />
+	  <EmbeddedResource Remove="Core\Exceptions\**" />
+	  <EmbeddedResource Remove="Features\Categories\Endpoints\Responses\**" />
+	  <EmbeddedResource Remove="Features\Products\Endpoints\Responses\**" />
+	  <EmbeddedResource Remove="Features\Shops\Endpoints\Responses\**" />
+	  <EmbeddedResource Remove="Features\Suppliers\Endpoints\Responses\**" />
+	  <EmbeddedResource Remove="Features\UserShops\**" />
+	  <EmbeddedResource Remove="Features\Users\Endpoints\Responses\**" />
+	  <EmbeddedResource Remove="Features\Users\Shared\**" />
+	  <EmbeddedResource Remove="Migrations\**" />
+	  <None Remove="Core\Exceptions\**" />
+	  <None Remove="Features\Categories\Endpoints\Responses\**" />
+	  <None Remove="Features\Products\Endpoints\Responses\**" />
+	  <None Remove="Features\Shops\Endpoints\Responses\**" />
+	  <None Remove="Features\Suppliers\Endpoints\Responses\**" />
+	  <None Remove="Features\UserShops\**" />
+	  <None Remove="Features\Users\Endpoints\Responses\**" />
+	  <None Remove="Features\Users\Shared\**" />
+	  <None Remove="Migrations\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Carter" Version="9.0.0" />
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
@@ -54,19 +93,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\RacksStand.Models\RacksStand.Models.csproj" />
 		<ProjectReference Include="..\RacksStand.Utilities\RacksStand.Utilities.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Core\Exceptions\" />
-	  <Folder Include="Features\Categories\Endpoints\Responses\" />
-	  <Folder Include="Features\Products\Endpoints\Responses\" />
-	  <Folder Include="Features\Shops\Endpoints\Responses\" />
-	  <Folder Include="Features\Suppliers\Endpoints\Responses\" />
-	  <Folder Include="Features\UserShops\Endpoints\" />
-	  <Folder Include="Features\UserShops\Shared\" />
-	  <Folder Include="Features\Users\Endpoints\Responses\" />
-	  <Folder Include="Features\Users\Shared\" />
-	  <Folder Include="Migrations\" />
 	</ItemGroup>
 
 </Project>

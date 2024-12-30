@@ -1,4 +1,4 @@
-﻿using RacksStand.Api.Features.Users.Endpoints.Requests;
+﻿using RacksStand.Api.Features.Users.Endpoints.Models;
 
 namespace RacksStand.Api.Features.Users.Endpoints.Validators;
 
