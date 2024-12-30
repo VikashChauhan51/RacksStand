@@ -1,5 +1,5 @@
 ﻿using RacksStand.Api.Core.Infrastructure;
-using RacksStand.Api.Core.Infrastructure.Services;
+using RacksStand.Api.Features.Products.Services;
 
 namespace RacksStand.Api.Features.Products.Endpoints;
 

@@ -23,21 +23,14 @@ public static class DependencyInjection
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
         builder.Services.AddScoped<DbContext>(sp => sp.GetRequiredService<RacksStandContext>());
-        builder.Services.AddScoped<IRacksStandContext>(sp => sp.GetRequiredService<RacksStandContext>());
-        builder.Services.AddScoped<IdentityContext>(sp => sp.GetRequiredService<RacksStandContext>());
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return builder;
     }
     public static WebApplicationBuilder AddApplicationRepositories(this WebApplicationBuilder builder)
     {
-        builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-        builder.Services.AddScoped<IShopRepository, ShopRepository>();
-        builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
-        builder.Services.AddScoped<IProductRepository, ProductRepository>();
-        builder.Services.AddScoped<IPlanRepository, PlanRepository>();
-        builder.Services.AddScoped<IUserPlanRepository, UserPlanRepository>();
-        builder.Services.AddScoped<IUserShopRepository, UserShopRepository>();
+       
+        builder.Services.AddScoped<IPlanRepository, PlanRepository>();    
         builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();   
 
         return builder;
@@ -54,15 +47,10 @@ public static class DependencyInjection
         })
         .AddEntityFrameworkStores<RacksStandContext>()
         .AddDefaultTokenProviders();
-
-
-        builder.Services.AddScoped<ICategoryService, CategoryService>();
-        builder.Services.AddScoped<IShopService, ShopService>();
+         
         builder.Services.AddScoped<IPlanService, PlanService>();
-        builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IPaymentService, PaymentService>();
-        builder.Services.AddScoped<IProductService, ProductService>();
-        builder.Services.AddScoped<ISupplierService, SupplierService>();
+        
         return builder;
     }
     public static WebApplicationBuilder AddLogger(this WebApplicationBuilder builder)

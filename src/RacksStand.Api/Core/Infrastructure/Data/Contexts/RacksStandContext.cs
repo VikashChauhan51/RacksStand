@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RacksStand.Api.Core.Domain.Entities;
 
 namespace RacksStand.Api.Core.Infrastructure.Data.Contexts;
-public class RacksStandContext : IdentityDbContext<User>, IRacksStandContext, IdentityContext
+public class RacksStandContext : IdentityDbContext<User>
 {
     public RacksStandContext(DbContextOptions<RacksStandContext> options) : base(options) { }
 
