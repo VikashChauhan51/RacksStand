@@ -117,7 +117,7 @@ public static class HostBuildingExtensions
         });
 
         builder.Services.AddAuthorization();
-        MapsterConfig.RegisterMappings();
+        MapsterConfig.RegisterMappings(assembly);
         return builder.Build();
     }
 

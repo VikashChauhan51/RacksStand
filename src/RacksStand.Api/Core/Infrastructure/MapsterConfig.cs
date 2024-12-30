@@ -4,9 +4,9 @@ namespace RacksStand.Api.Core.Infrastructure;
 
 public static class MapsterConfig
 {
-    public static void RegisterMappings()
+    public static void RegisterMappings(Assembly assembly)
     {
-        var mappingConfigurations = Assembly.GetExecutingAssembly()
+        var mappingConfigurations = assembly
             .GetTypes()
             .Where(t => typeof(IMappingConfiguration).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
             .ToList();
