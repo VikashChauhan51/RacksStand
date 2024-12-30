@@ -1,5 +1,5 @@
 ﻿using RacksStand.Api.Core.Infrastructure;
-using RacksStand.Api.Features.Categories.Domain.Services;
+using RacksStand.Api.Core.Infrastructure.Services;
 using RacksStand.Api.Features.Categories.Endpoints.Requests;
 using RacksStand.Models;
 

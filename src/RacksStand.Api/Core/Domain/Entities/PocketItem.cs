@@ -1,6 +1,4 @@
 ﻿using RacksStand.Api.Core.Domain.ValueObjects;
-using RacksStand.Api.Features.Products.Domain.Entities;
-using RacksStand.Api.Features.Products.Domain.ValueObjects;
 
 namespace RacksStand.Api.Core.Domain.Entities;
 public class PocketItem:Entity<PocketItemId>

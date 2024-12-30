@@ -1,7 +1,7 @@
 ﻿using RacksStand.Models;
 using RacksStand.Api.Core.Infrastructure;
-using RacksStand.Api.Features.Shops.Domain.Services;
 using RacksStand.Api.Features.Shops.Endpoints.Requests;
+using RacksStand.Api.Core.Infrastructure.Services;
 
 namespace RacksStand.Api.Features.Shops.Endpoints;
 

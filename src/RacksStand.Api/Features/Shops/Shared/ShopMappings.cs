@@ -1,6 +1,6 @@
-﻿using RacksStand.Api.Core.Infrastructure;
-using RacksStand.Api.Features.Shops.Domain.Entities;
-using RacksStand.Api.Features.Shops.Domain.ValueObjects;
+﻿using RacksStand.Api.Core.Domain.Entities;
+using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Api.Core.Infrastructure;
 using RacksStand.Api.Features.Shops.Endpoints.Requests;
 using RacksStand.Models;
 

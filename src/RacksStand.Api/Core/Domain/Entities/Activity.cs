@@ -1,5 +1,4 @@
 ﻿using RacksStand.Api.Core.Domain.ValueObjects;
-using RacksStand.Api.Features.Users.Domain.Entities;
 
 namespace RacksStand.Api.Core.Domain.Entities;
 public class Activity : Entity<ActivityId>

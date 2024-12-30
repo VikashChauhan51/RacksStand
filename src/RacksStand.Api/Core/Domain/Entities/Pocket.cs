@@ -1,5 +1,5 @@
-﻿using RacksStand.Api.Core.Domain.Enums;
-using RacksStand.Api.Core.Domain.ValueObjects;
+﻿using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Api.Core.Enums;
 
 namespace RacksStand.Api.Core.Domain.Entities;
 public class Pocket: Entity<PocketId>
