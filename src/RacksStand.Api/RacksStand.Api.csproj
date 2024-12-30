@@ -64,6 +64,8 @@
 	  <Folder Include="Features\Suppliers\Endpoints\Responses\" />
 	  <Folder Include="Features\UserShops\Endpoints\" />
 	  <Folder Include="Features\UserShops\Shared\" />
+	  <Folder Include="Features\Users\Endpoints\Responses\" />
+	  <Folder Include="Features\Users\Shared\" />
 	  <Folder Include="Migrations\" />
 	</ItemGroup>
 

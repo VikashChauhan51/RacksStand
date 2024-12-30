@@ -1,6 +1,6 @@
-﻿using RacksStand.Api.Core.Domain.Enums;
-using RacksStand.Api.Core.Repositories;
+﻿using RacksStand.Api.Core.Repositories;
 using RacksStand.Api.Features.Shops.Domain.ValueObjects;
+using RacksStand.Api.Features.Users.Domain.Enums;
 using RacksStand.Api.Features.UserShops.Domain.Entities;
 using RacksStand.Api.Features.UserShops.Domain.ValueObjects;
 

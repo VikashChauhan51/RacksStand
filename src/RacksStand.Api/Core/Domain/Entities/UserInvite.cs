@@ -2,6 +2,7 @@
 using RacksStand.Api.Core.Domain.ValueObjects;
 using RacksStand.Api.Features.Shops.Domain.Entities;
 using RacksStand.Api.Features.Shops.Domain.ValueObjects;
+using RacksStand.Api.Features.Users.Domain.Entities;
 
 namespace RacksStand.Api.Core.Domain.Entities;
 public class UserInvite : Entity<UserInviteId>

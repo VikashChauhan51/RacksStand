@@ -1,5 +1,6 @@
 ﻿using RacksStand.Api.Core.Domain.Enums;
 using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Api.Features.Users.Domain.Entities;
 
 
 namespace RacksStand.Api.Core.Domain.Entities;
