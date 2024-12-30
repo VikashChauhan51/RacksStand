@@ -16,4 +16,10 @@ public class UserContext : IdentityDbContext<User>
     public DbSet<PlanFeature> PlanFeatures { get; set; }
     public DbSet<Shop> Shops { get; set; } = default!;
     public DbSet<UserShop> UserShops { get; set; } = default!;
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
+        base.OnModelCreating(builder);
+    }
 }

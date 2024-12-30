@@ -10,4 +10,10 @@ public class CategoryContext : DbContext
     public DbSet<Product> Products { get; set; } = default!;
     public DbSet<Category> Categories { get; set; } = default!;
     public DbSet<Shop> Shops { get; set; } = default!;
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
+        base.OnModelCreating(modelBuilder);
+    }
 }

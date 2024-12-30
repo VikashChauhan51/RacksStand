@@ -11,4 +11,10 @@ public class ShopContext : DbContext
     public DbSet<UserShop> UserShops { get; set; } = default!;
     public DbSet<Category> Categories { get; set; } = default!;
     public DbSet<Rack> Racks { get; set; } = default!;
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
+        base.OnModelCreating(modelBuilder);
+    }
 }

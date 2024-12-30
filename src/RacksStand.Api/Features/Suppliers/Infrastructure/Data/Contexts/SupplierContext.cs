@@ -9,4 +9,10 @@ public class SupplierContext : DbContext
 
     public DbSet<Supplier> Suppliers { get; set; } = default!;
     public DbSet<Product> Products { get; set; } = default!;
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
+        base.OnModelCreating(modelBuilder);
+    }
 }

@@ -11,4 +11,10 @@ public class ProductContext : DbContext
     public DbSet<Category> Categories { get; set; } = default!;
     public DbSet<PocketItem> PocketItems { get; set; } = default!;
     public DbSet<Supplier> Suppliers { get; set; } = default!;
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
+        base.OnModelCreating(modelBuilder);
+    }
 }
