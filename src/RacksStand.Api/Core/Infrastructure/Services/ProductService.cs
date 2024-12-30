@@ -24,13 +24,13 @@ public sealed class ProductService : IProductService
         if (string.IsNullOrWhiteSpace(name))
         {
             _logger.LogWarning("Product name cannot be null or empty.");
-            return Result<bool>.Fail(new ArgumentNullException(nameof(name)));
+            return Result<bool>.Failure(new ArgumentNullException(nameof(name)));
         }
 
         if (string.IsNullOrWhiteSpace(categoryId))
         {
             _logger.LogWarning("Category ID cannot be null or empty.");
-            return Result<bool>.Fail(new ArgumentNullException(nameof(categoryId)));
+            return Result<bool>.Failure(new ArgumentNullException(nameof(categoryId)));
         }
 
         var exists = await _productRepository
@@ -47,7 +47,7 @@ public sealed class ProductService : IProductService
             _logger.LogInformation("No Product found with the name '{ProductName}' under category '{CategoryId}'.", name, categoryId);
         }
 
-        return Result<bool>.Succ(exists);
+        return Result<bool>.Success(exists);
     }
 
     public async Task<Result<string>> AddProductAsync(ProductModel model, CancellationToken cancellationToken = default)
@@ -55,7 +55,7 @@ public sealed class ProductService : IProductService
         if (model == null)
         {
             _logger.LogWarning("The product request model can't be null.");
-            return Result<string>.Fail(new ArgumentNullException(nameof(model)));
+            return Result<string>.Failure(new ArgumentNullException(nameof(model)));
         }
 
         var exists = await CheckIfProductExistsAsync(model.Name, model.CategoryId, cancellationToken);
@@ -63,7 +63,7 @@ public sealed class ProductService : IProductService
         if (exists.Value)
         {
             _logger.LogWarning("A Product with the same name already exists in this category: {ProductName}", model.Name);
-            return Result<string>.Fail(new DuplicateEntityException($"A Product with the name '{model.Name}' already exists in this category."));
+            return Result<string>.Failure(new DuplicateEntityException($"A Product with the name '{model.Name}' already exists in this category."));
         }
 
         var product = new Product
@@ -84,7 +84,7 @@ public sealed class ProductService : IProductService
 
         await _productRepository.AddAsync(product, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        return Result<string>.Succ(product.Id.Value);
+        return Result<string>.Success(product.Id.Value);
     }
 
     public async Task<Result<ProductModel>> GetProductAsync(string id, CancellationToken cancellationToken = default)
@@ -92,7 +92,7 @@ public sealed class ProductService : IProductService
         if (string.IsNullOrEmpty(id))
         {
             _logger.LogWarning("The product ID can't be null or empty.");
-            return Result<ProductModel>.Fail(new ArgumentNullException(nameof(id)));
+            return Result<ProductModel>.Failure(new ArgumentNullException(nameof(id)));
         }
 
         var response = await _productRepository.GetByIdAsync(ProductId.Of(id), cancellationToken);
@@ -100,10 +100,10 @@ public sealed class ProductService : IProductService
         if (response == null || !response.IsActive)
         {
             _logger.LogWarning("The product for ID:{Id} is not found.", id);
-            return Result<ProductModel>.Fail(new EntityNotFoundException(nameof(id)));
+            return Result<ProductModel>.Failure(new EntityNotFoundException(nameof(id)));
         }
 
-        return Result<ProductModel>.Succ(response.Adapt<ProductModel>());
+        return Result<ProductModel>.Success(response.Adapt<ProductModel>());
     }
 
     public async Task<Result<PaginatedResult<ProductModel>>> GetProductsAsync(string categoryId, int pageSize, int pageNumber, string? filter, CancellationToken cancellationToken = default)
@@ -111,17 +111,17 @@ public sealed class ProductService : IProductService
         if (string.IsNullOrEmpty(categoryId))
         {
             _logger.LogWarning("The category ID can't be null.");
-            return Result<PaginatedResult<ProductModel>>.Fail(new ArgumentException("The shop ID can't be null.", nameof(categoryId)));
+            return Result<PaginatedResult<ProductModel>>.Failure(new ArgumentException("The shop ID can't be null.", nameof(categoryId)));
         }
         if (pageNumber <= 0)
         {
             _logger.LogWarning("Page number must be greater than zero.");
-            return Result<PaginatedResult<ProductModel>>.Fail(new ArgumentException("Page number must be greater than zero.", nameof(pageNumber)));
+            return Result<PaginatedResult<ProductModel>>.Failure(new ArgumentException("Page number must be greater than zero.", nameof(pageNumber)));
         }
         if (pageSize <= 0)
         {
             _logger.LogWarning("Page size must be greater than zero.");
-            return Result<PaginatedResult<ProductModel>>.Fail(new ArgumentException("Page size must be greater than zero.", nameof(pageSize)));
+            return Result<PaginatedResult<ProductModel>>.Failure(new ArgumentException("Page size must be greater than zero.", nameof(pageSize)));
         }
 
         var response = await _productRepository.GetPaginatedAsync(
@@ -137,10 +137,10 @@ public sealed class ProductService : IProductService
         if (response == null)
         {
             _logger.LogWarning("The product not exists.");
-            return Result<PaginatedResult<ProductModel>>.Fail(new EntityNotFoundException("The product not exists"));
+            return Result<PaginatedResult<ProductModel>>.Failure(new EntityNotFoundException("The product not exists"));
         }
 
-        return Result<PaginatedResult<ProductModel>>.Succ(new PaginatedResult<ProductModel>
+        return Result<PaginatedResult<ProductModel>>.Success(new PaginatedResult<ProductModel>
         {
             Items = response.Items.Select(x => x.Adapt<ProductModel>()),
             TotalItems = response.TotalItems,
@@ -154,7 +154,7 @@ public sealed class ProductService : IProductService
         if (string.IsNullOrEmpty(id))
         {
             _logger.LogWarning("The product ID can't be null.");
-            return Result<string>.Fail(new ArgumentNullException(nameof(id)));
+            return Result<string>.Failure(new ArgumentNullException(nameof(id)));
         }
 
         var existingProduct = await _productRepository.GetByIdAsync(ProductId.Of(id), cancellationToken);
@@ -162,7 +162,7 @@ public sealed class ProductService : IProductService
         if (existingProduct == null || !existingProduct.IsActive)
         {
             _logger.LogWarning("The product for ID:{Id} is not found.", id);
-            return Result<string>.Fail(new EntityNotFoundException(nameof(id)));
+            return Result<string>.Failure(new EntityNotFoundException(nameof(id)));
         }
 
         if (existingProduct.Name != model.Name || existingProduct.CategoryId != CategoryId.Of(model.CategoryId))
@@ -172,7 +172,7 @@ public sealed class ProductService : IProductService
             if (exists.Value)
             {
                 _logger.LogWarning("A Product with the same name already exists in this category: {ProductName}", model.Name);
-                return Result<string>.Fail(new DuplicateEntityException($"A Product with the name '{model.Name}' already exists in this category."));
+                return Result<string>.Failure(new DuplicateEntityException($"A Product with the name '{model.Name}' already exists in this category."));
             }
         }
 
@@ -188,7 +188,7 @@ public sealed class ProductService : IProductService
         _productRepository.Update(existingProduct);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result<string>.Succ(id);
+        return Result<string>.Success(id);
     }
 
     public async Task<Result<string>> DeleteProductAsync(string id, CancellationToken cancellationToken = default)
@@ -196,7 +196,7 @@ public sealed class ProductService : IProductService
         if (string.IsNullOrEmpty(id))
         {
             _logger.LogWarning("The product ID can't be null.");
-            return Result<string>.Fail(new ArgumentNullException(nameof(id)));
+            return Result<string>.Failure(new ArgumentNullException(nameof(id)));
         }
 
         var existingProduct = await _productRepository.GetByIdAsync(ProductId.Of(id), cancellationToken);
@@ -204,7 +204,7 @@ public sealed class ProductService : IProductService
         if (existingProduct == null || !existingProduct.IsActive)
         {
             _logger.LogWarning("The product for ID:{Id} is not found.", id);
-            return Result<string>.Fail(new EntityNotFoundException(nameof(id)));
+            return Result<string>.Failure(new EntityNotFoundException(nameof(id)));
         }
 
         existingProduct.IsActive = false;
@@ -213,6 +213,6 @@ public sealed class ProductService : IProductService
         _productRepository.Update(existingProduct);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result<string>.Succ(id);
+        return Result<string>.Success(id);
     }
 }

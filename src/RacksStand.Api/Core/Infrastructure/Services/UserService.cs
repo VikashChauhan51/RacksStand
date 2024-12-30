@@ -46,7 +46,7 @@ public class UserService : IUserService
         var plan = await _planService.GetPlanAsync(signup.PlanId, cancellationToken);
         if (!plan.IsSuccess)
         {
-            return Result<string>.Fail(new EntityNotFoundException("Plan not found"));
+            return Result<string>.Failure(new EntityNotFoundException("Plan not found"));
         }
 
         var user = new User
@@ -63,7 +63,7 @@ public class UserService : IUserService
         var result = await _userManager.CreateAsync(user, signup.Password);
         if (!result.Succeeded)
         {
-            return Result<string>.Fail(new Exception(string.Join(" ", result.Errors.Select(x => x.Description))));
+            return Result<string>.Failure(new Exception(string.Join(" ", result.Errors.Select(x => x.Description))));
         }
         result = await _userManager.AddToRoleAsync(user, UserRole.Owner.ToString());
         if (!result.Succeeded)
@@ -81,27 +81,27 @@ public class UserService : IUserService
         };
         await _userPlanRepository.AddAsync(userPlan, cancellationToken);
         await _unitOfWork.SaveChangesAsync();
-        return Result<string>.Succ(user.Id);
+        return Result<string>.Success(user.Id);
     }
     public async Task<Result<bool>> LoginAsync(string email, string password)
     {
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
         {
-            return Result<bool>.Fail(new Exception("user not found."));
+            return Result<bool>.Failure(new Exception("user not found."));
         }
 
         var result = await _signInManager.PasswordSignInAsync(user, password, isPersistent: false, lockoutOnFailure: false);
 
         if (result == null)
         {
-            return Result<bool>.Fail(new Exception("user not found."));
+            return Result<bool>.Failure(new Exception("user not found."));
         }
         if (!result.Succeeded)
         {
-            return Result<bool>.Fail(new Exception("user account is not active."));
+            return Result<bool>.Failure(new Exception("user account is not active."));
         }
-        return Result<bool>.Succ(true);
+        return Result<bool>.Success(true);
     }
 
     public async Task<Result<bool>> ResetPasswordAsync(string email, string newPassword, string token)
@@ -109,20 +109,20 @@ public class UserService : IUserService
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
         {
-            return Result<bool>.Fail(new Exception("user not found."));
+            return Result<bool>.Failure(new Exception("user not found."));
         }
 
         var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
 
         if (result == null)
         {
-            return Result<bool>.Fail(new Exception("user not found."));
+            return Result<bool>.Failure(new Exception("user not found."));
         }
         if (!result.Succeeded)
         {
-            return Result<bool>.Fail(new Exception("user account is not active."));
+            return Result<bool>.Failure(new Exception("user account is not active."));
         }
-        return Result<bool>.Succ(true);
+        return Result<bool>.Success(true);
     }
 
     public async Task<Result<string>> GeneratePasswordResetTokenAsync(string email)
@@ -130,11 +130,11 @@ public class UserService : IUserService
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
         {
-            return Result<string>.Fail(new Exception("user not found."));
+            return Result<string>.Failure(new Exception("user not found."));
         }
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        return Result<string>.Succ(token);
+        return Result<string>.Success(token);
     }
 
     public async Task<Result<User>> GetUserByEmailAsync(string email)
@@ -142,9 +142,9 @@ public class UserService : IUserService
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
         {
-            return Result<User>.Fail(new Exception("user not found."));
+            return Result<User>.Failure(new Exception("user not found."));
         }
-        return Result<User>.Succ(user);
+        return Result<User>.Success(user);
     }
     public async Task<Result<bool>> ChangePasswordAsync(User user, string currentPassword, string newPassword)
     {
@@ -152,12 +152,12 @@ public class UserService : IUserService
 
         if (result == null)
         {
-            return Result<bool>.Fail(new Exception("user not found."));
+            return Result<bool>.Failure(new Exception("user not found."));
         }
         if (!result.Succeeded)
         {
-            return Result<bool>.Fail(new Exception(string.Join(" ", result.Errors.Select(x => x.Description))));
+            return Result<bool>.Failure(new Exception(string.Join(" ", result.Errors.Select(x => x.Description))));
         }
-        return Result<bool>.Succ(true);
+        return Result<bool>.Success(true);
     }
 }

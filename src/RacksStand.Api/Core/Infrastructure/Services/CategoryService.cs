@@ -25,13 +25,13 @@ public sealed class CategoryService : ICategoryService
         if (string.IsNullOrWhiteSpace(name))
         {
             _logger.LogWarning("Category name cannot be null or empty.");
-            return Result<bool>.Fail(new ArgumentNullException(nameof(name)));
+            return Result<bool>.Failure(new ArgumentNullException(nameof(name)));
         }
 
         if (string.IsNullOrWhiteSpace(shopId))
         {
             _logger.LogWarning("Shop ID cannot be null or empty.");
-            return Result<bool>.Fail(new ArgumentNullException(nameof(shopId)));
+            return Result<bool>.Failure(new ArgumentNullException(nameof(shopId)));
         }
 
         var normalizedName = name.Trim().ToLowerInvariant();
@@ -49,14 +49,14 @@ public sealed class CategoryService : ICategoryService
             _logger.LogInformation("No Category found with the name '{CategoryName}' for owner '{ShopId}'.", name, shopId);
         }
 
-        return Result<bool>.Succ(exists);
+        return Result<bool>.Success(exists);
     }
     public async Task<Result<string>> AddCategoryAsync(CategoryModel model, CancellationToken cancellationToken = default)
     {
         if (model == null)
         {
             _logger.LogWarning("The category request model can't be null.");
-            return Result<string>.Fail(new ArgumentNullException(nameof(model)));
+            return Result<string>.Failure(new ArgumentNullException(nameof(model)));
         }
 
         var exists = await CheckIfCategoryExistsAsync(model.Name, model.ShopId, cancellationToken);
@@ -64,7 +64,7 @@ public sealed class CategoryService : ICategoryService
         if (exists.Value)
         {
             _logger.LogWarning("A Category with the same name already exists: {CategoryName}", model.Name);
-            return Result<string>.Fail(new DuplicateEntityException($"A Category with the name '{model.Name}' already exists."));
+            return Result<string>.Failure(new DuplicateEntityException($"A Category with the name '{model.Name}' already exists."));
         }
 
         var category = new Category
@@ -78,7 +78,7 @@ public sealed class CategoryService : ICategoryService
 
         await _categoryRepository.AddAsync(category, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        return Result<string>.Succ(category.Id.Value);
+        return Result<string>.Success(category.Id.Value);
     }
 
     public async Task<Result<CategoryModel>> GetCategoryAsync(string id, CancellationToken cancellationToken = default)
@@ -86,7 +86,7 @@ public sealed class CategoryService : ICategoryService
         if (string.IsNullOrEmpty(id))
         {
             _logger.LogWarning("The category ID can't be null.");
-            return Result<CategoryModel>.Fail(new ArgumentNullException(nameof(id)));
+            return Result<CategoryModel>.Failure(new ArgumentNullException(nameof(id)));
         }
 
         var response = await _categoryRepository.GetByIdAsync(CategoryId.Of(id), cancellationToken);
@@ -94,10 +94,10 @@ public sealed class CategoryService : ICategoryService
         if (response == null || !response.IsActive)
         {
             _logger.LogWarning("The category for ID:{Id} is not found.", id);
-            return Result<CategoryModel>.Fail(new EntityNotFoundException(nameof(id)));
+            return Result<CategoryModel>.Failure(new EntityNotFoundException(nameof(id)));
         }
 
-        return Result<CategoryModel>.Succ(response.Adapt<CategoryModel>());
+        return Result<CategoryModel>.Success(response.Adapt<CategoryModel>());
     }
 
     public async Task<Result<PaginatedResult<CategoryModel>>> GetCategoriesAsync(string shopId, int pageSize, int pageNumber, string? filter, CancellationToken cancellationToken = default)
@@ -105,17 +105,17 @@ public sealed class CategoryService : ICategoryService
         if (string.IsNullOrEmpty(shopId))
         {
             _logger.LogWarning("The shop ID can't be null.");
-            return Result<PaginatedResult<CategoryModel>>.Fail(new ArgumentException("The shop ID can't be null.", nameof(shopId)));
+            return Result<PaginatedResult<CategoryModel>>.Failure(new ArgumentException("The shop ID can't be null.", nameof(shopId)));
         }
         if (pageNumber <= 0)
         {
             _logger.LogWarning("Page number must be greater than zero.");
-            return Result<PaginatedResult<CategoryModel>>.Fail(new ArgumentException("Page number must be greater than zero.", nameof(pageNumber)));
+            return Result<PaginatedResult<CategoryModel>>.Failure(new ArgumentException("Page number must be greater than zero.", nameof(pageNumber)));
         }
         if (pageSize <= 0)
         {
             _logger.LogWarning("Page size must be greater than zero.");
-            return Result<PaginatedResult<CategoryModel>>.Fail(new ArgumentException("Page size must be greater than zero.", nameof(pageSize)));
+            return Result<PaginatedResult<CategoryModel>>.Failure(new ArgumentException("Page size must be greater than zero.", nameof(pageSize)));
         }
 
         var response = await _categoryRepository.GetPaginatedAsync(
@@ -131,10 +131,10 @@ public sealed class CategoryService : ICategoryService
         if (response == null)
         {
             _logger.LogWarning("The category not exists.");
-            return Result<PaginatedResult<CategoryModel>>.Fail(new EntityNotFoundException("The category not exists"));
+            return Result<PaginatedResult<CategoryModel>>.Failure(new EntityNotFoundException("The category not exists"));
         }
 
-        return Result<PaginatedResult<CategoryModel>>.Succ(new PaginatedResult<CategoryModel>
+        return Result<PaginatedResult<CategoryModel>>.Success(new PaginatedResult<CategoryModel>
         {
             Items = response.Items.Select(x => x.Adapt<CategoryModel>()),
             TotalItems = response.TotalItems,
@@ -148,7 +148,7 @@ public sealed class CategoryService : ICategoryService
         if (string.IsNullOrEmpty(id))
         {
             _logger.LogWarning("The category ID can't be null.");
-            return Result<string>.Fail(new ArgumentNullException(nameof(id)));
+            return Result<string>.Failure(new ArgumentNullException(nameof(id)));
         }
 
         var existingCategory = await _categoryRepository.GetByIdAsync(CategoryId.Of(id), cancellationToken);
@@ -156,7 +156,7 @@ public sealed class CategoryService : ICategoryService
         if (existingCategory == null || !existingCategory.IsActive)
         {
             _logger.LogWarning("The category for ID:{Id} is not found.", id);
-            return Result<string>.Fail(new EntityNotFoundException(nameof(id)));
+            return Result<string>.Failure(new EntityNotFoundException(nameof(id)));
         }
 
         if (existingCategory.Name != model.Name)
@@ -166,7 +166,7 @@ public sealed class CategoryService : ICategoryService
             if (exists.Value)
             {
                 _logger.LogWarning("A Category with the same name already exists: {CategoryName}", model.Name);
-                return Result<string>.Fail(new DuplicateEntityException($"A Category with the name '{model.Name}' already exists."));
+                return Result<string>.Failure(new DuplicateEntityException($"A Category with the name '{model.Name}' already exists."));
             }
         }
         existingCategory.Name = model.Name;
@@ -176,7 +176,7 @@ public sealed class CategoryService : ICategoryService
         _categoryRepository.Update(existingCategory);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result<string>.Succ(id);
+        return Result<string>.Success(id);
     }
 
     public async Task<Result<string>> DeleteCategoryAsync(string id, CancellationToken cancellationToken = default)
@@ -184,7 +184,7 @@ public sealed class CategoryService : ICategoryService
         if (string.IsNullOrEmpty(id))
         {
             _logger.LogWarning("The category ID can't be null.");
-            return Result<string>.Fail(new ArgumentNullException(nameof(id)));
+            return Result<string>.Failure(new ArgumentNullException(nameof(id)));
         }
 
         var existingCategory = await _categoryRepository.GetByIdAsync(CategoryId.Of(id), cancellationToken);
@@ -192,7 +192,7 @@ public sealed class CategoryService : ICategoryService
         if (existingCategory == null || !existingCategory.IsActive)
         {
             _logger.LogWarning("The category for ID:{Id} is not found.", id);
-            return Result<string>.Fail(new EntityNotFoundException(nameof(id)));
+            return Result<string>.Failure(new EntityNotFoundException(nameof(id)));
         }
 
         existingCategory.IsActive = false;
@@ -201,6 +201,6 @@ public sealed class CategoryService : ICategoryService
         _categoryRepository.Update(existingCategory);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result<string>.Succ(id);
+        return Result<string>.Success(id);
     }
 }

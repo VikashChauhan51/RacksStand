@@ -31,13 +31,13 @@ public sealed class ShopService : IShopService
         if (string.IsNullOrWhiteSpace(name))
         {
             _logger.LogWarning("Shop name cannot be null or empty.");
-            return Result<bool>.Fail(new ArgumentNullException(nameof(name)));
+            return Result<bool>.Failure(new ArgumentNullException(nameof(name)));
         }
 
         if (string.IsNullOrWhiteSpace(ownerId))
         {
             _logger.LogWarning("Owner ID cannot be null or empty.");
-            return Result<bool>.Fail(new ArgumentNullException(nameof(ownerId)));
+            return Result<bool>.Failure(new ArgumentNullException(nameof(ownerId)));
         }
 
         var normalizedName = name.Trim().ToLowerInvariant();
@@ -55,14 +55,14 @@ public sealed class ShopService : IShopService
             _logger.LogInformation("No shop found with the name '{ShopName}' for owner '{OwnerId}'.", name, ownerId);
         }
 
-        return Result<bool>.Succ(exists);
+        return Result<bool>.Success(exists);
     }
     public async Task<Result<string>> AddShopAsync(ShopModel model, CancellationToken cancellationToken = default)
     {
         if (model == null)
         {
             _logger.LogWarning("The shop request model can't be null.");
-            return Result<string>.Fail(new ArgumentNullException(nameof(model)));
+            return Result<string>.Failure(new ArgumentNullException(nameof(model)));
         }
 
         var exists = await CheckIfShopExistsAsync(model.Name, model.OwnerId, cancellationToken);
@@ -70,7 +70,7 @@ public sealed class ShopService : IShopService
         if (exists.Value)
         {
             _logger.LogWarning("A shop with the same name already exists: {ShopName}", model.Name);
-            return Result<string>.Fail(new DuplicateEntityException($"A shop with the name '{model.Name}' already exists."));
+            return Result<string>.Failure(new DuplicateEntityException($"A shop with the name '{model.Name}' already exists."));
         }
         var shop = new Shop
         {
@@ -107,14 +107,14 @@ public sealed class ShopService : IShopService
             throw;
         }
 
-        return Result<string>.Succ(shop.Id.Value);
+        return Result<string>.Success(shop.Id.Value);
     }
     public async Task<Result<ShopModel>> GetShopAsync(string id, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(id))
         {
             _logger.LogWarning("The shop ID can't be null.");
-            return Result<ShopModel>.Fail(new ArgumentNullException(nameof(id)));
+            return Result<ShopModel>.Failure(new ArgumentNullException(nameof(id)));
         }
 
         var response = await _shopRepository.GetByIdAsync(ShopId.Of(id), cancellationToken);
@@ -122,10 +122,10 @@ public sealed class ShopService : IShopService
         if (response == null || !response.IsActive)
         {
             _logger.LogWarning("The shop for ID:{Id} is not found.", id);
-            return Result<ShopModel>.Fail(new EntityNotFoundException(nameof(id)));
+            return Result<ShopModel>.Failure(new EntityNotFoundException(nameof(id)));
         }
 
-        return Result<ShopModel>.Succ(response.Adapt<ShopModel>());
+        return Result<ShopModel>.Success(response.Adapt<ShopModel>());
     }
 
     public async Task<Result<PaginatedResult<ShopModel>>> GetShopsAsync(int pageSize, int pageNumber, string userId, string? filter, CancellationToken cancellationToken = default)
@@ -133,18 +133,18 @@ public sealed class ShopService : IShopService
         if (string.IsNullOrEmpty(userId))
         {
             _logger.LogWarning("User Id can't be null.");
-            return Result<PaginatedResult<ShopModel>>.Fail(new ArgumentException("User Id can't be null.", nameof(userId)));
+            return Result<PaginatedResult<ShopModel>>.Failure(new ArgumentException("User Id can't be null.", nameof(userId)));
         }
 
         if (pageNumber <= 0)
         {
             _logger.LogWarning("Page number must be greater than zero.");
-            return Result<PaginatedResult<ShopModel>>.Fail(new ArgumentException("Page number must be greater than zero.", nameof(pageNumber)));
+            return Result<PaginatedResult<ShopModel>>.Failure(new ArgumentException("Page number must be greater than zero.", nameof(pageNumber)));
         }
         if (pageSize <= 0)
         {
             _logger.LogWarning("Page size must be greater than zero.");
-            return Result<PaginatedResult<ShopModel>>.Fail(new ArgumentException("Page size must be greater than zero.", nameof(pageSize)));
+            return Result<PaginatedResult<ShopModel>>.Failure(new ArgumentException("Page size must be greater than zero.", nameof(pageSize)));
         }
 
         var query = _shopRepository
@@ -164,10 +164,10 @@ public sealed class ShopService : IShopService
         if (response == null)
         {
             _logger.LogWarning("No shops found.");
-            return Result<PaginatedResult<ShopModel>>.Fail(new EntityNotFoundException("No shops found."));
+            return Result<PaginatedResult<ShopModel>>.Failure(new EntityNotFoundException("No shops found."));
         }
 
-        return Result<PaginatedResult<ShopModel>>.Succ(new PaginatedResult<ShopModel>
+        return Result<PaginatedResult<ShopModel>>.Success(new PaginatedResult<ShopModel>
         {
             Items = response.Select(x => x.Adapt<ShopModel>()),
             TotalItems = totalItems,
@@ -181,7 +181,7 @@ public sealed class ShopService : IShopService
         if (string.IsNullOrEmpty(id))
         {
             _logger.LogWarning("The shop ID can't be null.");
-            return Result<string>.Fail(new ArgumentNullException(nameof(id)));
+            return Result<string>.Failure(new ArgumentNullException(nameof(id)));
         }
 
         var existingShop = await _shopRepository.GetByIdAsync(ShopId.Of(id), cancellationToken);
@@ -189,7 +189,7 @@ public sealed class ShopService : IShopService
         if (existingShop == null || !existingShop.IsActive)
         {
             _logger.LogWarning("The shop for ID:{Id} is not found.", id);
-            return Result<string>.Fail(new EntityNotFoundException(nameof(id)));
+            return Result<string>.Failure(new EntityNotFoundException(nameof(id)));
         }
 
         if (existingShop.Name != model.Name)
@@ -199,7 +199,7 @@ public sealed class ShopService : IShopService
             if (exists.Value)
             {
                 _logger.LogWarning("A shop with the same name already exists: {ShopName}", model.Name);
-                return Result<string>.Fail(new DuplicateEntityException($"A shop with the name '{model.Name}' already exists."));
+                return Result<string>.Failure(new DuplicateEntityException($"A shop with the name '{model.Name}' already exists."));
             }
         }
 
@@ -211,7 +211,7 @@ public sealed class ShopService : IShopService
         _shopRepository.Update(existingShop);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result<string>.Succ(id);
+        return Result<string>.Success(id);
     }
 
     public async Task<Result<string>> DeleteShopAsync(string id, CancellationToken cancellationToken = default)
@@ -219,7 +219,7 @@ public sealed class ShopService : IShopService
         if (string.IsNullOrEmpty(id))
         {
             _logger.LogWarning("The shop ID can't be null.");
-            return Result<string>.Fail(new ArgumentNullException(nameof(id)));
+            return Result<string>.Failure(new ArgumentNullException(nameof(id)));
         }
 
         var existingShop = await _shopRepository.GetByIdAsync(ShopId.Of(id), cancellationToken);
@@ -227,7 +227,7 @@ public sealed class ShopService : IShopService
         if (existingShop == null || !existingShop.IsActive)
         {
             _logger.LogWarning("The shop for ID:{Id} is not found.", id);
-            return Result<string>.Fail(new EntityNotFoundException(nameof(id)));
+            return Result<string>.Failure(new EntityNotFoundException(nameof(id)));
         }
 
         existingShop.IsActive = false;
@@ -236,6 +236,6 @@ public sealed class ShopService : IShopService
         _shopRepository.Update(existingShop);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result<string>.Succ(id);
+        return Result<string>.Success(id);
     }
 }

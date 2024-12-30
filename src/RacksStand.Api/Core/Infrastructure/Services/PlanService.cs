@@ -22,17 +22,17 @@ public class PlanService : IPlanService
         if (string.IsNullOrEmpty(id))
         {
             _logger.LogWarning("The plan ID can't be null.");
-            return Result<PlanDetailsModel>.Fail(new ArgumentNullException(nameof(id)));
+            return Result<PlanDetailsModel>.Failure(new ArgumentNullException(nameof(id)));
         }
         var plan = await _planRepository.GetPlanWithFeaturesAsync(PlanId.Of(id), cancellationToken);
 
         if (plan == null)
         {
             _logger.LogWarning("The plan for ID:{Id} is not found.", id);
-            return Result<PlanDetailsModel>.Fail(new EntityNotFoundException(nameof(id)));
+            return Result<PlanDetailsModel>.Failure(new EntityNotFoundException(nameof(id)));
         }
 
-        return Result<PlanDetailsModel>.Succ
+        return Result<PlanDetailsModel>.Success
         (
             new PlanDetailsModel
              (
