@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RacksStand.Core\RacksStand.Core.csproj" />
+    <ProjectReference Include="..\RacksStand.Domain\RacksStand.Domain.csproj" />
+    <ProjectReference Include="..\RacksStand.Models\RacksStand.Models.csproj" />
+    <ProjectReference Include="..\RacksStand.Utilities\RacksStand.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>
