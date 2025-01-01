@@ -18,5 +18,6 @@ public class Self : Entity<SelfId>
     public required Length Length { get; set; }
     public DimensionUnit DiminsionUnit { get; set; }
 
-    public virtual Rack Racks { get; set; } = default!;
+    public virtual Rack Rack { get; set; } = default!;
+    public virtual ICollection<Bin> Bins { get; set; } = [];
 }

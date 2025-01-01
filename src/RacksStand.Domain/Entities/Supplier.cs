@@ -26,4 +26,5 @@ public class Supplier : Entity<SupplierId>
     // Navigation properties
     public virtual Company Company { get; set; } = default!;
     public virtual ICollection<ProductVariant> ProductVariants { get; set; } = [];
+    public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; } = [];
 }

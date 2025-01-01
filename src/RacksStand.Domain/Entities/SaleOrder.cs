@@ -6,7 +6,7 @@ namespace RacksStand.Domain.Entities;
 public class SaleOrder : Entity<SaleOrderId>
 {
     public required string OrderNumber { get; set; }
-    public required DateTime OrderDate { get; set; }
+    public required DateTimeOffset OrderDate { get; set; }
     public required CustomerId CustomerId { get; set; }
     public required WarehouseId WarehouseId { get; set; }
     public string? ShippingAddress { get; set; }
@@ -20,6 +20,6 @@ public class SaleOrder : Entity<SaleOrderId>
     // Navigation properties
     public virtual Customer Customer { get; set; } = default!;
     public virtual Warehouse Warehouse { get; set; } = default!;
-    public virtual ICollection<SaleOrderLine> Lines { get; set; } = new List<SaleOrderLine>();
+    public virtual ICollection<SaleOrderLine> Lines { get; set; } = [];
 }
 

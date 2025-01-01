@@ -9,4 +9,5 @@ public class ModulePermission : Entity<ModulePermissionId>
     public required string Name { get; set; }
     public required string Code { get; set; }
     public required string Description { get; set; }
+    public virtual Module Module { get; set; } = null!;
 }

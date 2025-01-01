@@ -9,7 +9,7 @@ public class ProductVariant : Entity<ProductVariantId>
     public string? Description { get; set; }
     public required string Code { get; set; }
     public required string Sku { get; set; }
-    public string? Barcode { get; set; }
+    public Barcode? Barcode { get; set; }
     public required PurchasePrice PurchasePrice { get; set; }
     public required SellingPrice SellingPrice { get; set; }
     public required Unit Unit { get; set; }

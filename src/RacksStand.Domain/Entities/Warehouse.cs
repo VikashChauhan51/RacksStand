@@ -28,4 +28,7 @@ public class Warehouse : Entity<WarehouseId>
     public required string ReturnCity { get; set; }
     public required string ReturnCountry { get; set; }
     public required string ReturnZipCode { get; set; }
+    public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; } = [];
+    public virtual ICollection<SaleOrder> SaleOrders { get; set; } = [];
+    public virtual ICollection<Rack> Racks { get; set; } = [];
 }

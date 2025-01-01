@@ -1,5 +1,4 @@
 ﻿using RacksStand.Domain.Core;
-using RacksStand.Domain.Enums;
 using RacksStand.Domain.ValueObjects;
 
 namespace RacksStand.Domain.Entities;
@@ -12,7 +11,6 @@ public class Product : Entity<ProductId>
     public string? Tags { get; set; }
     public required CategoryId CategoryId { get; set; }
     public required CompanyId CompanyId { get; set; }
-
 
     public string? Metadata { get; set; }
 

@@ -6,4 +6,5 @@ public class ProductVariantOption : Entity<ProductVariantOptionId>
 {
     public required ProductOptionId ProductOptionId { get; set; }
     public required ProductVariantId ProductVariantId { get; set; }
+    public required string Value { get; set; }
 }
