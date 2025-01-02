@@ -1,18 +1,22 @@
-﻿using RacksStand.Domain.Exceptions;
+﻿using RacksStand.Domain.Core;
+using RacksStand.Domain.Exceptions;
 
 namespace RacksStand.Domain.ValueObjects;
 
-public record AttachmentId
+public record AttachmentId : IValueObject<string>
 {
-    public string Value { get; }
-    private AttachmentId(string value) => Value = value;
-    public static AttachmentId Of(string value)
+    private readonly string _value;
+    public string Value => _value;
+    public AttachmentId(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new DomainException("AttachmentId cannot be null or whitespace.");
         }
-
-        return new AttachmentId(value);
+        _value = value;
     }
+    public static AttachmentId Of(string value) => new(value);
+
+    public static implicit operator AttachmentId(string value) => Of(value);
+    public static explicit operator string(AttachmentId attachmentId) => attachmentId.Value;
 }

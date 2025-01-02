@@ -1,10 +1,12 @@
-﻿using RacksStand.Domain.Exceptions;
+﻿using RacksStand.Domain.Core;
+using RacksStand.Domain.Exceptions;
 
 namespace RacksStand.Domain.ValueObjects;
-public record CompanyUserInviteId
+public record CompanyUserInviteId : IValueObject<string>
 {
-    public string Value { get; }
-    private CompanyUserInviteId(string value) => Value = value;
+    private readonly string _value;
+    public string Value => _value;
+    private CompanyUserInviteId(string value) => _value = value;
     public static CompanyUserInviteId Of(string value)
     {
         if (string.IsNullOrWhiteSpace(value))

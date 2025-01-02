@@ -1,9 +1,12 @@
-﻿namespace RacksStand.Domain.ValueObjects;
+﻿using RacksStand.Domain.Core;
 
-public record Width
+namespace RacksStand.Domain.ValueObjects;
+
+public record Width : IValueObject<decimal>
 {
-    public decimal Value { get; }
-    private Width(decimal value) => Value = value;
+    private readonly decimal _value;
+    public decimal Value => _value;
+    private Width(decimal value) => _value = value;
     public static Width Of(decimal value)
     {
         if (value <= 0) throw new ArgumentException("Width must be greater than zero.", nameof(value));

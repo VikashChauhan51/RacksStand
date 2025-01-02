@@ -1,12 +1,14 @@
-﻿using RacksStand.Domain.Exceptions;
+﻿using RacksStand.Domain.Core;
+using RacksStand.Domain.Exceptions;
 
 namespace RacksStand.Domain.ValueObjects;
 
-public record PlanPrice
+public record PlanPrice : IValueObject<decimal>
 {
-    public decimal Value { get; }
+    private readonly decimal _value;
+    public decimal Value => _value;
 
-    private PlanPrice(decimal amount) => Value = amount;
+    private PlanPrice(decimal amount) => _value = amount;
 
     public static PlanPrice Of(decimal amount)
     {

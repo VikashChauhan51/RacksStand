@@ -1,9 +1,12 @@
-﻿namespace RacksStand.Domain.ValueObjects;
+﻿using RacksStand.Domain.Core;
 
-public record Length
+namespace RacksStand.Domain.ValueObjects;
+
+public record Length : IValueObject<decimal>
 {
-    public decimal Value { get; }
-    private Length(decimal value) => Value = value;
+    private readonly decimal _value;
+    public decimal Value => _value;
+    private Length(decimal value) => _value = value;
     public static Length Of(decimal value)
     {
         if (value <= 0) throw new ArgumentException("Length must be greater than zero.", nameof(value));

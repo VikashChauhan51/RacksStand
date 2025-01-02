@@ -1,11 +1,12 @@
-﻿using RacksStand.Domain.Exceptions;
+﻿using RacksStand.Domain.Core;
+using RacksStand.Domain.Exceptions;
 
 namespace RacksStand.Domain.ValueObjects;
-public record Unit
+public record Unit : IValueObject<string>
 {
-    public string Value { get; }
-
-    private Unit(string value) => Value = value;
+    private readonly string _value;
+    public string Value => _value;
+    private Unit(string value) => _value = value;
 
     public static Unit Of(string value)
     {

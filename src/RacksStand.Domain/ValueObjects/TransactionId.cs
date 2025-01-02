@@ -1,11 +1,13 @@
-﻿using RacksStand.Domain.Exceptions;
+﻿using RacksStand.Domain.Core;
+using RacksStand.Domain.Exceptions;
 
 namespace RacksStand.Domain.ValueObjects;
 
-public record TransactionId
+public record TransactionId : IValueObject<string>
 {
-    public string Value { get; }
-    private TransactionId(string value) => Value = value;
+    private readonly string _value;
+    public string Value => _value;
+    private TransactionId(string value) => _value = value;
     public static TransactionId Of(string value)
     {
         if (string.IsNullOrWhiteSpace(value))

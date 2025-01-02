@@ -1,17 +1,21 @@
-﻿using RacksStand.Domain.Exceptions;
+﻿using RacksStand.Domain.Core;
+using RacksStand.Domain.Exceptions;
 
 namespace RacksStand.Domain.ValueObjects;
-public record Barcode
+public record Barcode : IValueObject<string>
 {
-    public string Value { get; }
-    private Barcode(string value) => Value = value;
-    public static Barcode Of(string value)
+    private readonly string _value;
+    public string Value => _value;
+    public Barcode(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new DomainException("Barcode cannot be null or whitespace.");
         }
-
-        return new Barcode(value);
+        _value = value;
     }
+    public static Barcode Of(string value) => new(value);
+
+    public static implicit operator Barcode(string value) => Of(value);
+    public static explicit operator string(Barcode barcode) => barcode.Value;
 }

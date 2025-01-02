@@ -1,10 +1,12 @@
-﻿using RacksStand.Domain.Exceptions;
+﻿using RacksStand.Domain.Core;
+using RacksStand.Domain.Exceptions;
 
 namespace RacksStand.Domain.ValueObjects;
-public record FeatureId
+public record FeatureId : IValueObject<string>
 {
-    public string Value { get; }
-    private FeatureId(string value) => Value = value;
+    private readonly string _value;
+    public string Value => _value;
+    private FeatureId(string value) => _value = value;
     public static FeatureId Of(string value)
     {
         if (string.IsNullOrWhiteSpace(value))

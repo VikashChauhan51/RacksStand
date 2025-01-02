@@ -1,11 +1,13 @@
-﻿using RacksStand.Domain.Exceptions;
+﻿using RacksStand.Domain.Core;
+using RacksStand.Domain.Exceptions;
 
 namespace RacksStand.Domain.ValueObjects;
 
-public record SaleOrderLineId
+public record SaleOrderLineId : IValueObject<string>
 {
-    public string Value { get; }
-    private SaleOrderLineId(string value) => Value = value;
+    private readonly string _value;
+    public string Value => _value;
+    private SaleOrderLineId(string value) => _value = value;
     public static SaleOrderLineId Of(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
