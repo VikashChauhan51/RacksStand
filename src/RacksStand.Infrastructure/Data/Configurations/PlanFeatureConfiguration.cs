@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RacksStand.Api.Core.Domain.Entities;
-using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Domain.Entities;
+using RacksStand.Domain.ValueObjects;
 
 namespace RacksStand.Api.Core.Infrastructure.Data.Configurations;
 

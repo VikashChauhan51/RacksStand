@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using RacksStand.Api.Core.Domain.Entities;
-using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Domain.Entities;
+using RacksStand.Domain.ValueObjects;
 
 namespace RacksStand.Api.Core.Infrastructure.Data.Configurations;
 public class CategoryConfiguration : IEntityTypeConfiguration<Category>
@@ -15,9 +15,9 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
              .ValueGeneratedNever()
               .HasMaxLength(100);
 
-        builder.Property(c => c.ShopId).HasConversion(
+        builder.Property(c => c.CompanyId).HasConversion(
                  shopId => shopId.Value,
-                 dbId => ShopId.Of(dbId))
+                 dbId => CompanyId.Of(dbId))
              .IsRequired()
              .HasMaxLength(100);
 
@@ -33,11 +33,11 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             .HasForeignKey(p => p.CategoryId);
 
         // Indexes
-        builder.HasIndex(pi => new { pi.Name, pi.ShopId })
-            .IsUnique().HasDatabaseName("IX_Category_Name_ShopId");
+        builder.HasIndex(pi => new { pi.Name, pi.CompanyId })
+            .IsUnique().HasDatabaseName("IX_Category_Name_CompanyId");
 
-        builder.HasIndex(c => c.ShopId)
-            .HasDatabaseName("IX_Category_ShopId");
+        builder.HasIndex(c => c.CompanyId)
+            .HasDatabaseName("IX_Category_CompanyId");
 
         builder.HasIndex(c => c.Name)
             .HasDatabaseName("IX_Category_Name");

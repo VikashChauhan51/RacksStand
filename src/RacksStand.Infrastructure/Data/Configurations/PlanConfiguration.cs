@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RacksStand.Api.Core.Domain.Entities;
-using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Domain.Entities;
+using RacksStand.Domain.ValueObjects;
 
 namespace RacksStand.Api.Core.Infrastructure.Data.Configurations;
 
@@ -38,10 +38,6 @@ public class PlanConfiguration : IEntityTypeConfiguration<Plan>
         builder.HasMany(c => c.PlanFeatures)
            .WithOne(p => p.Plan)
            .HasForeignKey(p => p.PlanId);
-
-        builder.HasMany(p => p.UserPlans)
-         .WithOne(up => up.Plan)
-         .HasForeignKey(up => up.PlanId);
 
         // Indexes
         builder.HasIndex(p => p.Name)
