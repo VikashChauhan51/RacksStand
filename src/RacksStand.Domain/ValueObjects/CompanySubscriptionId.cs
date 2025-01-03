@@ -8,15 +8,13 @@ public record CompanySubscriptionId : IValueObject<string>
     public string Value => _value;
     public CompanySubscriptionId(string value)
     {
-        _value = value;
-    }
-    public static CompanySubscriptionId Of(string value)
-    {
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new DomainException("CompanySubscriptionId cannot be null or whitespace.");
         }
-
-        return new CompanySubscriptionId(value);
+        _value = value;
     }
+    public static CompanySubscriptionId Of(string value) => new(value);
+    public static implicit operator CompanySubscriptionId(string value) => Of(value);
+    public static explicit operator string(CompanySubscriptionId companySubscriptionId) => companySubscriptionId.Value;
 }

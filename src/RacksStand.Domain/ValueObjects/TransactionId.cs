@@ -7,14 +7,15 @@ public record TransactionId : IValueObject<string>
 {
     private readonly string _value;
     public string Value => _value;
-    private TransactionId(string value) => _value = value;
-    public static TransactionId Of(string value)
+    public TransactionId(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new DomainException("TransactionId cannot be null or whitespace.");
         }
-
-        return new TransactionId(value);
+        _value = value;
     }
+    public static TransactionId Of(string value) => new(value);
+    public static implicit operator TransactionId(string value) => Of(value);
+    public static explicit operator string(TransactionId transactionId) => transactionId.Value;
 }

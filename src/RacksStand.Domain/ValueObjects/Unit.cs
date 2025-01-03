@@ -6,15 +6,16 @@ public record Unit : IValueObject<string>
 {
     private readonly string _value;
     public string Value => _value;
-    private Unit(string value) => _value = value;
-
-    public static Unit Of(string value)
+    public Unit(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new DomainException("Unit cannot be null or whitespace.");
         }
-
-        return new Unit(value);
+        _value = value;
     }
+
+    public static Unit Of(string value) => new(value);
+    public static implicit operator Unit(string value) => Of(value);
+    public static explicit operator string(Unit unit) => unit.Value;
 }

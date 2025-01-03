@@ -6,14 +6,15 @@ public record InventoryId : IValueObject<string>
 {
     private readonly string _value;
     public string Value => _value;
-    private InventoryId(string value) => _value = value;
-    public static InventoryId Of(string value)
+    public InventoryId(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new DomainException("InventoryId cannot be null or whitespace.");
         }
-
-        return new InventoryId(value);
+        _value = value;
     }
+    public static InventoryId Of(string value) => new(value);
+    public static implicit operator InventoryId(string value) => Of(value);
+    public static explicit operator string(InventoryId inventoryId) => inventoryId.Value;
 }

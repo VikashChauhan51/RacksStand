@@ -6,14 +6,15 @@ public record ProductId : IValueObject<string>
 {
     private readonly string _value;
     public string Value => _value;
-    private ProductId(string value) => _value = value;
-    public static ProductId Of(string value)
+    public ProductId(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new DomainException("ProductId cannot be null or whitespace.");
         }
-
-        return new ProductId(value);
+        _value = value;
     }
+    public static ProductId Of(string value) => new(value);
+    public static implicit operator ProductId(string value) => Of(value);
+    public static explicit operator string(ProductId productId) => productId.Value;
 }

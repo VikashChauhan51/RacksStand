@@ -7,14 +7,15 @@ public record ProductVariantOptionId : IValueObject<string>
 {
     private readonly string _value;
     public string Value => _value;
-    private ProductVariantOptionId(string value) => _value = value;
-    public static ProductVariantOptionId Of(string value)
+    public ProductVariantOptionId(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new DomainException("ProductVariantOptionId cannot be null or whitespace.");
         }
-
-        return new ProductVariantOptionId(value);
+        _value = value;
     }
+    public static ProductVariantOptionId Of(string value) => new(value);
+    public static implicit operator ProductVariantOptionId(string value) => Of(value);
+    public static explicit operator string(ProductVariantOptionId variantOptionId) => variantOptionId.Value;
 }

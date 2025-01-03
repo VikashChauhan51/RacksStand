@@ -7,14 +7,15 @@ public record UserPlanId : IValueObject<string>
 {
     private readonly string _value;
     public string Value => _value;
-    private UserPlanId(string value) => _value = value;
-    public static UserPlanId Of(string value)
+    public UserPlanId(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new DomainException("UserPlanId cannot be null or whitespace.");
         }
-
-        return new UserPlanId(value);
+        _value = value;
     }
+    public static UserPlanId Of(string value) => new(value);
+    public static implicit operator UserPlanId(string value) => Of(value);
+    public static explicit operator string(UserPlanId userPlanId) => userPlanId.Value;
 }

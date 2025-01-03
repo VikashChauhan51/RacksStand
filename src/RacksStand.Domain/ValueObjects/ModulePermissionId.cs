@@ -7,14 +7,15 @@ public record ModulePermissionId : IValueObject<string>
 {
     private readonly string _value;
     public string Value => _value;
-    private ModulePermissionId(string value) => _value = value;
-    public static ModulePermissionId Of(string value)
+    public ModulePermissionId(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new DomainException("ModulePermissionId cannot be null or whitespace.");
         }
-
-        return new ModulePermissionId(value);
+        _value = value;
     }
+    public static ModulePermissionId Of(string value) => new(value);
+    public static implicit operator ModulePermissionId(string value) => Of(value);
+    public static explicit operator string(ModulePermissionId modulePermissionId) => modulePermissionId.Value;
 }

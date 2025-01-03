@@ -7,15 +7,17 @@ public record CompanyUserId : IValueObject<string>
 {
     private readonly string _value;
     public string Value => _value;
-    private CompanyUserId(string value) => _value = value;
-    public static CompanyUserId Of(string value)
+    public CompanyUserId(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new DomainException("CompanyUserId cannot be null or whitespace.");
         }
-
-        return new CompanyUserId(value);
+        _value = value;
     }
+    public static CompanyUserId Of(string value) => new(value);
+
+    public static implicit operator CompanyUserId(string value) => Of(value);
+    public static explicit operator string(CompanyUserId companyUserId) => companyUserId.Value;
 }
 
