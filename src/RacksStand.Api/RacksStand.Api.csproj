@@ -92,7 +92,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\RacksStand.Models\RacksStand.Models.csproj" />
-		<ProjectReference Include="..\RacksStand.Utilities\RacksStand.Utilities.csproj" />
 	</ItemGroup>
 
 </Project>

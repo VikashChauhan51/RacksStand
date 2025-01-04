@@ -5,11 +5,7 @@ VisualStudioVersion = 17.12.35506.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacksStand.Models", "RacksStand.Models\RacksStand.Models.csproj", "{063D1D5D-3477-4EE5-A911-216833721003}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacksStand.Utilities", "RacksStand.Utilities\RacksStand.Utilities.csproj", "{19BA9F77-ED86-47FE-945A-6A5A9669EF14}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacksStand.Api", "RacksStand.Api\RacksStand.Api.csproj", "{1168C4EA-C7F7-445D-871A-D5EF562BB6B8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacksStand.Core", "RacksStand.Core\RacksStand.Core.csproj", "{27425202-1B43-4A62-AE0F-E61A35005C88}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacksStand.Domain", "RacksStand.Domain\RacksStand.Domain.csproj", "{C2B4BAD9-FBDC-4E80-BC78-6D2BAFA3D95C}"
 EndProject
@@ -25,18 +21,10 @@ Global
 		{063D1D5D-3477-4EE5-A911-216833721003}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{063D1D5D-3477-4EE5-A911-216833721003}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{063D1D5D-3477-4EE5-A911-216833721003}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19BA9F77-ED86-47FE-945A-6A5A9669EF14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19BA9F77-ED86-47FE-945A-6A5A9669EF14}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19BA9F77-ED86-47FE-945A-6A5A9669EF14}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19BA9F77-ED86-47FE-945A-6A5A9669EF14}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1168C4EA-C7F7-445D-871A-D5EF562BB6B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1168C4EA-C7F7-445D-871A-D5EF562BB6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1168C4EA-C7F7-445D-871A-D5EF562BB6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1168C4EA-C7F7-445D-871A-D5EF562BB6B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27425202-1B43-4A62-AE0F-E61A35005C88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27425202-1B43-4A62-AE0F-E61A35005C88}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27425202-1B43-4A62-AE0F-E61A35005C88}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27425202-1B43-4A62-AE0F-E61A35005C88}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C2B4BAD9-FBDC-4E80-BC78-6D2BAFA3D95C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C2B4BAD9-FBDC-4E80-BC78-6D2BAFA3D95C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2B4BAD9-FBDC-4E80-BC78-6D2BAFA3D95C}.Release|Any CPU.ActiveCfg = Release|Any CPU

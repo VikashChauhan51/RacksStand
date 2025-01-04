@@ -1,13 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using RacksStand.Api.Core.Abstractions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RacksStand.Core;
+namespace RacksStand.Api.Core.Infrastructure;
+
 public static class RegisterMapsterMappings
 {
     public static void Register(Assembly assembly)

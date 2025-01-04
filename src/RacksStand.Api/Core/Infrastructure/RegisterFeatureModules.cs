@@ -5,7 +5,7 @@ namespace RacksStand.Api.Core.Infrastructure;
 
 public static class RegisterFeatureModules
 {
-    public static void RegisterModules(IServiceCollection services, Assembly assembly)
+    public static void RegisterModules(IServiceCollection services, IConfiguration configuration, Assembly assembly)
     {
         var featureModules = assembly
             .GetTypes()
@@ -18,7 +18,7 @@ public static class RegisterFeatureModules
         foreach (var moduleType in featureModules)
         {
             var moduleInstance = Activator.CreateInstance(moduleType) as IFeatureModule;
-            moduleInstance?.RegisterServices(services);
+            moduleInstance?.RegisterServices(services, configuration, assembly);
         }
     }
 }
