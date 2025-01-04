@@ -1,5 +1,4 @@
-﻿using JsonApiDotNetCore.Configuration;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +9,6 @@ using OpenTelemetry.Trace;
 using RacksStand.Infrastructure.Data.Contexts;
 using Serilog;
 using Serilog.Events;
-using System;
 
 namespace RacksStand.Infrastructure;
 public static class DependencyInjection
@@ -23,8 +21,6 @@ public static class DependencyInjection
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
         builder.Services.AddScoped<DbContext>(sp => sp.GetRequiredService<RacksStandContext>());
-
-        builder.Services.AddJsonApi<RacksStandContext>();
 
         return builder;
     }
