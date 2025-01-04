@@ -14,4 +14,7 @@ public class Company : Entity<CompanyId>
     public required string ZipCode { get; set; }
     public required UserId OwnerUserId { get; set; }
     public required PlanId PlanId { get; set; }
+
+    public virtual ICollection<Supplier> Suppliers { get; set; } = [];
+    public virtual ICollection<Warehouse> Warehouses { get; set; } = [];
 }

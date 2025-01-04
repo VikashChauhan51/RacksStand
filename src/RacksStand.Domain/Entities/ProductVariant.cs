@@ -24,5 +24,6 @@ public class ProductVariant : Entity<ProductVariantId>
     public AttachmentId? ImageId { get; set; }
 
     public virtual Product Product { get; set; } = default!;
+    public virtual Supplier Supplier { get; set; } = default!;
     public virtual ICollection<ProductVariantOption> ProductVariantOptions { get; set; } = [];
 }

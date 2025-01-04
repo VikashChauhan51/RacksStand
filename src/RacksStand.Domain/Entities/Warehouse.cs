@@ -9,7 +9,7 @@ public class Warehouse : Entity<WarehouseId>
     public required CompanyId CompanyId { get; set; }
     public required UserId ManagerId { get; set; }
     public required string Name { get; set; }
-    public required string Prefix { get; set; }
+    public required string Code { get; set; }
     public required string Description { get; set; }
     public required string PhoneNumber { get; set; }
     public required Height Height { get; set; }
@@ -28,6 +28,9 @@ public class Warehouse : Entity<WarehouseId>
     public required string ReturnCity { get; set; }
     public required string ReturnCountry { get; set; }
     public required string ReturnZipCode { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+    public virtual User Manager { get; set; } = null!;
     public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; } = [];
     public virtual ICollection<SaleOrder> SaleOrders { get; set; } = [];
     public virtual ICollection<Rack> Racks { get; set; } = [];

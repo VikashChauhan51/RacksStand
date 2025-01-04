@@ -1,95 +1,89 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
-using RacksStand.Api.Core.Domain.ValueObjects;
-using RacksStand.Api.Core.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RacksStand.Domain.Entities;
+using RacksStand.Domain.ValueObjects;
+
 
 namespace RacksStand.Api.Core.Infrastructure.Data.Configurations;
+
+
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
     {
+        // Configure the primary key
         builder.HasKey(p => p.Id);
+
         builder.Property(p => p.Id)
             .HasConversion(
-                productId => productId.Value,
+                id => id.Value,
                 dbId => ProductId.Of(dbId))
-             .ValueGeneratedNever()
-             .HasMaxLength(100);
+            .ValueGeneratedNever()
+            .HasMaxLength(100);
 
+        // Configure required properties
         builder.Property(p => p.Name)
             .IsRequired()
-            .HasMaxLength(255);
-        builder.Property(p => p.Code)
-            .IsRequired()
-            .HasMaxLength(50);
-        builder.Property(p => p.Sku)
-            .IsRequired()
-            .HasMaxLength(150);
-        builder.Property(p => p.Unit)
-            .IsRequired()
-            .HasMaxLength(50);
+            .HasMaxLength(200);
 
         builder.Property(p => p.CategoryId)
             .HasConversion(
-                productId => productId.Value,
+                id => id.Value,
                 dbId => CategoryId.Of(dbId))
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(p => p.PurchasePrice)
+        builder.Property(p => p.CompanyId)
             .HasConversion(
-                purchasePrice => purchasePrice.Value,
-                dbId => PurchasePrice.Of(dbId))
+                id => id.Value,
+                dbId => CompanyId.Of(dbId))
             .IsRequired()
-            .HasPrecision(18, 2);
+            .HasMaxLength(100);
 
-        builder.Property(p => p.SellingPrice)
-            .HasConversion(
-                sellingPrice => sellingPrice.Value,
-                dbId => SellingPrice.Of(dbId))
-            .IsRequired()
-            .HasPrecision(18, 2);
+        // Configure optional properties
+        builder.Property(p => p.Description)
+            .HasMaxLength(1000);
 
-        builder.Property(p => p.Unit)
-           .HasConversion(
-               unit => unit.Value,
-               dbId => Unit.Of(dbId))
-           .IsRequired()
-           .HasMaxLength(20);
+        builder.Property(p => p.Brand)
+            .HasMaxLength(200);
 
+        builder.Property(p => p.Type)
+            .HasMaxLength(200);
+
+        builder.Property(p => p.Tags)
+            .HasMaxLength(500);
+
+        builder.Property(p => p.Metadata)
+            .HasMaxLength(2000);
+
+        // Configure relationships
         builder.HasOne(p => p.Category)
-            .WithMany(c => c.Products)
-            .HasForeignKey(p => p.CategoryId);
+            .WithMany()
+            .HasForeignKey(p => p.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-        builder.Property(p => p.SupplierId)
-          .HasConversion(
-              supplierId => supplierId != null ? supplierId.Value : null,
-              dbId => dbId != null ? SupplierId.Of(dbId) : null)
-          .HasMaxLength(100);
+        builder.HasOne(p => p.Company)
+            .WithMany()
+            .HasForeignKey(p => p.CompanyId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne(p => p.Supplier)
-            .WithMany(s => s.Products)
-            .HasForeignKey(p => p.SupplierId);
+        builder.HasMany(p => p.ProductVariants)
+            .WithOne()
+            .HasForeignKey(pv => pv.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        // Indexes
-        builder.HasIndex(pf => new { pf.CategoryId, pf.Name })
-              .IsUnique()
-              .HasDatabaseName("IX_Products_Name_CategoryId");
+        builder.HasMany(p => p.ProductOptions)
+            .WithOne()
+            .HasForeignKey(po => po.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
 
+        // Configure indexes
         builder.HasIndex(p => p.Name)
-            .HasDatabaseName("IX_Products_Name");
+            .HasDatabaseName("IX_Product_Name");
 
-        builder.HasIndex(p => p.Code)
-            .HasDatabaseName("IX_Products_Code");
-
-        builder.HasIndex(p => p.Sku)
-           .HasDatabaseName("IX_Products_Sku");
-
-        builder.HasIndex(p => p.CategoryId)
-            .HasDatabaseName("IX_Products_CategoryId");
-
-        builder.HasIndex(p => p.SupplierId)
-            .HasDatabaseName("IX_Products_SupplierId");
+        builder.HasIndex(p => new { p.CategoryId, p.CompanyId })
+            .HasDatabaseName("IX_Product_CategoryId_CompanyId");
     }
 }
+
 

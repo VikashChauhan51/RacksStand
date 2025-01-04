@@ -1,51 +1,84 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
-using RacksStand.Api.Core.Domain.Entities;
-using RacksStand.Api.Core.Domain.ValueObjects;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RacksStand.Domain.Entities;
+using RacksStand.Domain.ValueObjects;
 
 namespace RacksStand.Api.Core.Infrastructure.Data.Configurations;
+
+
 public class RackConfiguration : IEntityTypeConfiguration<Rack>
 {
     public void Configure(EntityTypeBuilder<Rack> builder)
     {
-        builder.HasKey(r => r.Id);
-        builder.Property(r => r.Id)
+        // Configure the primary key
+        builder.HasKey(rack => rack.Id);
+
+        builder.Property(rack => rack.Id)
             .HasConversion(
-                rackId => rackId.Value,
+                id => id.Value,
                 dbId => RackId.Of(dbId))
-             .ValueGeneratedNever()
-             .HasMaxLength(100);
+            .ValueGeneratedNever()
+            .HasMaxLength(100);
 
-        builder.Property(r => r.StoreId)
-          .HasConversion(
-              storeId => storeId.Value,
-              dbId => ShopId.Of(dbId))
-          .IsRequired()
-          .HasMaxLength(100);
-
-        builder.Property(r => r.Name)
+        // Configure required properties
+        builder.Property(rack => rack.Name)
             .IsRequired()
             .HasMaxLength(255);
-        builder.Property(r => r.Code)
+
+        builder.Property(rack => rack.Code)
             .IsRequired()
-            .HasMaxLength(50);
+            .HasMaxLength(3);
 
-        builder.Property(r => r.Description)
-           .HasMaxLength(255);
-        builder.Property(r => r.Label)
-            .HasMaxLength(50);
+        builder.Property(rack => rack.Label)
+            .HasMaxLength(255)
+            .IsRequired(false);
 
-        // Indexes
-        builder.HasIndex(r => r.StoreId)
-            .HasDatabaseName("IX_Racks_StoreId");
+        builder.Property(rack => rack.Description)
+            .HasMaxLength(500)
+            .IsRequired(false);
 
-        builder.HasIndex(r => r.Name)
-            .HasDatabaseName("IX_Racks_Name");
+        builder.Property(rack => rack.XAxis)
+            .IsRequired();
 
-        builder.HasIndex(r => r.Code)
-            .HasDatabaseName("IX_Racks_Code");
+        builder.Property(rack => rack.YAxis)
+            .IsRequired();
 
-        builder.HasIndex(r => r.Label)
-            .HasDatabaseName("IX_Racks_Label");
+        builder.Property(rack => rack.Height)
+            .IsRequired();
+
+        builder.Property(rack => rack.Width)
+            .IsRequired();
+
+        builder.Property(rack => rack.Length)
+            .IsRequired();
+
+        builder.Property(rack => rack.DiminsionUnit)
+            .IsRequired();
+
+        builder.Property(rack => rack.WarehouseId)
+            .HasConversion(
+                warehouseId => warehouseId.Value,
+                dbId => WarehouseId.Of(dbId))
+            .IsRequired()
+            .HasMaxLength(100);
+
+        // Configure relationships
+        builder.HasOne(rack => rack.Warehouse)
+            .WithMany()
+            .HasForeignKey(rack => rack.WarehouseId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(rack => rack.Shelves)
+            .WithOne()
+            .HasForeignKey(shelf => shelf.RackId) 
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Configure indexes
+        builder.HasIndex(rack => rack.WarehouseId)
+            .HasDatabaseName("IX_Rack_WarehouseId");
+
+        builder.HasIndex(rack => rack.Code)
+            .HasDatabaseName("IX_Rack_Code");
     }
 }
+

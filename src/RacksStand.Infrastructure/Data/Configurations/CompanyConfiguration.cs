@@ -52,13 +52,15 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
             .HasConversion(
                 userId => userId.Value,
                 dbId => UserId.Of(dbId))
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(100);
 
         builder.Property(c => c.PlanId)
             .HasConversion(
                 planId => planId.Value,
                 dbId => PlanId.Of(dbId))
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(100);
 
         builder.HasIndex(c => c.Name)
             .HasDatabaseName("IX_Company_Name");

@@ -1,5 +1,6 @@
 ﻿using RacksStand.Domain.Core;
 using RacksStand.Domain.ValueObjects;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace RacksStand.Domain.Entities;

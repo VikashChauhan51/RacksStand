@@ -17,5 +17,7 @@ public class User : Entity<UserId>
     public int AccessFailedCount { get; set; }
     public virtual ICollection<UserPermission> UserPermissions { get; set; } = [];
     public virtual ICollection<CompanyUser> Companies { get; set; } = [];
+    public virtual ICollection<UserAccessToken> UserAccessTokens { get; set; } = [];
+    public virtual ICollection<UserRefreshToken> UserRefreshTokens { get; set; } = [];
 
 }
