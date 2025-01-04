@@ -14,7 +14,7 @@ namespace RacksStand.Infrastructure;
 public static class DependencyInjection
 {
 
-    public static WebApplicationBuilder AddDbContext(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddApplicationDbContext(this WebApplicationBuilder builder)
     {
         builder.Services.AddDbContext<RacksStandContext>(options =>
         {

@@ -1,6 +1,1 @@
-﻿global using FluentValidation;
-global using Mapster;
-global using ResultifyCore;
-global using System.Net.Mime;
-global using Microsoft.AspNetCore.Mvc;
-global using Microsoft.OpenApi.Models;
+﻿global using System.Net.Mime;
