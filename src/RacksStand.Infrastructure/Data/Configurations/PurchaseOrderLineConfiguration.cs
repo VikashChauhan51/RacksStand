@@ -35,17 +35,26 @@ public class PurchaseOrderLineConfiguration : IEntityTypeConfiguration<PurchaseO
             .HasMaxLength(100);
 
         builder.Property(pol => pol.Quantity)
+              .HasConversion(
+                quantity => quantity.Value,
+                dbId => Quantity.Of(dbId))
             .IsRequired();
 
         builder.Property(pol => pol.UnitPrice)
+             .HasConversion(
+                price => price.Value,
+                dbId => PurchasePrice.Of(dbId))
             .IsRequired();
 
         builder.Property(pol => pol.Unit)
-            .IsRequired();
+            .HasConversion(
+                unit => unit.Value,
+                dbId => Unit.Of(dbId))
+            .IsRequired()
+            .HasMaxLength(1);
 
         // Configure the TotalPrice property (calculated)
-        builder.Property(pol => pol.TotalPrice)
-            .HasComputedColumnSql("[Quantity] * [UnitPrice]");
+        builder.Ignore(pol => pol.TotalPrice);
 
         // Configure relationships
         builder.HasOne(pol => pol.PurchaseOrder)

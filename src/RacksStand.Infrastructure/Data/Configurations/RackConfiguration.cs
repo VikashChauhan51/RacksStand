@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RacksStand.Domain.Entities;
 using RacksStand.Domain.ValueObjects;
+using RacksStand.Domain.Enums;
 
 namespace RacksStand.Api.Core.Infrastructure.Data.Configurations;
 
@@ -38,21 +39,39 @@ public class RackConfiguration : IEntityTypeConfiguration<Rack>
             .IsRequired(false);
 
         builder.Property(rack => rack.XAxis)
+             .HasConversion(
+                xAxis => xAxis.Value,
+                dbId => XAxis.Of(dbId))
             .IsRequired();
 
         builder.Property(rack => rack.YAxis)
+             .HasConversion(
+                yAxis => yAxis.Value,
+                dbId => YAxis.Of(dbId))
             .IsRequired();
 
         builder.Property(rack => rack.Height)
+             .HasConversion(
+                height => height.Value,
+                dbId => Height.Of(dbId))
             .IsRequired();
 
         builder.Property(rack => rack.Width)
+             .HasConversion(
+                width => width.Value,
+                dbId => Width.Of(dbId))
             .IsRequired();
 
         builder.Property(rack => rack.Length)
+             .HasConversion(
+                length => length.Value,
+                dbId => Length.Of(dbId))
             .IsRequired();
 
         builder.Property(rack => rack.DiminsionUnit)
+             .HasConversion(
+                id => id.ToString(),
+                dbId => Enum.Parse<DimensionUnit>(dbId))
             .IsRequired();
 
         builder.Property(rack => rack.WarehouseId)
@@ -70,7 +89,7 @@ public class RackConfiguration : IEntityTypeConfiguration<Rack>
 
         builder.HasMany(rack => rack.Shelves)
             .WithOne()
-            .HasForeignKey(shelf => shelf.RackId) 
+            .HasForeignKey(shelf => shelf.RackId)
             .OnDelete(DeleteBehavior.Cascade);
 
         // Configure indexes

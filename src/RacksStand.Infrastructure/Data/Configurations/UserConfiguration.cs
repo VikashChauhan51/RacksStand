@@ -41,8 +41,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(15); // Adjust based on international phone number format
 
         // Configure optional properties
-        builder.Property(u => u.LockoutEnd)
-            .HasColumnType("datetimeoffset");
+        builder.Property(u => u.LockoutEnd);
 
         builder.Property(u => u.PhoneNumberConfirmed)
             .HasDefaultValue(false);

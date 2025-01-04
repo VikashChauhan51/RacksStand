@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RacksStand.Domain.Entities;
 using RacksStand.Domain.ValueObjects;
+using RacksStand.Domain.Enums;
 
 namespace RacksStand.Infrastructure.Data.Configurations;
 public class BinConfiguration : IEntityTypeConfiguration<Bin>
@@ -76,8 +77,11 @@ public class BinConfiguration : IEntityTypeConfiguration<Bin>
                 dbValue => Length.Of(dbValue))
             .IsRequired();
 
-        builder.Property(b => b.DiminsionUnit)
-            .HasMaxLength(50);
+        builder.Property(rack => rack.DiminsionUnit)
+             .HasConversion(
+                id => id.ToString(),
+                dbId => Enum.Parse<DimensionUnit>(dbId))
+            .IsRequired();
 
         // Relationships
         builder.HasOne(b => b.Self)

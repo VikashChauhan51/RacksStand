@@ -32,12 +32,10 @@ public class UserAccessTokenConfiguration : IEntityTypeConfiguration<UserAccessT
             .HasMaxLength(200);
 
         builder.Property(uat => uat.ExpirationDate)
-            .IsRequired()
-            .HasColumnType("datetimeoffset");
+            .IsRequired();
 
         // Configure optional properties
-        builder.Property(uat => uat.RevokedAt)
-            .HasColumnType("datetimeoffset");
+        builder.Property(uat => uat.RevokedAt);
 
         // Configure relationships
         builder.HasOne(uat => uat.User)

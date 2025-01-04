@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RacksStand.Domain.Entities;
+using RacksStand.Domain.Enums;
 using RacksStand.Domain.ValueObjects;
 
 namespace RacksStand.Infrastructure.Data.Configurations;
@@ -43,22 +44,40 @@ public class SelfConfiguration : IEntityTypeConfiguration<Self>
         builder.Property(s => s.Description)
             .HasMaxLength(500);
 
-        builder.Property(s => s.XAxis)
+        builder.Property(rack => rack.XAxis)
+             .HasConversion(
+                xAxis => xAxis.Value,
+                dbId => XAxis.Of(dbId))
             .IsRequired();
 
-        builder.Property(s => s.YAxis)
+        builder.Property(rack => rack.YAxis)
+             .HasConversion(
+                yAxis => yAxis.Value,
+                dbId => YAxis.Of(dbId))
             .IsRequired();
 
-        builder.Property(s => s.Height)
+        builder.Property(rack => rack.Height)
+             .HasConversion(
+                height => height.Value,
+                dbId => Height.Of(dbId))
             .IsRequired();
 
-        builder.Property(s => s.Width)
+        builder.Property(rack => rack.Width)
+             .HasConversion(
+                width => width.Value,
+                dbId => Width.Of(dbId))
             .IsRequired();
 
-        builder.Property(s => s.Length)
+        builder.Property(rack => rack.Length)
+             .HasConversion(
+                length => length.Value,
+                dbId => Length.Of(dbId))
             .IsRequired();
 
-        builder.Property(s => s.DiminsionUnit)
+        builder.Property(rack => rack.DiminsionUnit)
+             .HasConversion(
+                id => id.ToString(),
+                dbId => Enum.Parse<DimensionUnit>(dbId))
             .IsRequired();
 
         // Configure relationships

@@ -8,8 +8,8 @@ This document outlines the requirements and assumptions for a rack-based invento
 `src>:`
 
 ```cmd
-dotnet ef migrations add InitialCreate --project  RacksStand.Persistence/RacksStand.Persistence.csproj --startup-project  RacksStand.Api/RacksStand.Api.csproj
+dotnet ef migrations add InitialCreate --project  RacksStand.Infrastructure/RacksStand.Infrastructure.csproj --startup-project  RacksStand.Api/RacksStand.Api.csproj
 
-dotnet ef database update --project  RacksStand.Persistence/RacksStand.Persistence.csproj --startup-project  RacksStand.Api/RacksStand.Api.csproj
+dotnet ef database update --project  RacksStand.Infrastructure/RacksStand.Infrastructure.csproj --startup-project  RacksStand.Api/RacksStand.Api.csproj
 
 ```

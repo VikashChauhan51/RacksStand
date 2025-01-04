@@ -33,17 +33,26 @@ public class SaleOrderLineConfiguration : IEntityTypeConfiguration<SaleOrderLine
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(line => line.Quantity)
+        builder.Property(pol => pol.Quantity)
+            .HasConversion(
+              quantity => quantity.Value,
+              dbId => Quantity.Of(dbId))
+          .IsRequired();
+
+        builder.Property(pol => pol.UnitPrice)
+             .HasConversion(
+                price => price.Value,
+                dbId => SellingPrice.Of(dbId))
             .IsRequired();
 
-        builder.Property(line => line.UnitPrice)
-            .IsRequired();
+        builder.Property(pol => pol.Unit)
+            .HasConversion(
+                unit => unit.Value,
+                dbId => Unit.Of(dbId))
+            .IsRequired()
+            .HasMaxLength(1);
 
-        builder.Property(line => line.Unit)
-            .IsRequired();
-
-        builder.Property(line => line.TotalPrice)
-            .HasComputedColumnSql("[Quantity] * [UnitPrice]");
+        builder.Ignore(pol => pol.TotalPrice);
 
         // Configure relationships
         builder.HasOne(line => line.SaleOrder)

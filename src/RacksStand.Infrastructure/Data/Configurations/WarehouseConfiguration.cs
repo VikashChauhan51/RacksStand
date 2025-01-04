@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RacksStand.Domain.Entities;
+using RacksStand.Domain.Enums;
 using RacksStand.Domain.ValueObjects;
 
 namespace RacksStand.Infrastructure.Data.Configurations;
@@ -42,16 +43,28 @@ public class WarehouseConfiguration : IEntityTypeConfiguration<Warehouse>
             .IsRequired()
             .HasMaxLength(20);
 
-        builder.Property(w => w.Height)
+        builder.Property(b => b.Height)
+            .HasConversion(
+                height => height.Value,
+                dbValue => Height.Of(dbValue))
             .IsRequired();
 
-        builder.Property(w => w.Width)
+        builder.Property(b => b.Width)
+            .HasConversion(
+                width => width.Value,
+                dbValue => Width.Of(dbValue))
             .IsRequired();
 
-        builder.Property(w => w.Length)
+        builder.Property(b => b.Length)
+            .HasConversion(
+                length => length.Value,
+                dbValue => Length.Of(dbValue))
             .IsRequired();
 
-        builder.Property(w => w.DiminsionUnit)
+        builder.Property(rack => rack.DiminsionUnit)
+             .HasConversion(
+                id => id.ToString(),
+                dbId => Enum.Parse<DimensionUnit>(dbId))
             .IsRequired();
 
         builder.Property(w => w.AddressLine1)
