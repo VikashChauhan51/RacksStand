@@ -1,5 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using RacksStand.Api.Core.Domain.Entities;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using RacksStand.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -19,7 +20,7 @@ public class JwtService
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.Value),
             new Claim(ClaimTypes.Email, user.Email),
         };
 

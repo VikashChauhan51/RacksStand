@@ -1,4 +1,4 @@
-﻿using RacksStand.Api.Core.Domain.Entities;
+﻿using RacksStand.Domain.Core;
 using RacksStand.Models;
 using System.Linq.Expressions;
 

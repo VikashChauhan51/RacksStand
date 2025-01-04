@@ -1,4 +1,4 @@
-﻿using RacksStand.Api.Core.Domain.Entities;
+﻿using RacksStand.Domain.Core;
 
 namespace RacksStand.Api.Core.Infrastructure.Repositories;
 

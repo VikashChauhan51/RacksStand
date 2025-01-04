@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RacksStand.Api.Core.Domain.Entities;
-using RacksStand.Api.Core.Domain.ValueObjects;
+using RacksStand.Domain.Entities;
+using RacksStand.Domain.ValueObjects;
 
 
 namespace RacksStand.Api.Core.Infrastructure.Repositories;
@@ -22,15 +22,5 @@ public class PlanRepository : Repository<Plan, PlanId>, IPlanRepository
                             .Include(p => p.PlanFeatures)
                             .ThenInclude(x => x.Feature)
                             .ToListAsync(cancellationToken);
-    }
-
-    public async Task<Plan?> GetPlanDetailsAsync(PlanId planId, CancellationToken cancellationToken)
-    {
-        return await Context.Set<Plan>()
-                            .Include(p => p.Users)
-                            .Include(p => p.UserPlans)
-                            .Include(p => p.PlanFeatures)
-                            .ThenInclude(x => x.Feature)
-                            .FirstOrDefaultAsync(p => p.Id == planId, cancellationToken);
     }
 }
