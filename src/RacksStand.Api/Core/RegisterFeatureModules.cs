@@ -1,7 +1,7 @@
 ﻿using RacksStand.Api.Core.Abstractions;
 using System.Reflection;
 
-namespace RacksStand.Api.Core.Infrastructure;
+namespace RacksStand.Api.Core;
 
 public static class RegisterFeatureModules
 {

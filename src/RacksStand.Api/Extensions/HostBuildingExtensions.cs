@@ -2,7 +2,7 @@
 using Carter;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using RacksStand.Api.Core.Infrastructure;
+using RacksStand.Api.Core;
 using RacksStand.Api.Middlewares;
 using Scalar.AspNetCore;
 using System.Diagnostics;

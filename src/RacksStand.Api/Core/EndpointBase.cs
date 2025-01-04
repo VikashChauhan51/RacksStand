@@ -1,6 +1,6 @@
 ﻿using Carter;
 
-namespace RacksStand.Api.Core.Infrastructure;
+namespace RacksStand.Api.Core;
 
 public abstract class EndpointBase : CarterModule
 {

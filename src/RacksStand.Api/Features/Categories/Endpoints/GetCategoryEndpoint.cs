@@ -1,4 +1,4 @@
-﻿using RacksStand.Api.Core.Infrastructure;
+﻿using RacksStand.Api.Core;
 using RacksStand.Api.Features.Categories.Services;
 
 namespace RacksStand.Api.Features.Categories.Endpoints;

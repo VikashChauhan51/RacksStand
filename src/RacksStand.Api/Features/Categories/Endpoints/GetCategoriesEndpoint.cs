@@ -1,4 +1,4 @@
-﻿using RacksStand.Api.Core.Infrastructure;
+﻿using RacksStand.Api.Core;
 using RacksStand.Api.Features.Categories.Models;
 using RacksStand.Api.Features.Categories.Services;
 
