@@ -1,4 +1,8 @@
-﻿using RacksStand.Api.Features.Users;
+﻿using FluentValidation;
+using Google.Protobuf.WellKnownTypes;
+using RacksStand.Api.Features.Users;
+using RacksStand.Api.Features.Users.Signup;
+using RacksStand.Api.Features.Users.Types;
 using RacksStand.Api.Middlewares;
 using RacksStand.Infrastructure;
 
@@ -23,12 +27,14 @@ public static class HostBuildingExtensions
         builder.Services.AddAuthentication();
         builder.AddApplicationDbContext();
         builder.AddLoggerServices();
-
+        builder.Services.AddValidatorsFromAssembly(typeof(HostBuildingExtensions).Assembly);
         builder.Services
-            .AddGraphQLServer()
-            .AddQueryType<Query>()
+        .AddGraphQLServer()
+            .AddQueryType<UserQuery>()
+            .AddMutationType<SignupMutation>()
+            .AddType<UserType>()
             .AddAuthorization();
-       
+
         return builder.Build();
     }
 
@@ -38,7 +44,7 @@ public static class HostBuildingExtensions
         app.UseCors();
         app.UseHttpsRedirection();
         app.UseRouting();
-        app.UseAuthentication(); 
+        app.UseAuthentication();
         app.UseAuthorization();
         app.MapGraphQL();
         app.UseHealthChecks("/healthz");

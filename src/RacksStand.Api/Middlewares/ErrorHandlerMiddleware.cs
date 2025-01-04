@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using System.Text.Json;
 
 namespace RacksStand.Api.Middlewares;
 
@@ -32,6 +31,7 @@ public class ErrorHandlerMiddleware
 
         var statusCode = exception switch
         {
+            ValidationException => StatusCodes.Status400BadRequest,
             UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
             _ => StatusCodes.Status500InternalServerError
         };
@@ -61,19 +61,19 @@ public class ErrorHandlerMiddleware
             }
         };
 
-        //if (exception is ValidationException validation)
-        //{
-        //    Dictionary<string, string[]>? dictionary = validation.Errors?
-        //                    .GroupBy(x => x.PropertyName)
-        //                    .ToDictionary(
-        //                        g => g.Key,
-        //                        g => g.Select(e => e.ErrorMessage).ToArray()
-        //                    );
-        //    if (dictionary != null)
-        //    {
-        //        problemDetails.Errors = dictionary;
-        //    }
-        //}
+        if (exception is ValidationException validation)
+        {
+            Dictionary<string, string[]>? dictionary = validation.Errors?
+                            .GroupBy(x => x.PropertyName)
+                            .ToDictionary(
+                                g => g.Key,
+                                g => g.Select(e => e.ErrorMessage).ToArray()
+                            );
+            if (dictionary != null)
+            {
+                problemDetails.Errors = dictionary;
+            }
+        }
 
         await context.Response.WriteAsJsonAsync
         (

@@ -24,11 +24,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="11.11.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
 		<PackageReference Include="HotChocolate" Version="14.3.0" />
 		<PackageReference Include="HotChocolate.AspNetCore" Version="14.3.0" />
 		<PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.3.0" />
 		<PackageReference Include="HotChocolate.Data" Version="14.3.0" />
 		<PackageReference Include="HotChocolate.Data.EntityFramework" Version="14.3.0" />
+		<PackageReference Include="ResultifyCore" Version="1.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
