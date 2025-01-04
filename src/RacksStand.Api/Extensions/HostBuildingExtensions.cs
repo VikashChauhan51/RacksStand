@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using RacksStand.Api.Core;
 using RacksStand.Api.Middlewares;
+using RacksStand.Infrastructure;
 using Scalar.AspNetCore;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -18,7 +19,7 @@ public static class HostBuildingExtensions
     {
         var assembly = typeof(HostBuildingExtensions).Assembly;
         builder.Services.AddOpenApi();
-        builder.AddLogger();
+        builder.AddLoggerServices();
         builder.Services.AddProblemDetails(options =>
         {
             // Customize ProblemDetails
@@ -47,9 +48,7 @@ public static class HostBuildingExtensions
 
         builder.Services.AddValidatorsFromAssembly(assembly);
         builder
-            .AddDbContext()
-            .AddApplicationRepositories()
-            .AddApplicationServices();
+            .AddDbContext();
 
         builder.Services.AddCors(options =>
         {
@@ -117,7 +116,7 @@ public static class HostBuildingExtensions
         });
 
         builder.Services.AddAuthorization();
-        RegisterFeatureModules.RegisterModules(builder.Services, assembly);
+        RegisterFeatureModules.RegisterModules(builder.Services, builder.Configuration, assembly);
 
         return builder.Build();
     }

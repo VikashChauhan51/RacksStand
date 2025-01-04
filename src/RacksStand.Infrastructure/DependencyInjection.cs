@@ -1,18 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using RacksStand.Api.Core.Domain.Entities;
-using RacksStand.Api.Core.Infrastructure.Data.Contexts;
-using RacksStand.Api.Core.Infrastructure.Repositories;
-using RacksStand.Api.Core.Infrastructure.Services;
+using RacksStand.Infrastructure.Data.Contexts;
 using Serilog;
 using Serilog.Events;
 
-namespace RacksStand.Api.Extensions;
-
+namespace RacksStand.Infrastructure;
 public static class DependencyInjection
 {
 
@@ -23,37 +21,10 @@ public static class DependencyInjection
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
         builder.Services.AddScoped<DbContext>(sp => sp.GetRequiredService<RacksStandContext>());
-        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return builder;
     }
-    public static WebApplicationBuilder AddApplicationRepositories(this WebApplicationBuilder builder)
-    {
-       
-        builder.Services.AddScoped<IPlanRepository, PlanRepository>();    
-        builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();   
-
-        return builder;
-    }
-    public static WebApplicationBuilder AddApplicationServices(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddIdentity<User, IdentityRole>(options =>
-        {
-            options.Password.RequireDigit = true;
-            options.Password.RequireLowercase = true;
-            options.Password.RequireUppercase = true;
-            options.Password.RequiredLength = 8;
-            options.User.RequireUniqueEmail = true;
-        })
-        .AddEntityFrameworkStores<RacksStandContext>()
-        .AddDefaultTokenProviders();
-         
-        builder.Services.AddScoped<IPlanService, PlanService>();
-        builder.Services.AddScoped<IPaymentService, PaymentService>();
-        
-        return builder;
-    }
-    public static WebApplicationBuilder AddLogger(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddLoggerServices(this WebApplicationBuilder builder)
     {
         // Configure Serilog
         builder.Host.UseSerilog((context, services, configuration) => configuration

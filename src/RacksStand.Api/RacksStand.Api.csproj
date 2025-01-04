@@ -10,40 +10,16 @@
 
 	<ItemGroup>
 	  <Compile Remove="Core\Exceptions\**" />
-	  <Compile Remove="Features\Categories\Endpoints\Responses\**" />
-	  <Compile Remove="Features\Products\Endpoints\Responses\**" />
-	  <Compile Remove="Features\Shops\Endpoints\Responses\**" />
-	  <Compile Remove="Features\Suppliers\Endpoints\Responses\**" />
 	  <Compile Remove="Features\UserShops\**" />
-	  <Compile Remove="Features\Users\Endpoints\Responses\**" />
-	  <Compile Remove="Features\Users\Shared\**" />
 	  <Compile Remove="Migrations\**" />
 	  <Content Remove="Core\Exceptions\**" />
-	  <Content Remove="Features\Categories\Endpoints\Responses\**" />
-	  <Content Remove="Features\Products\Endpoints\Responses\**" />
-	  <Content Remove="Features\Shops\Endpoints\Responses\**" />
-	  <Content Remove="Features\Suppliers\Endpoints\Responses\**" />
 	  <Content Remove="Features\UserShops\**" />
-	  <Content Remove="Features\Users\Endpoints\Responses\**" />
-	  <Content Remove="Features\Users\Shared\**" />
 	  <Content Remove="Migrations\**" />
 	  <EmbeddedResource Remove="Core\Exceptions\**" />
-	  <EmbeddedResource Remove="Features\Categories\Endpoints\Responses\**" />
-	  <EmbeddedResource Remove="Features\Products\Endpoints\Responses\**" />
-	  <EmbeddedResource Remove="Features\Shops\Endpoints\Responses\**" />
-	  <EmbeddedResource Remove="Features\Suppliers\Endpoints\Responses\**" />
 	  <EmbeddedResource Remove="Features\UserShops\**" />
-	  <EmbeddedResource Remove="Features\Users\Endpoints\Responses\**" />
-	  <EmbeddedResource Remove="Features\Users\Shared\**" />
 	  <EmbeddedResource Remove="Migrations\**" />
 	  <None Remove="Core\Exceptions\**" />
-	  <None Remove="Features\Categories\Endpoints\Responses\**" />
-	  <None Remove="Features\Products\Endpoints\Responses\**" />
-	  <None Remove="Features\Shops\Endpoints\Responses\**" />
-	  <None Remove="Features\Suppliers\Endpoints\Responses\**" />
 	  <None Remove="Features\UserShops\**" />
-	  <None Remove="Features\Users\Endpoints\Responses\**" />
-	  <None Remove="Features\Users\Shared\**" />
 	  <None Remove="Migrations\**" />
 	</ItemGroup>
 
@@ -58,40 +34,16 @@
 		<PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
 		<PackageReference Include="Scalar.AspNetCore" Version="1.2.72" />
-		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.0" />
-		<PackageReference Include="OpenTelemetry" Version="1.10.0" />
-		<PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.10.0" />
-		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.10.0" />
-		<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.10.0" />
-		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.10.1" />
-		<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.10.0" />
-		<PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.10.0" />
-		<PackageReference Include="Serilog" Version="4.2.0" />
-		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
-		<PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
-		<PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />
-		<PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
-		<PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
-		<PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
-		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-		<PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.1.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.12.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
-		<PackageReference Include="ResultifyCore" Version="1.0.2" />
-		<PackageReference Include="Mapster" Version="7.4.0" />
-		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.3.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\RacksStand.Domain\RacksStand.Domain.csproj" />
+		<ProjectReference Include="..\RacksStand.Infrastructure\RacksStand.Infrastructure.csproj" />
 		<ProjectReference Include="..\RacksStand.Models\RacksStand.Models.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Features\" />
 	</ItemGroup>
 
 </Project>
