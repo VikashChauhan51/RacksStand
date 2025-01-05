@@ -1,4 +1,6 @@
-﻿namespace RacksStand.Api.Features.Users.Signup;
+﻿using RacksStand.Api.Core.Requests;
+
+namespace RacksStand.Api.Features.Users.SignUp;
 
 public record SignupRequest
 (
@@ -7,10 +9,5 @@ public record SignupRequest
     string Password,
     string PhoneNumber,
     string CompanyName,
-    string Address,
-    string? Address2,
-    string City,
-    string State,
-    string Country,
-    string ZipCode
+    AddressRequest Address
 );

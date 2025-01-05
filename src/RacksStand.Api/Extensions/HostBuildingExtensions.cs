@@ -1,10 +1,8 @@
-﻿using FluentValidation;
-using Google.Protobuf.WellKnownTypes;
-using RacksStand.Api.Features.Users;
-using RacksStand.Api.Features.Users.Signup;
-using RacksStand.Api.Features.Users.Types;
+﻿using Carter;
+using Microsoft.Extensions.DependencyInjection;
 using RacksStand.Api.Middlewares;
 using RacksStand.Infrastructure;
+using Scalar.AspNetCore;
 
 namespace RacksStand.Api.Extensions;
 
@@ -12,8 +10,10 @@ public static class HostBuildingExtensions
 {
     public static WebApplication AddServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddOpenApi();
         builder.Services
             .AddHealthChecks();
+
         builder.Services.AddCors(options =>
         {
             options.AddDefaultPolicy(policy =>
@@ -25,28 +25,32 @@ public static class HostBuildingExtensions
         });
         builder.Services.AddAuthorization();
         builder.Services.AddAuthentication();
+        builder.Services.AddCarter();
         builder.AddApplicationDbContext();
         builder.AddLoggerServices();
         builder.Services.AddValidatorsFromAssembly(typeof(HostBuildingExtensions).Assembly);
-        builder.Services
-        .AddGraphQLServer()
-            .AddQueryType<UserQuery>()
-            .AddMutationType<SignupMutation>()
-            .AddType<UserType>()
-            .AddAuthorization();
 
         return builder.Build();
     }
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
+        app.MapOpenApi();
+        if (app.Environment.IsDevelopment())
+        {
+            app.MapScalarApiReference(opt =>
+            {
+                opt.Title = "Racks Stand";
+                opt.Theme = ScalarTheme.Mars;
+                opt.DefaultHttpClient = new(ScalarTarget.Http, ScalarClient.Http11);
+            });
+        }
         app.UseMiddleware<ErrorHandlerMiddleware>();
         app.UseCors();
         app.UseHttpsRedirection();
-        app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
-        app.MapGraphQL();
+        app.MapCarter();
         app.UseHealthChecks("/healthz");
 
         return app;

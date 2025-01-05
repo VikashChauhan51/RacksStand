@@ -38,7 +38,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RacksStand.Domain\RacksStand.Domain.csproj" />
-		<ProjectReference Include="..\RacksStand.Models\RacksStand.Models.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -34,11 +34,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.PasswordHash)
             .IsRequired()
-            .HasMaxLength(500); // Allow enough length for hashed passwords
+            .HasMaxLength(500); 
 
         builder.Property(u => u.PhoneNumber)
             .IsRequired()
-            .HasMaxLength(15); // Adjust based on international phone number format
+            .HasMaxLength(15); 
 
         // Configure optional properties
         builder.Property(u => u.LockoutEnd);

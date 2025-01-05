@@ -10,34 +10,27 @@
 
 	<ItemGroup>
 		<Compile Remove="Core\Exceptions\**" />
-		<Compile Remove="Features\UserShops\**" />
 		<Compile Remove="Migrations\**" />
 		<Content Remove="Core\Exceptions\**" />
-		<Content Remove="Features\UserShops\**" />
 		<Content Remove="Migrations\**" />
 		<EmbeddedResource Remove="Core\Exceptions\**" />
-		<EmbeddedResource Remove="Features\UserShops\**" />
 		<EmbeddedResource Remove="Migrations\**" />
 		<None Remove="Core\Exceptions\**" />
-		<None Remove="Features\UserShops\**" />
 		<None Remove="Migrations\**" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Carter" Version="9.0.0" />
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
-		<PackageReference Include="HotChocolate" Version="14.3.0" />
-		<PackageReference Include="HotChocolate.AspNetCore" Version="14.3.0" />
-		<PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.3.0" />
-		<PackageReference Include="HotChocolate.Data" Version="14.3.0" />
-		<PackageReference Include="HotChocolate.Data.EntityFramework" Version="14.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
 		<PackageReference Include="ResultifyCore" Version="1.0.3" />
+		<PackageReference Include="Scalar.AspNetCore" Version="1.2.72" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\RacksStand.Domain\RacksStand.Domain.csproj" />
 		<ProjectReference Include="..\RacksStand.Infrastructure\RacksStand.Infrastructure.csproj" />
-		<ProjectReference Include="..\RacksStand.Models\RacksStand.Models.csproj" />
 	</ItemGroup>
 
 </Project>
