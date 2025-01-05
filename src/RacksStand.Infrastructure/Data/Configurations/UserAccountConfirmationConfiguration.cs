@@ -26,8 +26,7 @@ public class UserAccountConfirmationConfiguration : IEntityTypeConfiguration<Use
             .IsRequired();
 
         builder.Property(urt => urt.Token)
-            .IsRequired()
-            .HasMaxLength(1000);
+            .IsRequired();
 
         builder.Property(urt => urt.ExpiresAt)
             .IsRequired();

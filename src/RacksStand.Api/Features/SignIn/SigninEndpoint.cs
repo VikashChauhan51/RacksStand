@@ -75,8 +75,7 @@ public class SigninEndpoint : EndpointBase
         }
 
         // Check password hash
-        var passwordHash = PasswordHasher.HashPassword(request.Password);
-        if (user.PasswordHash != passwordHash)
+        if (!PasswordHasher.VerifyHashedPassword(user.PasswordHash, request.Password))
         {
             // Increment failed attempts and lock user if necessary
             user.AccessFailedCount++;

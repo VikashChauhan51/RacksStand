@@ -27,8 +27,7 @@ public class UserRefreshTokenConfiguration : IEntityTypeConfiguration<UserRefres
             .IsRequired();
 
         builder.Property(urt => urt.Token)
-            .IsRequired()
-            .HasMaxLength(1000); 
+            .IsRequired(); 
 
         builder.Property(urt => urt.ExpirationDate)
             .IsRequired();

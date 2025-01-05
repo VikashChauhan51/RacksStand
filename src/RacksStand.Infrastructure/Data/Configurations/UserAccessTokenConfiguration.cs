@@ -27,12 +27,10 @@ public class UserAccessTokenConfiguration : IEntityTypeConfiguration<UserAccessT
             .IsRequired();
 
         builder.Property(uat => uat.Token)
-            .IsRequired()
-            .HasMaxLength(500); 
+            .IsRequired();
 
         builder.Property(uat => uat.Scope)
-            .IsRequired()
-            .HasMaxLength(200);
+            .IsRequired();
 
         builder.Property(uat => uat.ExpirationDate)
             .IsRequired();
