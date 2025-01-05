@@ -60,8 +60,7 @@ public class AccountConfirmationEndpoint : EndpointBase
         dbContext.Users.Update(user);
 
         // Mark the confirmation token as used
-        confirmation.IsUsed = true;
-        dbContext.UserAccountConfirmations.Update(confirmation);
+        dbContext.UserAccountConfirmations.Remove(confirmation);
 
         await dbContext.SaveChangesAsync();
 
