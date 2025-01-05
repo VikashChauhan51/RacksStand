@@ -12,7 +12,7 @@ using RacksStand.Infrastructure.Data.Contexts;
 namespace RacksStand.Infrastructure.Migrations
 {
     [DbContext(typeof(RacksStandContext))]
-    [Migration("20250104104622_InitialCreate")]
+    [Migration("20250105140219_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -1952,8 +1952,8 @@ namespace RacksStand.Infrastructure.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.HasKey("Id");
 
@@ -2023,6 +2023,56 @@ namespace RacksStand.Infrastructure.Migrations
                         .HasDatabaseName("IX_UserAccessToken_UserId");
 
                     b.ToTable("UserAccessTokens");
+                });
+
+            modelBuilder.Entity("RacksStand.Domain.Entities.UserAccountConfirmation", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Token")
+                        .HasDatabaseName("IX_UserAccountConfirmation_UserId_Token");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserAccountConfirmations");
                 });
 
             modelBuilder.Entity("RacksStand.Domain.Entities.UserPermission", b =>
@@ -2602,6 +2652,17 @@ namespace RacksStand.Infrastructure.Migrations
                 {
                     b.HasOne("RacksStand.Domain.Entities.User", "User")
                         .WithMany("UserAccessTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RacksStand.Domain.Entities.UserAccountConfirmation", b =>
+                {
+                    b.HasOne("RacksStand.Domain.Entities.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

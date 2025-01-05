@@ -1,4 +1,5 @@
 ﻿using Carter;
+using RacksStand.Api.Core.Infrastructure.Services;
 using RacksStand.Api.Middlewares;
 using RacksStand.Infrastructure;
 using Scalar.AspNetCore;
@@ -28,6 +29,7 @@ public static class HostBuildingExtensions
         builder.AddApplicationDbContext();
         builder.AddLoggerServices();
         builder.Services.AddValidatorsFromAssembly(typeof(HostBuildingExtensions).Assembly);
+        builder.Services.AddSingleton<JwtService>();
 
         return builder.Build();
     }

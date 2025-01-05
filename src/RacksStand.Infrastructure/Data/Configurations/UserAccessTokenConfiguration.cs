@@ -21,6 +21,9 @@ public class UserAccessTokenConfiguration : IEntityTypeConfiguration<UserAccessT
 
         // Configure required properties
         builder.Property(uat => uat.UserId)
+            .HasConversion(
+                id => id.Value,
+                dbId => UserId.Of(dbId))
             .IsRequired();
 
         builder.Property(uat => uat.Token)

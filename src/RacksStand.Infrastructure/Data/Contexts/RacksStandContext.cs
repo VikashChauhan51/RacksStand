@@ -34,6 +34,7 @@ public class RacksStandContext : DbContext
     public DbSet<Self> Shelves { get; set; } = default!;
     public DbSet<Supplier> Suppliers { get; set; } = default!;
     public DbSet<User> Users { get; set; } = default!;
+    public DbSet<UserAccountConfirmation> UserAccountConfirmations { get; set; } = default!;
     public DbSet<UserAccessToken> UserAccessTokens { get; set; } = default!;
     public DbSet<UserPermission> UserPermissions { get; set; } = default!;
     public DbSet<UserRefreshToken> UserRefreshTokens { get; set; } = default!;

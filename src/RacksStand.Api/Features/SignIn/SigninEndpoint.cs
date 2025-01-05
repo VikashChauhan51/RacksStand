@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RacksStand.Api.Core;
+using RacksStand.Api.Core.Infrastructure.Services;
+using RacksStand.Domain.Entities;
 using RacksStand.Infrastructure.Data.Contexts;
 using RacksStand.Infrastructure.Services;
 using ResultifyCore.Outcome;
@@ -32,7 +34,8 @@ public class SigninEndpoint : EndpointBase
         SigninRequest request,
         IValidator<SigninRequest> validator,
         ILogger<SigninEndpoint> logger,
-        RacksStandContext dbContext
+        RacksStandContext dbContext,
+        JwtService jwtService
     )
     {
         // Validate the request using provided validator
@@ -97,9 +100,39 @@ public class SigninEndpoint : EndpointBase
         }
 
         // Prepare and return successful outcome
-        var permissions = user.UserPermissions.Select(x => x.ModulePermission).ToList();
-        //TODO:generate token
-        return Results.Ok(Outcome<string>.Success("SignInSuccessful"));
+        var accessToken = jwtService.GenerateAccessToken(user);
+        var refreshToken = jwtService.GenerateRefreshToken();
+
+        var userAccessToken = new UserAccessToken
+        {
+            Id = Guid.NewGuid().ToString(),
+            UserId = user.Id,
+            Token = accessToken,
+            CreatedAt = DateTimeOffset.UtcNow,
+            ExpirationDate = DateTimeOffset.UtcNow.AddHours(24),
+            IsActive = true,
+            Scope = string.Empty
+        };
+
+        var userRefreshToken = new UserRefreshToken
+        {
+            Id = Guid.NewGuid().ToString(),
+            UserId = user.Id,
+            Token = refreshToken,
+            CreatedAt = DateTimeOffset.UtcNow,
+            ExpirationDate = DateTimeOffset.UtcNow.AddDays(30),
+            IsActive = true
+        };
+
+        dbContext.UserAccessTokens.Add(userAccessToken);
+        dbContext.UserRefreshTokens.Add(userRefreshToken);
+        await dbContext.SaveChangesAsync();
+        return Results.Ok(new
+        {
+            AccessToken = accessToken,
+            RefreshToken = refreshToken
+
+        });
     }
 }
 

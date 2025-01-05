@@ -24,6 +24,9 @@ public class UserPermissionConfiguration : IEntityTypeConfiguration<UserPermissi
             .IsRequired();
 
         builder.Property(up => up.UserId)
+            .HasConversion(
+                id => id.Value,
+                dbId => UserId.Of(dbId))
             .IsRequired();
 
         // Configure relationships

@@ -21,6 +21,9 @@ public class UserRefreshTokenConfiguration : IEntityTypeConfiguration<UserRefres
 
         // Configure required properties
         builder.Property(urt => urt.UserId)
+            .HasConversion(
+                id => id.Value,
+                dbId => UserId.Of(dbId))
             .IsRequired();
 
         builder.Property(urt => urt.Token)

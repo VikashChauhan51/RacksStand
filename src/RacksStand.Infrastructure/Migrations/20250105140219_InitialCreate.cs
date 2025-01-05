@@ -176,7 +176,7 @@ namespace RacksStand.Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     FullName = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    UserName = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    UserName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     PasswordHash = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     PhoneNumber = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
@@ -439,6 +439,33 @@ namespace RacksStand.Infrastructure.Migrations
                     table.PrimaryKey("PK_UserAccessTokens", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserAccessTokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserAccountConfirmations",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    UserId = table.Column<string>(type: "character varying(100)", nullable: false),
+                    Token = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    ExpiresAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    IsUsed = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserAccountConfirmations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserAccountConfirmations_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -1408,6 +1435,16 @@ namespace RacksStand.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserAccountConfirmation_UserId_Token",
+                table: "UserAccountConfirmations",
+                column: "Token");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserAccountConfirmations_UserId",
+                table: "UserAccountConfirmations",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserPermission_UserId_ModulePermissionId",
                 table: "UserPermissions",
                 columns: new[] { "UserId", "ModulePermissionId" },
@@ -1493,6 +1530,9 @@ namespace RacksStand.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserAccessTokens");
+
+            migrationBuilder.DropTable(
+                name: "UserAccountConfirmations");
 
             migrationBuilder.DropTable(
                 name: "UserPermissions");

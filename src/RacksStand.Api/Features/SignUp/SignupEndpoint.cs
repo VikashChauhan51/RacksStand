@@ -4,6 +4,7 @@ using RacksStand.Domain.Entities;
 using RacksStand.Infrastructure.Data.Contexts;
 using RacksStand.Infrastructure.Services;
 using ResultifyCore.Outcome;
+using System.Security.Cryptography;
 
 namespace RacksStand.Api.Features.SignUp;
 
@@ -114,7 +115,21 @@ public class SignUpEndpoint : EndpointBase
             IsActive = true,
             CreatedAt = DateTime.UtcNow
         };
+        // Generate confirmation token
+        var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
+        var confirmation = new UserAccountConfirmation
+        {
+            Id =Guid.NewGuid().ToString(),  
+            UserId = user.Id,
+            Token = token,
+            ExpiresAt = DateTime.UtcNow.AddDays(1),
+            CreatedAt = DateTime.UtcNow,
+            IsUsed = false,
+            IsActive=false          
+        };
 
+        //TODO: implement send email
+        logger.LogInformation("token:{Token}", confirmation.Token);
         // Start the transaction
         using (var transaction = dbContext.Database.BeginTransaction())
         {
@@ -133,6 +148,7 @@ public class SignUpEndpoint : EndpointBase
                     CreatedAt = DateTime.UtcNow
                 }));
 
+                dbContext.UserAccountConfirmations.Add(confirmation);
                 // Save changes and commit transaction
                 await dbContext.SaveChangesAsync();
                 transaction.Commit();
