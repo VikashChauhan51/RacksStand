@@ -1,5 +1,4 @@
 ﻿using Carter;
-using Microsoft.Extensions.DependencyInjection;
 using RacksStand.Api.Middlewares;
 using RacksStand.Infrastructure;
 using Scalar.AspNetCore;
