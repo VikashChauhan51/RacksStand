@@ -15,10 +15,7 @@
           placeholder="Enter your email"
         />
         <!-- Display validation errors for email -->
-        <div *ngIf="f['email'].touched && f['email'].invalid" class="text-red-500 text-sm mt-1">
-          <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
-          <div *ngIf="f['email'].errors?.['email']">Please enter a valid email address.</div>
-        </div>
+        <app-validation-error [control]="f['email']" fieldName="Email"></app-validation-error>
       </div>
 
       <div class="mb-6">
@@ -31,10 +28,7 @@
           placeholder="Enter your password"
         />
         <!-- Display validation errors for password -->
-        <div *ngIf="f['password'].touched && f['password']invalid" class="text-red-500 text-sm mt-1">
-          <div *ngIf="f['password'].errors?.['required']">Password is required.</div>
-          <div *ngIf="f['password'].errors?.['minlength']">Password must be at least 6 characters long.</div>
-        </div>
+        <app-validation-error [control]="f['password']" fieldName="Password"></app-validation-error>
       </div>
 
       <!-- Error message display -->

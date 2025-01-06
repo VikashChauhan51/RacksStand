@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import {ValidationErrorComponent} from '../../shared/components/validation-error/validation-error.component'
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,ValidationErrorComponent],
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
@@ -20,17 +21,16 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     // Form Group with two sections: User Info and Company Info
     this.signupForm = this.fb.group({
-      // Step 1 - User Info
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
-
-      // Step 2 - Company Info
-      companyName: ['', Validators.required],
-      companyAddress: ['', Validators.required]
-    }, {
-      validator: this.passwordMatchValidator
+      name: ['', [Validators.required,Validators.maxLength(100)]],
+      email: ['', [Validators.required, Validators.email,Validators.maxLength(150)]],
+      password: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(50)]],
+      companyName: ['', [Validators.required, Validators.maxLength(150)]],
+      address1: ['', [Validators.required, Validators.maxLength(250)]],
+      address2: ['',[Validators.maxLength(250)]],
+      state: ['', [Validators.required,Validators.maxLength(100)]],
+      city: ['', [Validators.required,Validators.maxLength(100)]],
+      country: ['', [Validators.required,Validators.maxLength(100)]],
+      zipcode: ['', [Validators.required,Validators.maxLength(15)]]
     });
   }
 
@@ -38,18 +38,15 @@ export class SignupComponent implements OnInit {
     return this.signupForm.controls;
   }
 
-  // Custom validator to check password match
-  passwordMatchValidator(group: FormGroup) {
-    const password = group.get('password')?.value;
-    const confirmPassword = group.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { match: true };
+  step1ControlsAreValid(): boolean {
+    return this.f['name'].valid && this.f['email'].valid && this.f['password'].valid;
   }
-
   // Method to navigate to the next step
   nextStep() {
-    if (this.currentStep < 2) {
+    if(this.step1ControlsAreValid() && this.currentStep < 2){
       this.currentStep++;
     }
+
   }
 
   // Method to navigate to the previous step

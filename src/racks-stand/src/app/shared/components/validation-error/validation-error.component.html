@@ -1,0 +1,5 @@
+<div class="text-red-500 text-sm mt-1" *ngIf="control && control.touched && getErrorKeys().length">
+  <div *ngFor="let errorKey of getErrorKeys()">
+    <p class="error-message">{{ getErrorMessage(errorKey) }}</p>
+  </div>
+</div>

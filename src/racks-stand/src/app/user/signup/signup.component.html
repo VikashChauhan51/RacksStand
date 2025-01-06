@@ -1,17 +1,18 @@
 <div class="flex min-h-screen bg-gray-100">
-
   <!-- Left Section: Signup Form -->
   <div class="w-full md:w-1/2 bg-white p-8 shadow-lg">
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
-      <ng-container *ngIf="currentStep === 1">Step 1: User Information</ng-container>
-      <ng-container *ngIf="currentStep === 2">Step 2: Company Information</ng-container>
+      @if (currentStep === 1) {
+      <ng-container>Step 1: User Information</ng-container>
+      } @if (currentStep === 2) {
+      <ng-container>Step 2: Company Information</ng-container>
+      }
     </h2>
 
     <!-- Signup Form -->
     <form [formGroup]="signupForm" (ngSubmit)="submitForm()">
-
-      <!-- Step 1: User Information -->
-      <div *ngIf="currentStep === 1">
+      @if (currentStep === 1) {
+      <div>
         <div class="mb-4">
           <label for="name" class="block text-gray-600">Name</label>
           <input
@@ -21,9 +22,7 @@
             class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter your name"
           />
-          <div *ngIf="f['name'].touched && f['name'].invalid" class="text-red-500 text-sm mt-1">
-            <div *ngIf="f['name'].errors?.['required']">Name is required.</div>
-          </div>
+          <app-validation-error [control]="f['name']" fieldName="Name"></app-validation-error>
         </div>
 
         <div class="mb-4">
@@ -35,10 +34,7 @@
             class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter your email"
           />
-          <div *ngIf="f['email'].touched && f['email'].invalid" class="text-red-500 text-sm mt-1">
-            <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
-            <div *ngIf="f['email'].errors?.['email']">Please enter a valid email address.</div>
-          </div>
+          <app-validation-error [control]="f['email']" fieldName="Email"></app-validation-error>
         </div>
 
         <div class="mb-4">
@@ -50,32 +46,17 @@
             class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter your password"
           />
-          <div *ngIf="f['password'].touched && f['password'].invalid" class="text-red-500 text-sm mt-1">
-            <div *ngIf="f['password'].errors?.['required']">Password is required.</div>
-            <div *ngIf="f['password'].errors?.['minlength']">Password must be at least 6 characters long.</div>
-          </div>
+          <app-validation-error [control]="f['password']" fieldName="Password"></app-validation-error>
         </div>
 
-        <div class="mb-4">
-          <label for="confirmPassword" class="block text-gray-600">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            formControlName="confirmPassword"
-            class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Confirm your password"
-          />
-          <div *ngIf="f['confirmPassword'].touched && f['confirmPassword'].invalid" class="text-red-500 text-sm mt-1">
-            <div *ngIf="f['confirmPassword'].errors?.['required']">Confirm Password is required.</div>
-            <div *ngIf="f['confirmPassword'].errors?.['match']">Passwords do not match.</div>
-          </div>
-        </div>
       </div>
-
-      <div *ngIf="currentStep === 2">
+      } @if (currentStep === 2) {
+      <div>
         <!-- Company Name -->
         <div class="mb-4">
-          <label for="companyName" class="block text-gray-600">Company Name</label>
+          <label for="companyName" class="block text-gray-600"
+            >Company Name</label
+          >
           <input
             type="text"
             id="companyName"
@@ -83,16 +64,16 @@
             class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter your company name"
           />
-          <div *ngIf="f['companyName'].touched && f['companyName'].invalid" class="text-red-500 text-sm mt-1">
-            <div *ngIf="f['companyName'].errors?.['required']">Company Name is required.</div>
-          </div>
+          <app-validation-error [control]="f['companyName']" fieldName="Company Name"></app-validation-error>
         </div>
 
         <!-- Address Fields in Two Columns -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <!-- Address Line 1 -->
           <div>
-            <label for="address1" class="block text-gray-600">Address Line 1</label>
+            <label for="address1" class="block text-gray-600"
+              >Address Line 1</label
+            >
             <input
               type="text"
               id="address1"
@@ -100,14 +81,14 @@
               class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter address line 1"
             />
-            <div *ngIf="f['address1'].touched && f['address1'].invalid" class="text-red-500 text-sm mt-1">
-              <div *ngIf="f['address1'].errors?.['required']">Address Line 1 is required.</div>
-            </div>
+            <app-validation-error [control]="f['address1']" fieldName="Address1"></app-validation-error>
           </div>
 
           <!-- Address Line 2 -->
           <div>
-            <label for="address2" class="block text-gray-600">Address Line 2</label>
+            <label for="address2" class="block text-gray-600"
+              >Address Line 2</label
+            >
             <input
               type="text"
               id="address2"
@@ -115,9 +96,7 @@
               class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter address line 2 (optional)"
             />
-            <div *ngIf="f['address2'].touched && f['address2'].invalid" class="text-red-500 text-sm mt-1">
-              <div *ngIf="f['address2'].errors?.['required']">Address Line 2 is required.</div>
-            </div>
+            <app-validation-error [control]="f['address2']" fieldName="Address2"></app-validation-error>
           </div>
         </div>
 
@@ -133,9 +112,7 @@
               class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter state"
             />
-            <div *ngIf="f['state'].touched && f['state'].invalid" class="text-red-500 text-sm mt-1">
-              <div *ngIf="f['state'].errors?.['required']">State is required.</div>
-            </div>
+            <app-validation-error [control]="f['state']" fieldName="State"></app-validation-error>
           </div>
 
           <!-- City -->
@@ -148,9 +125,7 @@
               class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter city"
             />
-            <div *ngIf="f['city'].touched && f['city'].invalid" class="text-red-500 text-sm mt-1">
-              <div *ngIf="f['city'].errors?.['required']">City is required.</div>
-            </div>
+            <app-validation-error [control]="f['city']" fieldName="City"></app-validation-error>
           </div>
         </div>
 
@@ -166,9 +141,7 @@
               class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter country"
             />
-            <div *ngIf="f['country'].touched && f['country'].invalid" class="text-red-500 text-sm mt-1">
-              <div *ngIf="f['country'].errors?.['required']">Country is required.</div>
-            </div>
+            <app-validation-error [control]="f['country']" fieldName="Country"></app-validation-error>
           </div>
 
           <!-- Zipcode -->
@@ -181,37 +154,60 @@
               class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter zipcode"
             />
-            <div *ngIf="f['zipcode'].touched && f['zipcode'].invalid" class="text-red-500 text-sm mt-1">
-              <div *ngIf="f['zipcode'].errors?.['required']">Zipcode is required.</div>
-            </div>
+            <app-validation-error [control]="f['zipcode']" fieldName="ZipCode"></app-validation-error>
           </div>
         </div>
-
       </div>
-
+      }
 
       <!-- Error message display -->
-      <div *ngIf="errorMessage" class="text-red-500 text-sm mb-4">{{ errorMessage }}</div>
+      <div *ngIf="errorMessage" class="text-red-500 text-sm mb-4">
+        {{ errorMessage }}
+      </div>
 
       <!-- Navigation buttons -->
       <div class="flex justify-between">
-        <button type="button" class="bg-gray-600 text-white px-4 py-2 rounded" (click)="prevStep()" [disabled]="currentStep === 1">Back</button>
-        <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded" (click)="nextStep()" [disabled]="currentStep === 2">Next</button>
+        @if (currentStep === 2) {
+        <button
+          type="button"
+          class="bg-gray-600 text-white px-4 py-2 rounded"
+          (click)="prevStep()"
+        >
+          Back
+        </button>
+        } @if (currentStep === 1) {
+        <button
+          type="button"
+          class="bg-blue-600 text-white px-4 py-2 rounded"
+          (click)="nextStep()"
+        >
+          Next
+        </button>
+        }
       </div>
 
       <!-- Submit button -->
-      <div *ngIf="currentStep === 2">
-        <br/>
-        <button type="submit" class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" [disabled]="signupForm.invalid">
+      @if (currentStep === 2) {
+      <div>
+        <br />
+        <button
+          type="submit"
+          class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [disabled]="signupForm.invalid"
+        >
           Submit
         </button>
       </div>
+      }
     </form>
   </div>
 
   <!-- Right Section: Image -->
   <div class="hidden md:block w-1/2 bg-blue-500">
-    <img src="https://www.skusavvy.com/images/your-image.jpg" alt="Signup Image" class="w-full h-full object-cover rounded-r-lg">
+    <img
+      src="https://www.skusavvy.com/images/your-image.jpg"
+      alt="Signup Image"
+      class="w-full h-full object-cover rounded-r-lg"
+    />
   </div>
-
 </div>
