@@ -1,24 +1,41 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';  // Import ReactiveFormsModule
+
 @Component({
   selector: 'app-login',
-  imports:[CommonModule,FormsModule],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
+  loginForm: FormGroup;
   errorMessage: string = '';
 
+  constructor(private fb: FormBuilder) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email,Validators.maxLength(100)]],
+      password: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(50)]]
+    });
+  }
+
+  // Getter for easy access to form controls
+  get f() {
+    return this.loginForm.controls;
+  }
+
   login(): void {
-    if (this.email && this.password) {
-      // Add login logic here (e.g., make an API call)
-      console.log('Logging in...', this.email, this.password);
-    } else {
-      this.errorMessage = 'Please fill in all fields.';
+    if (this.loginForm.invalid) {
+      this.errorMessage = 'Please fill in all fields correctly.';
+      return;
     }
+
+    // Access form controls using `['controlName']`
+    const email = this.loginForm.get('email')?.value;
+    const password = this.loginForm.get('password')?.value;
+
+    console.log('Logging in...', email, password);
   }
 }
-
