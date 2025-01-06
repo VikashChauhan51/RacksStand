@@ -3,18 +3,23 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import {ValidationErrorComponent} from '../../shared/components/validation-error/validation-error.component'
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-login',
   imports: [CommonModule, ReactiveFormsModule,ValidationErrorComponent],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  providers: [
+    AuthService
+  ]
 })
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
+  isLoading: boolean = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private authService: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email,Validators.maxLength(100)]],
       password: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(50)]]
@@ -32,10 +37,21 @@ export class LoginComponent {
       return;
     }
 
-    // Access form controls using `['controlName']`
-    const email = this.loginForm.get('email')?.value;
-    const password = this.loginForm.get('password')?.value;
+    this.isLoading = true;
+    this.errorMessage = '';
 
-    console.log('Logging in...', email, password);
+    const { email, password } = this.loginForm.value;
+    this.authService.login(email, password).subscribe({
+      next: (response) => {
+        console.log('Login successful', response);
+        this.isLoading = false;
+        // Navigate or handle login success
+      },
+      error: (error) => {
+        console.error('Login failed', error);
+        this.errorMessage = 'Invalid email or password.';
+        this.isLoading = false;
+      }
+    });
   }
 }
