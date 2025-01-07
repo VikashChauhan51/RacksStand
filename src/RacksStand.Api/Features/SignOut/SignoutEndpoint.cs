@@ -22,7 +22,8 @@ public class SignoutEndpoint : EndpointBase
                 Description = "Logs the user out by revoking the access token and refresh token.",
                 Consumer = "Frontend Client, Mobile Application",
                 Producer = "Authentication Service"
-            });
+            })
+            .WithOpenApi();
     }
 
     public async Task<IResult> LogoutAsync

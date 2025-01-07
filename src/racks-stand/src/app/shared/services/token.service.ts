@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +9,10 @@ import { catchError, switchMap } from 'rxjs/operators';
 export class TokenService {
   private accessTokenKey = 'access_token';
   private refreshTokenKey = 'refresh_token';
-  private apiUrl = 'https://api.yourapp.com';  // Replace with your API base URL
 
   private refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private baseService: BaseService) {}
 
   // Store tokens in localStorage
   storeTokens(accessToken: string, refreshToken: string): void {
@@ -38,18 +37,19 @@ export class TokenService {
   }
 
   // Refresh the access token using the refresh token
-  refreshAccessToken(): Observable<any> {
+  refreshAccessToken(): Observable<string> {
     const refreshToken = this.getRefreshToken();
 
     if (!refreshToken) {
       throw new Error('No refresh token available');
     }
 
-    return this.http.post(`${this.apiUrl}/auth/refresh`, { refreshToken }).pipe(
-      switchMap((response: any) => {
+    return this.baseService.post('auth/refresh', { refreshToken }).pipe(
+      map((response: any) => {
         const newAccessToken = response.accessToken;
-        this.storeTokens(newAccessToken, refreshToken);  // Store new access token
-        return [newAccessToken];
+        const newRefreshToken = response.refreshToken || refreshToken; // Update refresh token if provided
+        this.storeTokens(newAccessToken, newRefreshToken); // Store new tokens
+        return newAccessToken;
       }),
       catchError((error) => {
         console.error('Error refreshing access token:', error);
@@ -58,12 +58,30 @@ export class TokenService {
     );
   }
 
-  // Intercept API requests to attach the access token
-  addAuthHeader(request: any) {
-    const accessToken = this.getAccessToken();
-    if (accessToken) {
-      request.headers = request.headers.set('Authorization', `Bearer ${accessToken}`);
-    }
-    return request;
+  // Login user and store tokens
+  login(username: string, password: string): Observable<void> {
+    return this.baseService.post('auth/login', { username, password }).pipe(
+      map((response: any) => {
+        const { accessToken, refreshToken } = response;
+        this.storeTokens(accessToken, refreshToken); // Store tokens
+      }),
+      catchError((error) => {
+        console.error('Error during login:', error);
+        throw error;
+      })
+    );
+  }
+
+  // Logout user and clear tokens
+  logout(): Observable<void> {
+    return this.baseService.post('auth/logout', {}).pipe(
+      map(() => {
+        this.clearTokens(); // Clear tokens from local storage
+      }),
+      catchError((error) => {
+        console.error('Error during logout:', error);
+        throw error;
+      })
+    );
   }
 }

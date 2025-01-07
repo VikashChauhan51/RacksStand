@@ -10,7 +10,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.baseService.post('signin', { email, password });
+    return this.baseService.post('api/v1/signin', { email, password });
   }
 
   register(data: any): Observable<any> {

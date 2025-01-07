@@ -23,12 +23,13 @@ public class RevokeTokenEndpoint : EndpointBase
                 Description = "Revokes both access token and refresh token for a user.",
                 Consumer = "Frontend Client, Mobile Application",
                 Producer = "Authentication Service"
-            });
+            })
+            .WithOpenApi();
     }
 
     public async Task<IResult> RevokeTokenAsync
     (
-        [FromRoute] string token,
+        [FromQuery] string token,
         RacksStandContext dbContext,
         ILogger<RevokeTokenEndpoint> logger
     )

@@ -25,7 +25,8 @@ public class SignUpEndpoint : EndpointBase
                 Description = "Handles user sign-up process, validating input and creating a new user.",
                 Consumer = "Frontend Client, Mobile Application",
                 Producer = "Authentication Service"
-            });
+            })
+            .WithOpenApi();
     }
 
     public async Task<IResult> SignUpAsync

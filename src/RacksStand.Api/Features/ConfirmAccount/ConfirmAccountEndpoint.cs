@@ -23,7 +23,8 @@ public class AccountConfirmationEndpoint : EndpointBase
                 Description = "Confirms a user's account using a token sent to their email.",
                 Consumer = "Frontend Client",
                 Producer = "Account Management Service"
-            });
+            })
+            .WithOpenApi();
     }
 
     private static async Task<IResult> ConfirmAccountAsync(

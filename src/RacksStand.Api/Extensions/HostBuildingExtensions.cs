@@ -1,4 +1,5 @@
-﻿using Carter;
+﻿using Asp.Versioning;
+using Carter;
 using RacksStand.Api.Core.Infrastructure.Services;
 using RacksStand.Api.Middlewares;
 using RacksStand.Infrastructure;
@@ -23,6 +24,19 @@ public static class HostBuildingExtensions
                       .AllowAnyMethod();
             });
         });
+
+        builder.Services.AddApiVersioning(options =>
+        {
+            options.DefaultApiVersion = new ApiVersion(1, 0);
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.ReportApiVersions = true;
+            options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        }).AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
+
         builder.Services.AddAuthorization();
         builder.Services.AddAuthentication();
         builder.Services.AddCarter();
@@ -51,7 +65,10 @@ public static class HostBuildingExtensions
         app.UseHttpsRedirection();
         app.UseAuthentication();
         app.UseAuthorization();
-        app.MapCarter();
+        app.NewVersionedApi()
+            .MapGroup("api/v{apiVersion:apiVersion}/")
+            .HasApiVersion(1)
+            .MapCarter();
         app.UseHealthChecks("/healthz");
 
         return app;

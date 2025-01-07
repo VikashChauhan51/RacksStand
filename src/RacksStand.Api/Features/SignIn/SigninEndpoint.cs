@@ -26,7 +26,8 @@ public class SigninEndpoint : EndpointBase
                 Description = "Handles user sign-in process, validating credentials and user status.",
                 Consumer = "Frontend Client, Mobile Application",
                 Producer = "Authentication Service"
-            });
+            })
+            .WithOpenApi();
     }
 
     public async Task<IResult> SignInAsync

@@ -25,12 +25,13 @@ public class RefreshTokenEndpoint : EndpointBase
                 Description = "Generates a new access token and refresh token using a valid refresh token.",
                 Consumer = "Frontend Client, Mobile Application",
                 Producer = "Authentication Service"
-            });
+            })
+            .WithOpenApi();
     }
 
     public async Task<IResult> RefreshTokenAsync
     (
-       [FromRoute] string token,
+       [FromQuery] string token,
         RacksStandContext dbContext,
         JwtService jwtService,
         ILogger<RefreshTokenEndpoint> logger
