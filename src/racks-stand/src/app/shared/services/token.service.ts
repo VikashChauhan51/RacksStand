@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { BaseService } from './base.service';
+import { AuthService } from './auth.service';  // Inject AuthService
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +10,7 @@ export class TokenService {
   private accessTokenKey = 'access_token';
   private refreshTokenKey = 'refresh_token';
 
-  private refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-
-  constructor(private baseService: BaseService) {}
+  constructor(private authService: AuthService) {}
 
   // Store tokens in localStorage
   storeTokens(accessToken: string, refreshToken: string): void {
@@ -44,7 +42,7 @@ export class TokenService {
       throw new Error('No refresh token available');
     }
 
-    return this.baseService.post('auth/refresh', { refreshToken }).pipe(
+    return this.authService.refreshToken(refreshToken).pipe(
       map((response: any) => {
         const newAccessToken = response.accessToken;
         const newRefreshToken = response.refreshToken || refreshToken; // Update refresh token if provided
@@ -59,8 +57,8 @@ export class TokenService {
   }
 
   // Login user and store tokens
-  login(username: string, password: string): Observable<void> {
-    return this.baseService.post('auth/login', { username, password }).pipe(
+  login(email: string, password: string): Observable<void> {
+    return this.authService.login(email, password).pipe(
       map((response: any) => {
         const { accessToken, refreshToken } = response;
         this.storeTokens(accessToken, refreshToken); // Store tokens
@@ -74,7 +72,7 @@ export class TokenService {
 
   // Logout user and clear tokens
   logout(): Observable<void> {
-    return this.baseService.post('auth/logout', {}).pipe(
+    return this.authService.logout().pipe(
       map(() => {
         this.clearTokens(); // Clear tokens from local storage
       }),

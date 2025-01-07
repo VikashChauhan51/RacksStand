@@ -6,18 +6,25 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private baseService: BaseService) {
-  }
+  constructor(private baseService: BaseService) {}
 
+  // Login user
   login(email: string, password: string): Observable<any> {
     return this.baseService.post('api/v1/signin', { email, password });
   }
 
+  // Register user
   register(data: any): Observable<any> {
-    return this.baseService.post('signup', data);
+    return this.baseService.post('api/v1/signup', data);
   }
 
+  // Logout user
   logout(): Observable<any> {
-    return this.baseService.post('logout', {});
+    return this.baseService.post('api/v1/signout', {});
+  }
+
+  // Refresh token using refresh token
+  refreshToken(refreshToken: string): Observable<any> {
+    return this.baseService.post('api/v1/refresh-token', { refreshToken });
   }
 }
