@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { AuthService } from './auth.service';  // Inject AuthService
+import { AuthService } from './auth.service'; // Inject AuthService
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TokenService {
   private accessTokenKey = 'access_token';
@@ -16,6 +16,11 @@ export class TokenService {
   storeTokens(accessToken: string, refreshToken: string): void {
     localStorage.setItem(this.accessTokenKey, accessToken);
     localStorage.setItem(this.refreshTokenKey, refreshToken);
+  }
+
+  isLoggedIn(): boolean {
+    const accessToken = this.getAccessToken();
+    return !!accessToken; // If access token exists, user is logged in
   }
 
   // Retrieve access token from localStorage
@@ -72,7 +77,9 @@ export class TokenService {
 
   // Logout user and clear tokens
   logout(): Observable<void> {
-    return this.authService.logout().pipe(
+    const accessToken = this.getAccessToken() || '';
+    const refreshToken = this.getRefreshToken() || '';
+    return this.authService.logout(accessToken, refreshToken).pipe(
       map(() => {
         this.clearTokens(); // Clear tokens from local storage
       }),

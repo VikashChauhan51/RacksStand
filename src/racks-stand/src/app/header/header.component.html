@@ -6,8 +6,18 @@
       <li><a routerLink="/pricing">Pricing</a></li>
       <li><a routerLink="/about">About</a></li>
       <li><a routerLink="/contact">Contact</a></li>
+
+      <!-- Conditionally render Login and Signup links if not logged in -->
+      @if (!isLoggedIn) {
       <li><a routerLink="/signin">Login</a></li>
       <li><a routerLink="/signup">Signup</a></li>
+      }
+
+      <!-- Conditionally render Profile and Logout links if logged in -->
+      @if (isLoggedIn) {
+      <li><a routerLink="/profile">Profile</a></li>
+      <li><a (click)="logout()">Logout</a></li>
+      }
     </ul>
   </nav>
 </header>

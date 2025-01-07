@@ -3,7 +3,7 @@ import { BaseService } from './base.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(private baseService: BaseService) {}
@@ -19,8 +19,11 @@ export class AuthService {
   }
 
   // Logout user
-  logout(): Observable<any> {
-    return this.baseService.post('api/v1/signout', {});
+  logout(accessToken: string, refreshToken: string): Observable<any> {
+    return this.baseService.post('api/v1/signout', {
+      accessToken,
+      refreshToken,
+    });
   }
 
   // Refresh token using refresh token

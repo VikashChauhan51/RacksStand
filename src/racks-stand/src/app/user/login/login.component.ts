@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import {ValidationErrorComponent} from '../../shared/components/validation-error/validation-error.component'
-import { AuthService } from '../../shared/services/auth.service';
+import { TokenService } from '../../shared/services/token.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +11,7 @@ import { AuthService } from '../../shared/services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   providers: [
-    AuthService
+    TokenService
   ]
 })
 export class LoginComponent {
@@ -19,7 +19,7 @@ export class LoginComponent {
   errorMessage: string = '';
   isLoading: boolean = false;
 
-  constructor(private fb: FormBuilder,private authService: AuthService) {
+  constructor(private fb: FormBuilder,private authService: TokenService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email,Validators.maxLength(100)]],
       password: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(50)]]
