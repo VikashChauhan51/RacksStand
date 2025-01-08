@@ -8,7 +8,6 @@ public class UserAccessToken : Entity<UserAccessTokenId>
     public required string Token { get; set; }
     public DateTimeOffset ExpirationDate { get; set; }
     public DateTimeOffset? RevokedAt { get; set; }
-    public required string Scope { get; set; }
 
     public virtual User User { get; set; } = null!;
 }

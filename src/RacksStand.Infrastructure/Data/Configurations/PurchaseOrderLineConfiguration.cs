@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RacksStand.Domain.Entities;
+using RacksStand.Domain.Enums;
 using RacksStand.Domain.ValueObjects;
 
 namespace RacksStand.Infrastructure.Data.Configurations;
@@ -46,12 +47,17 @@ public class PurchaseOrderLineConfiguration : IEntityTypeConfiguration<PurchaseO
                 dbId => PurchasePrice.Of(dbId))
             .IsRequired();
 
-        builder.Property(pol => pol.Unit)
-            .HasConversion(
-                unit => unit.Value,
-                dbId => Unit.Of(dbId))
-            .IsRequired()
-            .HasMaxLength(1);
+        builder.Property(pol => pol.CurrencyCode)
+           .HasConversion(
+               unit => unit.ToString(),
+               dbId => Enum.Parse<CurrencyCode>(dbId))
+           .IsRequired()
+           .HasMaxLength(5);
+
+        builder.Property(a => a.ConcurrencyStamp)
+           .IsRequired()
+           .HasMaxLength(50)
+           .IsConcurrencyToken();
 
         // Configure the TotalPrice property (calculated)
         builder.Ignore(pol => pol.TotalPrice);

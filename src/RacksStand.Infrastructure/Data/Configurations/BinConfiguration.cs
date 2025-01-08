@@ -47,6 +47,12 @@ public class BinConfiguration : IEntityTypeConfiguration<Bin>
                 dbValue => dbValue != null ? Barcode.Of(dbValue) : null)
             .HasMaxLength(100);
 
+        builder.Property(c => c.BarcodeFormat)
+         .HasConversion(
+             unit => unit!=null? unit.ToString():null,
+             dbValue => dbValue != null ? Enum.Parse<BarcodeFormat>(dbValue):null)
+         .IsRequired();
+
         builder.Property(b => b.XAxis)
             .HasConversion(
                 xAxis => xAxis.Value,
@@ -82,6 +88,17 @@ public class BinConfiguration : IEntityTypeConfiguration<Bin>
                 id => id.ToString(),
                 dbId => Enum.Parse<DimensionUnit>(dbId))
             .IsRequired();
+
+        builder.Property(rack => rack.State)
+            .HasConversion(
+               id => id.ToString(),
+               dbId => Enum.Parse<BinState>(dbId))
+           .IsRequired();
+
+        builder.Property(a => a.ConcurrencyStamp)
+            .IsRequired()
+            .HasMaxLength(50)
+            .IsConcurrencyToken();
 
         // Relationships
         builder.HasOne(b => b.Self)

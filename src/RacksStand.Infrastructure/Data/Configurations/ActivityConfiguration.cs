@@ -40,10 +40,6 @@ public class ActivityConfiguration : IEntityTypeConfiguration<Activity>
             .IsRequired()
             .HasMaxLength(50)
             .IsConcurrencyToken();
-        builder.Property(a => a.CreatedBy)
-            .HasMaxLength(455);
-        builder.Property(a => a.UpdatedBy)
-            .HasMaxLength(455);
 
 
         // Indexes

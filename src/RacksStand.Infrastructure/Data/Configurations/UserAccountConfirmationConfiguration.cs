@@ -31,6 +31,11 @@ public class UserAccountConfirmationConfiguration : IEntityTypeConfiguration<Use
         builder.Property(urt => urt.ExpiresAt)
             .IsRequired();
 
+        builder.Property(a => a.ConcurrencyStamp)
+           .IsRequired()
+           .HasMaxLength(50)
+           .IsConcurrencyToken();
+
         // Configure relationships
 
         // Configure indexes

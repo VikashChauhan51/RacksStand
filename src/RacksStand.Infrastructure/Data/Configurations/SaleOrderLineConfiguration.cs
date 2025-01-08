@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RacksStand.Domain.Entities;
+using RacksStand.Domain.Enums;
 using RacksStand.Domain.ValueObjects;
 
 namespace RacksStand.Infrastructure.Data.Configurations;
@@ -45,12 +46,17 @@ public class SaleOrderLineConfiguration : IEntityTypeConfiguration<SaleOrderLine
                 dbId => SellingPrice.Of(dbId))
             .IsRequired();
 
-        builder.Property(pol => pol.Unit)
+        builder.Property(pol => pol.CurrencyCode)
             .HasConversion(
-                unit => unit.Value,
-                dbId => Unit.Of(dbId))
+                unit => unit.ToString(),
+                dbId => Enum.Parse<CurrencyCode>(dbId))
             .IsRequired()
-            .HasMaxLength(1);
+            .HasMaxLength(5);
+
+        builder.Property(a => a.ConcurrencyStamp)
+           .IsRequired()
+           .HasMaxLength(50)
+           .IsConcurrencyToken();
 
         builder.Ignore(pol => pol.TotalPrice);
 

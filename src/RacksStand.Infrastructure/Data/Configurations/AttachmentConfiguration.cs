@@ -32,6 +32,11 @@ public class AttachmentConfiguration : IEntityTypeConfiguration<Attachment>
         builder.Property(a => a.Url)
             .HasMaxLength(2000);
 
+        builder.Property(a => a.ConcurrencyStamp)
+            .IsRequired()
+            .HasMaxLength(50)
+            .IsConcurrencyToken();
+
         builder.HasIndex(a => a.Name)
             .HasDatabaseName("IX_Attachment_Name");
     }

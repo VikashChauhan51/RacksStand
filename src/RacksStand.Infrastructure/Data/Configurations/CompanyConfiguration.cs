@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RacksStand.Domain.Entities;
 using RacksStand.Domain.ValueObjects;
+using RacksStand.Domain.Enums;
 
 namespace RacksStand.Infrastructure.Data.Configurations;
 public class CompanyConfiguration : IEntityTypeConfiguration<Company>
@@ -47,6 +48,42 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
         builder.Property(c => c.ZipCode)
             .IsRequired()
             .HasMaxLength(20);
+
+        builder.Property(c => c.DefaultDimensionUnit)
+           .HasConversion(
+               unit => unit.ToString(),
+               dbValue => Enum.Parse<DimensionUnit>(dbValue))
+           .IsRequired();
+
+        builder.Property(c => c.DefaultWeightUnit)
+          .HasConversion(
+              unit => unit.ToString(),
+              dbValue => Enum.Parse<WeightUnit>(dbValue))
+          .IsRequired();
+
+        builder.Property(c => c.DefaultCurrency)
+          .HasConversion(
+              unit => unit.ToString(),
+              dbValue => Enum.Parse<CurrencyCode>(dbValue))
+          .IsRequired();
+
+        builder.Property(c => c.DefaultItemBarcodeFormat)
+          .HasConversion(
+              unit => unit.ToString(),
+              dbValue => Enum.Parse<BarcodeFormat>(dbValue))
+          .IsRequired();
+
+        builder.Property(c => c.DefaultBinBarcodeFormat)
+          .HasConversion(
+              unit => unit.ToString(),
+              dbValue => Enum.Parse<BarcodeFormat>(dbValue))
+          .IsRequired();
+
+        builder.Property(c => c.DefaultShipmentBarcodeFormat)
+          .HasConversion(
+              unit => unit.ToString(),
+              dbValue => Enum.Parse<BarcodeFormat>(dbValue))
+          .IsRequired();
 
         builder.Property(c => c.OwnerUserId)
             .HasConversion(

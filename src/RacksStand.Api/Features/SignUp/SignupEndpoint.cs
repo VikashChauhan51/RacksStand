@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RacksStand.Api.Core;
 using RacksStand.Domain.Entities;
+using RacksStand.Domain.Enums;
 using RacksStand.Infrastructure.Data.Contexts;
 using RacksStand.Infrastructure.Services;
 using ResultifyCore.Outcome;
@@ -77,7 +78,8 @@ public class SignUpEndpoint : EndpointBase
             PasswordHash = passwordHash,
             IsEmailConfirmed = false,
             IsActive = true,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
+            SelectedCompanyId =string.Empty,
         };
 
         // Create the company
@@ -93,9 +95,17 @@ public class SignUpEndpoint : EndpointBase
             Country = request.Address.Country,
             ZipCode = request.Address.ZipCode,
             OwnerUserId = user.Id,
-            PlanId = plan.Id
+            PlanId = plan.Id,
+            DefaultBinBarcodeFormat = BarcodeFormat.QR,
+            DefaultCurrency = CurrencyCode.USD,
+            DefaultItemBarcodeFormat = BarcodeFormat.QR,
+            DefaultShipmentBarcodeFormat = BarcodeFormat.QR,
+            DefaultDimensionUnit = DimensionUnit.MM,
+            DefaultWeightUnit = WeightUnit.G
         };
 
+        // Set company Id
+        user.SelectedCompanyId = company.Id;    
         // Create the company user relationship
         var userCompany = new CompanyUser
         {
@@ -120,13 +130,12 @@ public class SignUpEndpoint : EndpointBase
         var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
         var confirmation = new UserAccountConfirmation
         {
-            Id =Guid.NewGuid().ToString(),  
+            Id = Guid.NewGuid().ToString(),
             UserId = user.Id,
             Token = token,
             ExpiresAt = DateTime.UtcNow.AddDays(1),
             CreatedAt = DateTime.UtcNow,
-            IsUsed = false,
-            IsActive=false          
+            IsActive = true
         };
 
         //TODO: implement send email

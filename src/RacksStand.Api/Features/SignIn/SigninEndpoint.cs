@@ -110,8 +110,7 @@ public class SigninEndpoint : EndpointBase
             Token = accessToken,
             CreatedAt = DateTimeOffset.UtcNow,
             ExpirationDate = DateTimeOffset.UtcNow.AddHours(24),
-            IsActive = true,
-            Scope = string.Empty
+            IsActive = true
         };
 
         var userRefreshToken = new UserRefreshToken

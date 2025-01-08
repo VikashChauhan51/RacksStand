@@ -37,7 +37,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.PhoneNumber)
             .IsRequired()
-            .HasMaxLength(15); 
+            .HasMaxLength(15);
 
         // Configure optional properties
         builder.Property(u => u.LockoutEnd);
@@ -53,6 +53,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.AccessFailedCount)
             .HasDefaultValue(0);
+
+        builder.Property(a => a.ConcurrencyStamp)
+           .IsRequired()
+           .HasMaxLength(50)
+           .IsConcurrencyToken();
+
+        builder.Property(u => u.SelectedCompanyId)
+           .HasConversion(
+               id => id.Value,
+               dbId => CompanyId.Of(dbId))
+           .HasMaxLength(100)
+           .IsRequired();
 
         // Configure relationships
         builder.HasMany(u => u.UserPermissions)

@@ -29,14 +29,16 @@ public class UserAccessTokenConfiguration : IEntityTypeConfiguration<UserAccessT
         builder.Property(uat => uat.Token)
             .IsRequired();
 
-        builder.Property(uat => uat.Scope)
-            .IsRequired();
-
         builder.Property(uat => uat.ExpirationDate)
             .IsRequired();
 
         // Configure optional properties
         builder.Property(uat => uat.RevokedAt);
+
+        builder.Property(a => a.ConcurrencyStamp)
+           .IsRequired()
+           .HasMaxLength(50)
+           .IsConcurrencyToken();
 
         // Configure relationships
         builder.HasOne(uat => uat.User)

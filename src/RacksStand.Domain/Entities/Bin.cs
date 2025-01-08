@@ -18,6 +18,8 @@ public class Bin : Entity<BinId>
     public required Width Width { get; set; }
     public required Length Length { get; set; }
     public DimensionUnit DiminsionUnit { get; set; }
+    public BarcodeFormat? BarcodeFormat { get; set; }
+    public BinState State { get; set; }
 
     public virtual Self Self { get; set; } = default!;
 }

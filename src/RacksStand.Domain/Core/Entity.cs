@@ -3,9 +3,6 @@ public abstract class Entity<T> : IEntity<T> where T : notnull
 {
     public T Id { get; set; } = default!;
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
-    public string? CreatedBy { get; set; }
-    public DateTimeOffset? UpdatedAt { get; set; }
-    public string? UpdatedBy { get; set; }
     public bool IsActive { get; set; } = true;
     public string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
     public override bool Equals(object? obj)

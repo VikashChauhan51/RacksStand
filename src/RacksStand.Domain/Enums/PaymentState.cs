@@ -1,7 +1,7 @@
 ﻿namespace RacksStand.Domain.Enums;
 public enum PaymentState : byte
 {
-    None = 0,
+    None,
     Pending,
     Success,
     Failed

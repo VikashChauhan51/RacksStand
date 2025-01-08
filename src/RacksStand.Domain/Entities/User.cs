@@ -15,6 +15,9 @@ public class User : Entity<UserId>
     public DateTimeOffset? LockoutEnd { get; set; }
     public bool LockoutEnabled { get; set; }
     public int AccessFailedCount { get; set; }
+    public string? Theme { get; set; }
+    public string? Local { get; set; }
+    public required CompanyId SelectedCompanyId { get; set; }
     public virtual ICollection<UserPermission> UserPermissions { get; set; } = [];
     public virtual ICollection<CompanyUser> Companies { get; set; } = [];
     public virtual ICollection<UserAccessToken> UserAccessTokens { get; set; } = [];

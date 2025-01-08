@@ -81,6 +81,17 @@ public class RackConfiguration : IEntityTypeConfiguration<Rack>
             .IsRequired()
             .HasMaxLength(100);
 
+        builder.Property(rack => rack.State)
+            .HasConversion(
+               id => id.ToString(),
+               dbId => Enum.Parse<RackState>(dbId))
+           .IsRequired();
+
+        builder.Property(a => a.ConcurrencyStamp)
+            .IsRequired()
+            .HasMaxLength(50)
+            .IsConcurrencyToken();
+
         // Configure relationships
         builder.HasOne(rack => rack.Warehouse)
             .WithMany()

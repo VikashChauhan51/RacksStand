@@ -90,6 +90,11 @@ public class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
             .IsRequired()
             .HasMaxLength(20);
 
+        builder.Property(a => a.ConcurrencyStamp)
+           .IsRequired()
+           .HasMaxLength(50)
+           .IsConcurrencyToken();
+
         // Configure relationships
         builder.HasOne(s => s.Company)
             .WithMany(c => c.Suppliers)

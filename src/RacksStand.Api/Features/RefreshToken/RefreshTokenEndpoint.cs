@@ -80,8 +80,7 @@ public class RefreshTokenEndpoint : EndpointBase
             Token = newAccessToken,
             CreatedAt = DateTimeOffset.UtcNow,
             ExpirationDate = DateTimeOffset.UtcNow.AddHours(24),
-            IsActive = true,
-            Scope = string.Empty
+            IsActive = true
         };
 
         var newUserRefreshToken = new UserRefreshToken

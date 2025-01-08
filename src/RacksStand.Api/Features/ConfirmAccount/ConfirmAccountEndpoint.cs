@@ -39,7 +39,7 @@ public class AccountConfirmationEndpoint : EndpointBase
 
         // Find the confirmation token in the database
         var confirmation = await dbContext.UserAccountConfirmations
-            .Where(x => x.Token == token && !x.IsUsed && x.ExpiresAt > DateTime.UtcNow)
+            .Where(x => x.Token == token && x.ExpiresAt > DateTime.UtcNow)
             .FirstOrDefaultAsync();
 
         if (confirmation == null)

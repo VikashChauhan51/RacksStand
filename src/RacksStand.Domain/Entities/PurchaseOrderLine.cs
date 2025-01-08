@@ -1,4 +1,5 @@
 ﻿using RacksStand.Domain.Core;
+using RacksStand.Domain.Enums;
 using RacksStand.Domain.ValueObjects;
 
 namespace RacksStand.Domain.Entities;
@@ -8,7 +9,7 @@ public class PurchaseOrderLine : Entity<PurchaseOrderLineId>
     public required ProductVariantId ProductVariantId { get; set; }
     public required Quantity Quantity { get; set; }
     public required PurchasePrice UnitPrice { get; set; }
-    public required Unit Unit { get; set; }
+    public required CurrencyCode CurrencyCode { get; set; }
     public decimal TotalPrice => Quantity.Value * UnitPrice.Value;
 
     // Navigation properties

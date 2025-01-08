@@ -45,12 +45,17 @@ public class ProductVariantConfiguration : IEntityTypeConfiguration<ProductVaria
                 dbValue => SellingPrice.Of(dbValue))
             .IsRequired();
 
-        builder.Property(pv => pv.Unit)
+        builder.Property(pol => pol.CurrencyCode)
             .HasConversion(
-                unit => unit.Value,
-                dbValue => Unit.Of(dbValue))
+                unit => unit.ToString(),
+                dbId => Enum.Parse<CurrencyCode>(dbId))
             .IsRequired()
-            .HasMaxLength(1);
+            .HasMaxLength(5);
+
+        builder.Property(a => a.ConcurrencyStamp)
+           .IsRequired()
+           .HasMaxLength(50)
+           .IsConcurrencyToken();
 
         builder.Property(pv => pv.Height)
             .HasConversion(

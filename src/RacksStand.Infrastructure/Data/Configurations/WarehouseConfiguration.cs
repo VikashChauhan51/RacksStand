@@ -111,7 +111,12 @@ public class WarehouseConfiguration : IEntityTypeConfiguration<Warehouse>
 
         builder.Property(w => w.ReturnZipCode)
             .IsRequired()
-            .HasMaxLength(20); 
+            .HasMaxLength(20);
+
+        builder.Property(a => a.ConcurrencyStamp)
+           .IsRequired()
+           .HasMaxLength(50)
+           .IsConcurrencyToken();
 
         // Configure relationships
         builder.HasOne(w => w.Company)

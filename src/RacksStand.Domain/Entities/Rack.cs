@@ -16,6 +16,7 @@ public class Rack : Entity<RackId>
     public required Length Length { get; set; }
     public DimensionUnit DiminsionUnit { get; set; }
     public required WarehouseId WarehouseId { get; set; }
+    public RackState State { get; set; }
 
     // Navigation properties
     public virtual Warehouse Warehouse { get; set; } = default!;

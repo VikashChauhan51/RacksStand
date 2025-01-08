@@ -80,6 +80,17 @@ public class SelfConfiguration : IEntityTypeConfiguration<Self>
                 dbId => Enum.Parse<DimensionUnit>(dbId))
             .IsRequired();
 
+        builder.Property(rack => rack.State)
+            .HasConversion(
+               id => id.ToString(),
+               dbId => Enum.Parse<SelfState>(dbId))
+           .IsRequired();
+
+        builder.Property(a => a.ConcurrencyStamp)
+            .IsRequired()
+            .HasMaxLength(50)
+            .IsConcurrencyToken();
+
         // Configure relationships
         builder.HasOne(s => s.Rack)
             .WithMany(r => r.Shelves)

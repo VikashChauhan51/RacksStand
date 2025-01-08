@@ -29,6 +29,11 @@ public class UserPermissionConfiguration : IEntityTypeConfiguration<UserPermissi
                 dbId => UserId.Of(dbId))
             .IsRequired();
 
+        builder.Property(a => a.ConcurrencyStamp)
+           .IsRequired()
+           .HasMaxLength(50)
+           .IsConcurrencyToken();
+
         // Configure relationships
         builder.HasOne(up => up.User)
             .WithMany(u => u.UserPermissions) 

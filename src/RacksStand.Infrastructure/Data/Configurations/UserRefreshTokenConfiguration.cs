@@ -35,6 +35,11 @@ public class UserRefreshTokenConfiguration : IEntityTypeConfiguration<UserRefres
         builder.Property(urt => urt.RevokedAt)
             .IsRequired(false);
 
+        builder.Property(a => a.ConcurrencyStamp)
+           .IsRequired()
+           .HasMaxLength(50)
+           .IsConcurrencyToken();
+
         // Configure relationships
         builder.HasOne(urt => urt.User)
             .WithMany(u => u.UserRefreshTokens) 
