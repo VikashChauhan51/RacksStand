@@ -1,38 +1,66 @@
-.header {
+/* The navigation menu */
+.navbar {
+  overflow: hidden;
   background-color: #333;
+}
+
+/* Navigation links */
+.navbar a {
+  float: left;
+  font-size: 16px;
   color: white;
-  padding: 1rem;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 
-.nav {
-  display: flex;
-  justify-content: space-between; /* Space between the logo and navigation */
-  align-items: center; /* Vertically center the items */
+/* The subnavigation menu */
+.subnav {
+  float: left;
+  overflow: hidden;
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.nav-links {
-  list-style-type: none;
+/* Subnav button */
+.subnav .subnavbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
   margin: 0;
-  padding: 0;
-  display: flex;
 }
 
-.nav-links li {
-  margin-left: 2rem; /* Space between each link */
+/* Add a red background color to navigation links on hover */
+.navbar a:hover, .subnav:hover .subnavbtn {
+  background-color: red;
 }
 
-.nav-links a {
+/* Style the subnav content - positioned absolute */
+.subnav-content {
+  display: none;
+  position: absolute;
+  left: 0;
+  background-color: red;
+  width: 100%;
+  z-index: 1;
+}
+
+/* Style the subnav links */
+.subnav-content a {
+  float: left;
   color: white;
   text-decoration: none;
-  font-size: 1rem;
-  transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
-  color: #f39c12; /* Yellow hover effect */
+/* Add a grey background color on hover */
+.subnav-content a:hover {
+  background-color: #eee;
+  color: black;
+}
+
+/* When you move the mouse over the subnav container, open the subnav content */
+.subnav:hover .subnav-content {
+  display: block;
 }
