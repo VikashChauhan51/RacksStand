@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.EntityFrameworkCore;
 using RacksStand.Api.Core;
 using RacksStand.Infrastructure.Data.Contexts;
 using ResultifyCore.Outcome;
-using System.Security.Claims;
 
 namespace RacksStand.Api.Features.GetCompany;
 
@@ -15,7 +14,7 @@ public class GetCompanyEndpoint : EndpointBase
     public override string RouteName => "getCompany";
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/companies/{companyId}", GetCompanyAsync)
+        app.MapGet("/company", GetCompanyAsync)
             .WithName(RouteName)
             .Produces<Outcome<GetCompanyResponse>>(StatusCodes.Status200OK)
             .Produces<Outcome<GetCompanyResponse>>(StatusCodes.Status400BadRequest)
@@ -32,33 +31,33 @@ public class GetCompanyEndpoint : EndpointBase
     }
 
     private static async Task<IResult> GetCompanyAsync(
-        [FromRoute] string companyId,
         ILogger<GetCompanyEndpoint> logger,
         RacksStandContext dbContext,
         HttpContext httpContext)
     {
-        if (string.IsNullOrWhiteSpace(companyId))
-        {
-            return Results.BadRequest("Invalid companyId");
-        }
-        var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (string.IsNullOrEmpty(userId))
+        var userName = httpContext.GetUserName();
+        if (string.IsNullOrEmpty(userName))
         {
             return Results.Unauthorized();
         }
 
-        var user = await dbContext.Users.FindAsync(userId);
+        var user = await dbContext.Users
+            .AsNoTracking().
+            Where(x => x.UserName == userName)
+            .Select(x => new { x.SelectedCompanyId, x.Id })
+            .FirstOrDefaultAsync();
+
         if (user == null)
         {
-            logger.LogWarning("User not found for NameIdentifier clam: {Identifier}", userId);
+            logger.LogWarning("User not found for username clam: {UserName}", userName);
             return Results.NotFound(Outcome<GetCompanyResponse>.Failure(new OutcomeError("UserNotFound", "The user associated with this token does not exist.")));
         }
 
-        var company = await dbContext.Companies.FindAsync(companyId);
+        var company = await dbContext.Companies.FindAsync(user.SelectedCompanyId);
 
         if (company == null || !company.IsActive)
         {
-            logger.LogWarning("Company not found for id: {CompanyId}", companyId);
+            logger.LogWarning("Company not found for id: {CompanyId}", user.SelectedCompanyId);
             return Results.NotFound(Outcome<GetCompanyResponse>.Failure(new OutcomeError("CompanyNotFound", "The company associated with this user does not exist.")));
 
         }

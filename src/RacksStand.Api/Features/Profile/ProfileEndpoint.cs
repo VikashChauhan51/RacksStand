@@ -1,8 +1,7 @@
-﻿using RacksStand.Api.Core;
-using RacksStand.Api.Features.ConfirmAccount;
+﻿using Microsoft.EntityFrameworkCore;
+using RacksStand.Api.Core;
 using RacksStand.Infrastructure.Data.Contexts;
 using ResultifyCore.Outcome;
-using System.Security.Claims;
 
 namespace RacksStand.Api.Features.Profile;
 
@@ -12,7 +11,7 @@ public class ProfileEndpoint : EndpointBase
     {
         this.RequireAuthorization();
     }
-    public override string RouteName => "profile";
+    public override string RouteName => "getProfile";
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/profile", ProfileAsync)
@@ -36,21 +35,30 @@ public class ProfileEndpoint : EndpointBase
         RacksStandContext dbContext,
         HttpContext httpContext)
     {
-        var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (string.IsNullOrEmpty(userId))
+        var userName = httpContext.GetUserName();
+        if (string.IsNullOrEmpty(userName))
         {
             return Results.Unauthorized();
         }
 
-        var user = await dbContext.Users.FindAsync(userId);
+        var user = await dbContext.Users
+            .AsNoTracking().
+            Where(x => x.UserName == userName)
+            .FirstOrDefaultAsync();
+
         if (user == null)
         {
-            logger.LogWarning("User not found for NameIdentifier clam: {Identifier}", userId);
+            logger.LogWarning("User not found for username clam: {UserName}", userName);
             return Results.NotFound(Outcome<ProfileResponse>.Failure(new OutcomeError("UserNotFound", "The user associated with this token does not exist.")));
         }
+        var companyName = await dbContext.Companies
+            .AsNoTracking()
+            .Where(x => x.Id == user.SelectedCompanyId)
+            .Select(x => x.Name)
+            .FirstAsync();
+
         return Results.Ok(Outcome<ProfileResponse>.Success(new ProfileResponse
         (
-            Id: user.Id.Value,
             FullName: user.FullName,
             Email: user.Email,
             Phone: user.PhoneNumber,
@@ -58,7 +66,7 @@ public class ProfileEndpoint : EndpointBase
             Local: user.Local,
             IsEmailConfirmed: user.IsEmailConfirmed,
             IsPhoneNumberConfirmed: user.PhoneNumberConfirmed,
-            CompanyId: user.SelectedCompanyId.Value
+            CompanyName: companyName
         )));
     }
 }

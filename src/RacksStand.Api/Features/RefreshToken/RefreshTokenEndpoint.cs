@@ -64,10 +64,6 @@ public class RefreshTokenEndpoint : EndpointBase
             return Results.Unauthorized();
         }
 
-        // Invalidate the old refresh token
-        storedRefreshToken.IsActive = false;
-        dbContext.UserRefreshTokens.Update(storedRefreshToken);
-
         // Generate new tokens
         var newAccessToken = jwtService.GenerateAccessToken(user);
         var newRefreshToken = jwtService.GenerateRefreshToken();
@@ -92,7 +88,7 @@ public class RefreshTokenEndpoint : EndpointBase
             ExpirationDate = DateTimeOffset.UtcNow.AddDays(30),
             IsActive = true
         };
-
+        dbContext.UserRefreshTokens.Remove(storedRefreshToken);
         dbContext.UserAccessTokens.Add(newUserAccessToken);
         dbContext.UserRefreshTokens.Add(newUserRefreshToken);
         await dbContext.SaveChangesAsync();

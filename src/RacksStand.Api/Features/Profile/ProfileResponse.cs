@@ -2,7 +2,6 @@
 
 public record ProfileResponse
 (
-    string Id,
     string FullName,
     string Email,
     string? Phone,
@@ -10,5 +9,5 @@ public record ProfileResponse
     string? Local,
     bool IsEmailConfirmed,
     bool IsPhoneNumberConfirmed,
-    string CompanyId
+    string? CompanyName
 );
