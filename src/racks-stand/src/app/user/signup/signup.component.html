@@ -48,6 +48,17 @@
           />
           <app-validation-error [control]="f['password']" fieldName="Password"></app-validation-error>
         </div>
+        <div class="mb-4">
+          <label for="email" class="block text-gray-600">Phone Number</label>
+          <input
+            type="tel"
+            id="phoneNumber"
+            formControlName="phoneNumber"
+            class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter your phone number"
+          />
+          <app-validation-error [control]="f['phoneNumber']" fieldName="Phone Number"></app-validation-error>
+        </div>
 
       </div>
       } @if (currentStep === 2) {

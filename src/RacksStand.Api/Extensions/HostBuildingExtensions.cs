@@ -43,7 +43,7 @@ public static class HostBuildingExtensions
         builder.AddApplicationDbContext();
         builder.AddLoggerServices();
         builder.Services.AddValidatorsFromAssembly(typeof(HostBuildingExtensions).Assembly);
-        builder.Services.AddSingleton<JwtService>();
+        builder.Services.AddSingleton<IJwtService, JwtService>();
 
         return builder.Build();
     }

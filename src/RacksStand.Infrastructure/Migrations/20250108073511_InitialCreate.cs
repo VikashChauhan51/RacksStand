@@ -23,9 +23,6 @@ namespace RacksStand.Infrastructure.Migrations
                     Metadata = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
                     Timestamp = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(455)", maxLength: 455, nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "character varying(455)", maxLength: 455, nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
@@ -44,11 +41,8 @@ namespace RacksStand.Infrastructure.Migrations
                     Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     Url = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,10 +64,13 @@ namespace RacksStand.Infrastructure.Migrations
                     ZipCode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     OwnerUserId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     PlanId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    DefaultDimensionUnit = table.Column<string>(type: "text", nullable: false),
+                    DefaultWeightUnit = table.Column<string>(type: "text", nullable: false),
+                    DefaultCurrency = table.Column<string>(type: "text", nullable: false),
+                    DefaultItemBarcodeFormat = table.Column<string>(type: "text", nullable: false),
+                    DefaultBinBarcodeFormat = table.Column<string>(type: "text", nullable: false),
+                    DefaultShipmentBarcodeFormat = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -98,9 +95,6 @@ namespace RacksStand.Infrastructure.Migrations
                     ZipCode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     Notes = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -118,9 +112,6 @@ namespace RacksStand.Infrastructure.Migrations
                     Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -137,9 +128,6 @@ namespace RacksStand.Infrastructure.Migrations
                     Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -159,9 +147,6 @@ namespace RacksStand.Infrastructure.Migrations
                     SupportLevel = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -178,19 +163,19 @@ namespace RacksStand.Infrastructure.Migrations
                     FullName = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     UserName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    PasswordHash = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     IsEmailConfirmed = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     AccessFailedCount = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    Theme = table.Column<string>(type: "text", nullable: true),
+                    Local = table.Column<string>(type: "text", nullable: true),
+                    SelectedCompanyId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -206,9 +191,6 @@ namespace RacksStand.Infrastructure.Migrations
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     CompanyId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -234,9 +216,6 @@ namespace RacksStand.Infrastructure.Migrations
                     ExpiryDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -275,11 +254,8 @@ namespace RacksStand.Infrastructure.Migrations
                     BillingCountry = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     BillingZipCode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -302,9 +278,6 @@ namespace RacksStand.Infrastructure.Migrations
                     Code = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -331,9 +304,6 @@ namespace RacksStand.Infrastructure.Migrations
                     IsTrial = table.Column<bool>(type: "boolean", nullable: false),
                     RenewedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -363,9 +333,6 @@ namespace RacksStand.Infrastructure.Migrations
                     FeatureId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Value = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -394,9 +361,6 @@ namespace RacksStand.Infrastructure.Migrations
                     UserId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CompanyId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -423,16 +387,12 @@ namespace RacksStand.Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     UserId = table.Column<string>(type: "character varying(100)", nullable: false),
-                    Token = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    Token = table.Column<string>(type: "text", nullable: false),
                     ExpirationDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     RevokedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    Scope = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -451,15 +411,11 @@ namespace RacksStand.Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     UserId = table.Column<string>(type: "character varying(100)", nullable: false),
-                    Token = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    Token = table.Column<string>(type: "text", nullable: false),
                     ExpiresAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    IsUsed = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -478,15 +434,12 @@ namespace RacksStand.Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     UserId = table.Column<string>(type: "character varying(100)", nullable: false),
-                    Token = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    Token = table.Column<string>(type: "text", nullable: false),
                     ExpirationDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     RevokedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -527,11 +480,8 @@ namespace RacksStand.Infrastructure.Migrations
                     ReturnCountry = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     ReturnZipCode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -565,9 +515,6 @@ namespace RacksStand.Infrastructure.Migrations
                     Metadata = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
                     CategoryId1 = table.Column<string>(type: "character varying(100)", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -601,11 +548,8 @@ namespace RacksStand.Infrastructure.Migrations
                     ModulePermissionId = table.Column<string>(type: "character varying(100)", nullable: false),
                     UserId = table.Column<string>(type: "character varying(100)", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -637,9 +581,6 @@ namespace RacksStand.Infrastructure.Migrations
                     Status = table.Column<string>(type: "text", nullable: false),
                     FailureReason = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -673,9 +614,6 @@ namespace RacksStand.Infrastructure.Migrations
                     Notes = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     SupplierId1 = table.Column<string>(type: "character varying(100)", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -717,12 +655,10 @@ namespace RacksStand.Infrastructure.Migrations
                     Length = table.Column<decimal>(type: "numeric", nullable: false),
                     DiminsionUnit = table.Column<string>(type: "text", nullable: false),
                     WarehouseId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    State = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -753,9 +689,6 @@ namespace RacksStand.Infrastructure.Migrations
                     Notes = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     CustomerId1 = table.Column<string>(type: "character varying(100)", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -789,9 +722,6 @@ namespace RacksStand.Infrastructure.Migrations
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     ProductId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -816,9 +746,10 @@ namespace RacksStand.Infrastructure.Migrations
                     Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Sku = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Barcode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    BarcodeFormat = table.Column<byte>(type: "smallint", nullable: true),
                     PurchasePrice = table.Column<decimal>(type: "numeric", nullable: false),
                     SellingPrice = table.Column<decimal>(type: "numeric", nullable: false),
-                    Unit = table.Column<string>(type: "character varying(1)", maxLength: 1, nullable: false),
+                    CurrencyCode = table.Column<string>(type: "character varying(5)", maxLength: 5, nullable: false),
                     Height = table.Column<decimal>(type: "numeric", nullable: false),
                     Width = table.Column<decimal>(type: "numeric", nullable: false),
                     Length = table.Column<decimal>(type: "numeric", nullable: false),
@@ -829,11 +760,8 @@ namespace RacksStand.Infrastructure.Migrations
                     SupplierId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     ImageId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -869,12 +797,10 @@ namespace RacksStand.Infrastructure.Migrations
                     Width = table.Column<decimal>(type: "numeric", nullable: false),
                     Length = table.Column<decimal>(type: "numeric", nullable: false),
                     DiminsionUnit = table.Column<string>(type: "text", nullable: false),
+                    State = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -896,9 +822,6 @@ namespace RacksStand.Infrastructure.Migrations
                     ProductVariantId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Value = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },
@@ -928,13 +851,10 @@ namespace RacksStand.Infrastructure.Migrations
                     ProductVariantId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "numeric", nullable: false),
-                    Unit = table.Column<string>(type: "character varying(1)", maxLength: 1, nullable: false),
+                    CurrencyCode = table.Column<string>(type: "character varying(5)", maxLength: 5, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -962,13 +882,10 @@ namespace RacksStand.Infrastructure.Migrations
                     ProductVariantId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "numeric", nullable: false),
-                    Unit = table.Column<string>(type: "character varying(1)", maxLength: 1, nullable: false),
+                    CurrencyCode = table.Column<string>(type: "character varying(5)", maxLength: 5, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1005,13 +922,12 @@ namespace RacksStand.Infrastructure.Migrations
                     Width = table.Column<decimal>(type: "numeric", nullable: false),
                     Length = table.Column<decimal>(type: "numeric", nullable: false),
                     DiminsionUnit = table.Column<string>(type: "text", nullable: false),
+                    BarcodeFormat = table.Column<string>(type: "text", nullable: false),
+                    State = table.Column<string>(type: "text", nullable: false),
                     SelfId1 = table.Column<string>(type: "character varying(100)", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1041,9 +957,6 @@ namespace RacksStand.Infrastructure.Migrations
                     WarehouseId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     SupplierId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: false)
                 },

@@ -67,6 +67,7 @@ public class SignUpEndpoint : EndpointBase
         // Hash the password
         var passwordHash = PasswordHasher.HashPassword(request.Password);
 
+        var companyId = Guid.NewGuid().ToString();
         // Create the user
         var user = new User
         {
@@ -79,13 +80,13 @@ public class SignUpEndpoint : EndpointBase
             IsEmailConfirmed = false,
             IsActive = true,
             CreatedAt = DateTime.UtcNow,
-            SelectedCompanyId =string.Empty,
+            SelectedCompanyId = companyId,
         };
 
         // Create the company
         var company = new Company
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = companyId,
             Name = request.CompanyName,
             Description = string.Empty,
             AddressLine1 = request.Address.Address,
@@ -103,9 +104,7 @@ public class SignUpEndpoint : EndpointBase
             DefaultDimensionUnit = DimensionUnit.MM,
             DefaultWeightUnit = WeightUnit.G
         };
-
-        // Set company Id
-        user.SelectedCompanyId = company.Id;    
+  
         // Create the company user relationship
         var userCompany = new CompanyUser
         {

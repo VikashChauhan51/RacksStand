@@ -33,7 +33,7 @@ public class RefreshTokenEndpoint : EndpointBase
     (
        [FromQuery] string token,
         RacksStandContext dbContext,
-        JwtService jwtService,
+        IJwtService jwtService,
         ILogger<RefreshTokenEndpoint> logger
     )
     {

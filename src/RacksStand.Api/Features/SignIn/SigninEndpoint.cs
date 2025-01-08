@@ -36,7 +36,7 @@ public class SigninEndpoint : EndpointBase
         IValidator<SigninRequest> validator,
         ILogger<SigninEndpoint> logger,
         RacksStandContext dbContext,
-        JwtService jwtService
+        IJwtService jwtService
     )
     {
         // Validate the request using provided validator

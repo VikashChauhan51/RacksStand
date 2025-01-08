@@ -8,7 +8,7 @@ using System.Text;
 
 
 namespace RacksStand.Api.Core.Infrastructure.Services;
-public class JwtService
+public class JwtService : IJwtService
 {
     private readonly IConfiguration _configuration;
 
@@ -21,11 +21,13 @@ public class JwtService
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.Value),
-            new Claim(ClaimTypes.Email, user.Email),
+            new(ClaimTypes.NameIdentifier, user.Id.Value),
+            new(ClaimTypes.Email, user.Email),
+            new(JwtRegisteredClaimNames.Sub, user.UserName),
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
         claims.AddRange(user.UserPermissions.Select(x => new Claim("scope", x.ModulePermission.Code)).ToList());
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
@@ -45,7 +47,20 @@ public class JwtService
         {
             rng.GetBytes(randomBytes);
         }
-        return Convert.ToBase64String(randomBytes);
+
+        var ticksBytes = BitConverter.GetBytes(DateTime.UtcNow.Ticks);
+        var guidBytes = Guid.NewGuid().ToByteArray();
+
+        // Concatenate all byte arrays
+        var allBytes = new byte[randomBytes.Length + ticksBytes.Length + guidBytes.Length];
+        Buffer.BlockCopy(randomBytes, 0, allBytes, 0, randomBytes.Length);
+        Buffer.BlockCopy(ticksBytes, 0, allBytes, randomBytes.Length, ticksBytes.Length);
+        Buffer.BlockCopy(guidBytes, 0, allBytes, randomBytes.Length + ticksBytes.Length, guidBytes.Length);
+
+        // Convert concatenated byte array to Base64 string
+        var base64String = Convert.ToBase64String(allBytes);
+        return base64String;
     }
+
 }
 
