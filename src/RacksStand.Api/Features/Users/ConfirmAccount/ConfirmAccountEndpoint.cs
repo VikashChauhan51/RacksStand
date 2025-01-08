@@ -5,7 +5,7 @@ using RacksStand.Api.Core;
 using RacksStand.Infrastructure.Data.Contexts;
 using ResultifyCore.Outcome;
 
-namespace RacksStand.Api.Features.ConfirmAccount;
+namespace RacksStand.Api.Features.Users.ConfirmAccount;
 
 public class AccountConfirmationEndpoint : EndpointBase
 {

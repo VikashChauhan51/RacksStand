@@ -1,6 +1,6 @@
 ﻿using RacksStand.Api.Core.Validators;
 
-namespace RacksStand.Api.Features.SignUp;
+namespace RacksStand.Api.Features.Users.SignUp;
 
 public class SignupRequestValidator : AbstractValidator<SignupRequest>
 {

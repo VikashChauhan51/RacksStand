@@ -3,7 +3,7 @@ using RacksStand.Api.Core;
 using RacksStand.Infrastructure.Data.Contexts;
 using ResultifyCore.Outcome;
 
-namespace RacksStand.Api.Features.SignOut;
+namespace RacksStand.Api.Features.Users.SignOut;
 
 public class SignoutEndpoint : EndpointBase
 {

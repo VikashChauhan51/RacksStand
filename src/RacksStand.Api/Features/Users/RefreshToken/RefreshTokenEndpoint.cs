@@ -6,7 +6,7 @@ using ResultifyCore.Outcome;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace RacksStand.Api.Features.RefreshToken;
+namespace RacksStand.Api.Features.Users.RefreshToken;
 
 public class RefreshTokenEndpoint : EndpointBase
 {

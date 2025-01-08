@@ -1,9 +1,13 @@
 ﻿using Asp.Versioning;
 using Carter;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using RacksStand.Api.Core.Infrastructure.Services;
 using RacksStand.Api.Middlewares;
 using RacksStand.Infrastructure;
 using Scalar.AspNetCore;
+using System.Text;
 
 namespace RacksStand.Api.Extensions;
 
@@ -37,8 +41,23 @@ public static class HostBuildingExtensions
                 options.SubstituteApiVersionInUrl = true;
             });
 
+        builder.Services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+                };
+            });
+
         builder.Services.AddAuthorization();
-        builder.Services.AddAuthentication();
         builder.Services.AddCarter();
         builder.AddApplicationDbContext();
         builder.AddLoggerServices();
@@ -58,6 +77,11 @@ public static class HostBuildingExtensions
                 opt.Title = "Racks Stand";
                 opt.Theme = ScalarTheme.Mars;
                 opt.DefaultHttpClient = new(ScalarTarget.Http, ScalarClient.Http11);
+                opt.WithHttpBearerAuthentication(bearer =>
+                    {
+                        bearer.Token = "your-bearer-token";
+                    });
+
             });
         }
         app.UseMiddleware<ErrorHandlerMiddleware>();

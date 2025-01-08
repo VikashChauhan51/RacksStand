@@ -1,4 +1,4 @@
-﻿namespace RacksStand.Api.Features.SignIn;
+﻿namespace RacksStand.Api.Features.Users.SignIn;
 
 public class SigninRequestValidator : AbstractValidator<SigninRequest>
 {

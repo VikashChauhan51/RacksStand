@@ -1,4 +1,4 @@
-﻿namespace RacksStand.Api.Features.SignOut;
+﻿namespace RacksStand.Api.Features.Users.SignOut;
 
 public record LogoutRequest
 (

@@ -1,6 +1,6 @@
 ﻿using RacksStand.Api.Core.Requests;
 
-namespace RacksStand.Api.Features.SignUp;
+namespace RacksStand.Api.Features.Users.SignUp;
 
 public record SignupRequest
 (

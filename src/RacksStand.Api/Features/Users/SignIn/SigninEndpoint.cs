@@ -6,7 +6,7 @@ using RacksStand.Infrastructure.Data.Contexts;
 using RacksStand.Infrastructure.Services;
 using ResultifyCore.Outcome;
 
-namespace RacksStand.Api.Features.SignIn;
+namespace RacksStand.Api.Features.Users.SignIn;
 
 public class SigninEndpoint : EndpointBase
 {

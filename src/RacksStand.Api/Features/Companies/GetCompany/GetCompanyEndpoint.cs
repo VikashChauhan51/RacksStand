@@ -3,13 +3,13 @@ using RacksStand.Api.Core;
 using RacksStand.Infrastructure.Data.Contexts;
 using ResultifyCore.Outcome;
 
-namespace RacksStand.Api.Features.GetCompany;
+namespace RacksStand.Api.Features.Companies.GetCompany;
 
 public class GetCompanyEndpoint : EndpointBase
 {
     public GetCompanyEndpoint()
     {
-        this.RequireAuthorization();
+        RequireAuthorization();
     }
     public override string RouteName => "getCompany";
     public override void AddRoutes(IEndpointRouteBuilder app)
@@ -49,8 +49,7 @@ public class GetCompanyEndpoint : EndpointBase
 
         if (user == null)
         {
-            logger.LogWarning("User not found for username clam: {UserName}", userName);
-            return Results.NotFound(Outcome<GetCompanyResponse>.Failure(new OutcomeError("UserNotFound", "The user associated with this token does not exist.")));
+            return Results.Unauthorized();
         }
 
         var company = await dbContext.Companies.FindAsync(user.SelectedCompanyId);

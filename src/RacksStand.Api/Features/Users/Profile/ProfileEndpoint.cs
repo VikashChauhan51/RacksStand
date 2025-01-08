@@ -3,13 +3,13 @@ using RacksStand.Api.Core;
 using RacksStand.Infrastructure.Data.Contexts;
 using ResultifyCore.Outcome;
 
-namespace RacksStand.Api.Features.Profile;
+namespace RacksStand.Api.Features.Users.Profile;
 
 public class ProfileEndpoint : EndpointBase
 {
     public ProfileEndpoint()
     {
-        this.RequireAuthorization();
+        RequireAuthorization();
     }
     public override string RouteName => "getProfile";
     public override void AddRoutes(IEndpointRouteBuilder app)

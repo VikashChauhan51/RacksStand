@@ -7,7 +7,7 @@ using RacksStand.Infrastructure.Services;
 using ResultifyCore.Outcome;
 using System.Security.Cryptography;
 
-namespace RacksStand.Api.Features.SignUp;
+namespace RacksStand.Api.Features.Users.SignUp;
 
 public class SignUpEndpoint : EndpointBase
 {
@@ -104,7 +104,7 @@ public class SignUpEndpoint : EndpointBase
             DefaultDimensionUnit = DimensionUnit.MM,
             DefaultWeightUnit = WeightUnit.G
         };
-  
+
         // Create the company user relationship
         var userCompany = new CompanyUser
         {
