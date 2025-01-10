@@ -1,4 +1,4 @@
-﻿namespace RacksStand.Api.Features.Users.SignIn;
+﻿namespace RacksStand.Api.Features.Users;
 
 public record SigninRequest
 (

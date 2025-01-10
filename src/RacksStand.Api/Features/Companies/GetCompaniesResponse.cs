@@ -1,4 +1,4 @@
-﻿namespace RacksStand.Api.Features.Companies.GetCompanies;
+﻿namespace RacksStand.Api.Features.Companies;
 
 public record GetCompaniesResponse
 (

@@ -3,7 +3,7 @@ using RacksStand.Api.Core;
 using RacksStand.Infrastructure.Data.Contexts;
 using ResultifyCore.Outcome;
 
-namespace RacksStand.Api.Features.Users.Profile;
+namespace RacksStand.Api.Features.Users;
 
 public class ProfileEndpoint : EndpointBase
 {

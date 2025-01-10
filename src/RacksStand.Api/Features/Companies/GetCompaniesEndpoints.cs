@@ -3,7 +3,7 @@ using RacksStand.Api.Core;
 using RacksStand.Infrastructure.Data.Contexts;
 using ResultifyCore.Outcome;
 
-namespace RacksStand.Api.Features.Companies.GetCompanies;
+namespace RacksStand.Api.Features.Companies;
 
 public class GetCompaniesEndpoints : EndpointBase
 {

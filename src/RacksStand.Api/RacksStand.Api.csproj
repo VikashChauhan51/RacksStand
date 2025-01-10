@@ -41,8 +41,4 @@
 		<ProjectReference Include="..\RacksStand.Infrastructure\RacksStand.Infrastructure.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Features\Products\" />
-	</ItemGroup>
-
 </Project>

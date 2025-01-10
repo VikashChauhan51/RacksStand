@@ -1,4 +1,4 @@
-﻿namespace RacksStand.Api.Features.Users.Profile;
+﻿namespace RacksStand.Api.Features.Users;
 
 public record ProfileResponse
 (

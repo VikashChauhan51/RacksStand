@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RacksStand.Api.Core;
 using RacksStand.Domain.Entities;
@@ -17,7 +18,7 @@ public class CreateProductEndpoint : EndpointBase
     public override string RouteName => "createProduct";
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost<IResult>("/product", CreateProductAsync)
+        app.MapPost<IResult>("/{categoryId}/product", CreateProductAsync)
             .WithName(RouteName)
             .Produces(StatusCodes.Status201Created)
             .Produces<HttpValidationProblemDetails>(StatusCodes.Status400BadRequest)
@@ -35,6 +36,7 @@ public class CreateProductEndpoint : EndpointBase
     }
 
     private static async Task<IResult> CreateProductAsync(
+        [FromRoute] string categoryId,
         ProductRequest request,
         IValidator<ProductRequest> validator,
         ILogger<CreateProductEndpoint> logger,
@@ -64,13 +66,16 @@ public class CreateProductEndpoint : EndpointBase
         {
             return Results.ValidationProblem(validationResult.ToDictionary());
         }
-
+        if (string.IsNullOrEmpty(categoryId))
+        {
+            return Results.BadRequest();
+        }
         var product = new Product
         {
             Id = Guid.NewGuid().ToString(),
             Name = request.Name,
             CompanyId = user.SelectedCompanyId,
-            CategoryId = request.CategoryId,
+            CategoryId = categoryId,
             Description = request.Description,
             Brand = request.Brand,
             Type = request.Type,

@@ -2,7 +2,6 @@
 
 public record ProductRequest
 (
-     string CategoryId,
      string Name,
      string? Description,
      string? Brand,

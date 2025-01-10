@@ -7,7 +7,7 @@ using RacksStand.Infrastructure.Services;
 using ResultifyCore.Outcome;
 using System.Security.Cryptography;
 
-namespace RacksStand.Api.Features.Users.SignUp;
+namespace RacksStand.Api.Features.Users;
 
 public class SignUpEndpoint : EndpointBase
 {

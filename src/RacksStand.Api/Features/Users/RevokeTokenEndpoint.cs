@@ -4,7 +4,7 @@ using RacksStand.Api.Core;
 using RacksStand.Infrastructure.Data.Contexts;
 using ResultifyCore.Outcome;
 
-namespace RacksStand.Api.Features.Users.RevokeToken;
+namespace RacksStand.Api.Features.Users;
 
 public class RevokeTokenEndpoint : EndpointBase
 {
