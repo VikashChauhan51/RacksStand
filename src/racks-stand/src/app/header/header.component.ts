@@ -11,20 +11,22 @@ import { TokenService } from '../shared/services/token.service';
 })
 export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
-  activeSubMenu: string | null = null;
-  isProfileMenuVisible = false;
+  userName: string = 'John Doe';
+
+  silos = [
+    { name: 'Silo 1', actions: ['Action 1', 'Action 2', 'Action 3'] },
+    { name: 'Silo 2', actions: ['Action 1', 'Action 2', 'Action 3'] },
+    { name: 'Silo 3', actions: ['Action 1', 'Action 2', 'Action 3'] },
+  ];
+
+  isSubNavVisible = false;
+  selectedSiloActions: string[] = [];
 
   constructor(private tokenService: TokenService) {}
 
-  toggleProfileMenu() {
-    this.isProfileMenuVisible = !this.isProfileMenuVisible;
-  }
-  toggleSubMenu(menu: string) {
-    this.activeSubMenu = this.activeSubMenu === menu ? null : menu;
-  }
-
-  isSubMenuVisible(menu: string) {
-    return this.activeSubMenu === menu;
+  toggleSubNav(silo: { name: string, actions: string[] }) {
+    this.isSubNavVisible = !this.isSubNavVisible;
+    this.selectedSiloActions = silo.actions;
   }
   ngOnInit(): void {
     // Check if the user is logged in

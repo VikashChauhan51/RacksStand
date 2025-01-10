@@ -1,66 +1,79 @@
-/* The navigation menu */
+/* Main Navbar Styling */
 .navbar {
-  overflow: hidden;
-  background-color: #333;
+  background-color: #f7f7f7;
+
+  .navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: white;
+  }
+
+  .nav-link {
+    color: white !important;
+    font-size: 1.1rem;
+    margin-right: 15px;
+
+    &:hover {
+      color: #ffc107 !important;
+    }
+  }
+
+  .dropdown-menu {
+    background-color: white;
+    border: 1px solid #ddd;
+
+    .dropdown-item {
+      color: #333;
+
+      &:hover {
+        background-color: #f7f7f7;
+        color: white;
+      }
+    }
+  }
+
+  .navbar-toggler-icon {
+    background-color: white;
+  }
 }
 
-/* Navigation links */
-.navbar a {
-  float: left;
-  font-size: 16px;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
+/* Profile Icon Styling */
+.navbar .nav-item img {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
 }
 
-/* The subnavigation menu */
-.subnav {
-  float: left;
-  overflow: hidden;
+/* Sub-navbar Styling */
+.sub-nav-container {
+  position: relative;
+  top: 56px; /* Align under main navbar */
+  z-index: 100;
+  background-color: #343a40;
+
+  .sub-nav-links {
+    display: flex; /* Horizontal layout */
+    justify-content: flex-start; /* Align links to the left */
+    padding: 0;
+
+    .nav-item {
+      margin-right: 15px;
+
+      .nav-link {
+        color: white;
+        font-size: 1rem;
+
+        &:hover {
+          color: #ffc107;
+        }
+      }
+    }
+  }
 }
 
-/* Subnav button */
-.subnav .subnavbtn {
-  font-size: 16px;
-  border: none;
-  outline: none;
-  color: white;
-  padding: 14px 16px;
-  background-color: inherit;
-  font-family: inherit;
-  margin: 0;
-}
-
-/* Add a red background color to navigation links on hover */
-.navbar a:hover, .subnav:hover .subnavbtn {
-  background-color: red;
-}
-
-/* Style the subnav content - positioned absolute */
-.subnav-content {
-  display: none;
-  position: absolute;
-  left: 0;
-  background-color: red;
-  width: 100%;
-  z-index: 1;
-}
-
-/* Style the subnav links */
-.subnav-content a {
-  float: left;
-  color: white;
-  text-decoration: none;
-}
-
-/* Add a grey background color on hover */
-.subnav-content a:hover {
-  background-color: #eee;
-  color: black;
-}
-
-/* When you move the mouse over the subnav container, open the subnav content */
-.subnav:hover .subnav-content {
-  display: block;
+/* Mobile View Adjustments */
+@media (max-width: 767px) {
+  .navbar-nav {
+    text-align: center;
+  }
 }
