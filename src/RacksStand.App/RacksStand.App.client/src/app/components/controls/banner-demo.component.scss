@@ -1,0 +1,30 @@
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+.carousel-slide-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-caption {
+  margin-top: 2vw;
+  text-align: center;
+  font-size: 1.1vw;
+  bottom: auto;
+
+  .btn.btn-sm {
+    padding: 0 5px 2px 5px;
+    font-weight: bold;
+  }
+
+  @include media-breakpoint-down(md) {
+    display: none;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    margin-top: 20px;
+    font-size: 1rem;
+  }
+}

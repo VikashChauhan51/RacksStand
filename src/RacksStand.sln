@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacksStand.Domain", "RacksS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacksStand.Infrastructure", "RacksStand.Infrastructure\RacksStand.Infrastructure.csproj", "{A697B76B-A2C8-460D-B65A-0C2F9C2861D2}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "RacksStand.App", "RacksStand.App\RacksStand.App.client\RacksStand.App.esproj", "{C1EA39FA-4E95-463C-9A60-589BE822EE54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{A697B76B-A2C8-460D-B65A-0C2F9C2861D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A697B76B-A2C8-460D-B65A-0C2F9C2861D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A697B76B-A2C8-460D-B65A-0C2F9C2861D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1EA39FA-4E95-463C-9A60-589BE822EE54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1EA39FA-4E95-463C-9A60-589BE822EE54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1EA39FA-4E95-463C-9A60-589BE822EE54}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C1EA39FA-4E95-463C-9A60-589BE822EE54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1EA39FA-4E95-463C-9A60-589BE822EE54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1EA39FA-4E95-463C-9A60-589BE822EE54}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,53 @@
+<div class="row statistics-container">
+  <div class="col-md-7">
+    <div class="chart-container">
+      <canvas baseChart width="600" height="250"
+              [datasets]="chartData"
+              [labels]="chartLabels"
+              [options]="chartOptions"
+              [legend]="true"
+              [type]="chartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="d-none d-sm-block table-responsive">
+      <table class="table table-sm bg-transparent">
+        <thead>
+          <tr>
+            <th class="border-top-0"></th>
+            @for (label of chartLabels; track label) {
+              <th class="border-top-0">{{label}}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (d of chartData; track d) {
+            <tr>
+              <th>{{d && d.label.split(' ').pop()}}</th>
+              @for (label of chartLabels; track label; let j = $index) {
+                <td>{{d && d.data[j]}}</td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <button class="refresh-btn" (click)="randomize();showMessage('Manual refresh!');">REFSH</button>
+    <div class="d-inline-block" ngbDropdown>
+      <button id="chartType" ngbDropdownToggle type="button" class="dropdown-toggle"><i class="fa fa-bar-chart"></i></button>
+      <div ngbDropdownMenu class="dropdown-menu">
+        <button [class.active]="chartType === 'bar'" (click)="changeChartType('bar')" ngbDropdownItem>Bar Chart</button>
+        <button [class.active]="chartType === 'pie'" (click)="changeChartType('pie')" ngbDropdownItem>Pie Chart</button>
+        <button [class.active]="chartType === 'doughnut'" (click)="changeChartType('doughnut')" ngbDropdownItem>Doughnut Chart</button>
+        <button [class.active]="chartType === 'polarArea'" (click)="changeChartType('polarArea')" ngbDropdownItem>Polar Area Chart</button>
+        <button [class.active]="chartType === 'radar'" (click)="changeChartType('radar')" ngbDropdownItem>Radar Chart</button>
+        <div class="dropdown-divider"></div>
+        <button [class.active]="chartType === 'line'" (click)="changeChartType('line')" ngbDropdownItem>Line Chart</button>
+      </div>
+    </div>
+    <button (click)="showMessage('You\'ve clicked on the menu')"><i class="fa fa-bars"></i></button>
+    <button (click)="showDialog('Enter some value to do serious configuration...')"><i class="fa fa-cogs"></i></button>
+  </div>
+</div>

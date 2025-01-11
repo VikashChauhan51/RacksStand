@@ -1,0 +1,16 @@
+
+.statistics-container {
+  font-size: 0.875rem;
+}
+
+.chart-container {
+  display: block;
+}
+
+.refresh-btn {
+  margin-right: 10px;
+}
+
+table.bg-transparent > :not(caption) > * > * {
+  background: transparent !important;
+}
