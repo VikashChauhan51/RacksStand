@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "RacksStand.App.client": {
+    "RacksStand.App": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/RacksStand.App.client",
+            "outputPath": "dist/RacksStand.App",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -135,10 +135,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "RacksStand.App.client:build:production"
+              "buildTarget": "RacksStand.App:build:production"
             },
             "development": {
-              "buildTarget": "RacksStand.App.client:build:development"
+              "buildTarget": "RacksStand.App:build:development"
             }
           },
           "defaultConfiguration": "development",
@@ -163,7 +163,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/app/assets/fonts/*"
             ],
             "styles": [
               {
