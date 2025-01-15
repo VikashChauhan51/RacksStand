@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
 })
 export class InfoBarComponent {
 
-  message:string ='Dummy message';
+  message:string ='';
+  isShowInfo:boolean=false;
 }
