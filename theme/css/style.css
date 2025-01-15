@@ -1,0 +1,115 @@
+:root{
+    --rs-primary:#563d7c;
+    --rs-primary-light:#7952b3;
+    --rs-secondary:#6366f1;
+    --rs-gray:#6c757d;
+}
+
+/*Navbar bar css start*/
+.skippy {
+    background-color: var(--rs-primary);
+}
+
+.bd-navbar {
+    padding: .75rem 0;
+    background-color: var(--rs-primary-light);
+}
+
+.bd-navbar .navbar-toggler {
+    padding: 0;
+    border: 0
+}
+
+.bd-navbar .navbar-nav .nav-link {
+    padding-right: .25rem;
+    padding-left: .25rem;
+    color: rgba(255,255,255,0.85)
+}
+
+.bd-navbar .navbar-nav .nav-link:hover,.bd-navbar .navbar-nav .nav-link:focus {
+    color: #fff
+}
+
+.bd-navbar .navbar-nav .nav-link.active {
+    font-weight: 600;
+    color: #fff
+}
+
+.bd-navbar .navbar-nav-svg {
+    width: 1rem;
+    height: 1rem
+}
+
+.bd-subnavbar {
+    position: relative;
+    z-index: 1020;
+    background-color: rgba(255,255,255,0.95);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05),inset 0 -1px 0 rgba(0,0,0,0.15)
+}
+
+.bd-subnavbar .dropdown-menu {
+    font-size: .875rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05)
+}
+
+@media (min-width: 768px) {
+    .bd-subnavbar {
+        position:-webkit-sticky;
+        position: sticky;
+        top: 0
+    }
+}
+.btn-bd-signup {
+    font-weight: 600;
+    color: var(--rs-secondary);
+    border-color: var(--rs-secondary)
+}
+
+.btn-bd-signup:hover,.btn-bd-signup:active {
+    color: #2a2730;
+    background-color: var(--rs-secondary);
+    border-color: var(--rs-secondary)
+}
+
+.btn-bd-signup:focus {
+    box-shadow: 0 0 0 3px rgba(255,228,132,0.25)
+}
+
+
+.bd-sidebar-toggle {
+    color: var(--rs-gray);
+}
+
+.bd-sidebar-toggle:hover,.bd-sidebar-toggle:focus {
+    color: var(--rs-primary-light);
+}
+
+.bd-sidebar-toggle:focus {
+    box-shadow: 0 0 0 3px rgba(121,82,179,0.25)
+}
+
+.bd-sidebar-toggle .bi-collapse {
+    display: none
+}
+
+.bd-sidebar-toggle:not(.collapsed) .bi-expand {
+    display: none
+}
+
+.bd-sidebar-toggle:not(.collapsed) .bi-collapse {
+    display: inline-block
+}
+
+/*Navbar bar css end*/
+
+/*footer bar css start*/
+.bd-footer a {
+    color: var(--rs-gray);
+    text-decoration: none
+}
+
+.bd-footer a:hover,.bd-footer a:focus {
+    color: var(--rs-primary);
+    text-decoration: underline
+}
+/*footer bar css end*/
