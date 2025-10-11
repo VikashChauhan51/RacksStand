@@ -1,60 +1,49 @@
+import type { FC } from "react";
+import type { UseFormRegisterReturn } from "react-hook-form";
+import clsx from "clsx";
+
 interface RadioProps {
-  id: string; // Unique ID for the radio button
-  name: string; // Radio group name
-  value: string; // Value of the radio button
-  checked: boolean; // Whether the radio button is checked
-  label: string; // Label for the radio button
-  onChange: (value: string) => void; // Handler for value change
-  className?: string; // Optional additional classes
-  disabled?: boolean; // Optional disabled state for the radio button
+  id: string;
+  name: string;
+  value: string;
+  label: string;
+  disabled?: boolean;
+  className?: string;
+  register?: UseFormRegisterReturn;
 }
 
-const Radio: React.FC<RadioProps> = ({
-  id,
-  name,
-  value,
-  checked,
-  label,
-  onChange,
-  className = "",
-  disabled = false,
-}) => {
+const Radio: FC<RadioProps> = ({ id, name, value, label, disabled = false, className = "", register }) => {
   return (
     <label
       htmlFor={id}
-      className={`relative flex cursor-pointer  select-none items-center gap-3 text-sm font-medium ${
-        disabled
-          ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
-          : "text-gray-700 dark:text-gray-400"
-      } ${className}`}
+      className={clsx(
+        "relative flex cursor-pointer select-none items-center gap-3 text-sm font-medium",
+        disabled ? "text-gray-300 dark:text-gray-600 cursor-not-allowed" : "text-gray-700 dark:text-gray-400",
+        className
+      )}
     >
       <input
         id={id}
         name={name}
         type="radio"
         value={value}
-        checked={checked}
-        onChange={() => !disabled && onChange(value)} // Prevent onChange when disabled
+        disabled={disabled}
         className="sr-only"
-        disabled={disabled} // Disable input
+        {...register}
       />
+
       <span
-        className={`flex h-5 w-5 items-center justify-center rounded-full border-[1.25px] ${
-          checked
-            ? "border-brand-500 bg-brand-500"
-            : "bg-transparent border-gray-300 dark:border-gray-700"
-        } ${
-          disabled
-            ? "bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-700"
-            : ""
-        }`}
+        className={clsx(
+          "flex h-5 w-5 items-center justify-center rounded-full border-[1.25px]",
+          "bg-transparent border-gray-300 dark:border-gray-700",
+          disabled && "bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-700"
+        )}
       >
         <span
-          className={`h-2 w-2 rounded-full bg-white ${
-            checked ? "block" : "hidden"
-          }`}
+          className="h-2 w-2 rounded-full bg-white"
         ></span>
       </span>
+
       {label}
     </label>
   );

@@ -1,26 +1,26 @@
-interface RadioProps {
-  id: string; // Unique ID for the radio button
-  name: string; // Group name for the radio button
-  value: string; // Value of the radio button
-  checked: boolean; // Whether the radio button is checked
-  label: string; // Label text for the radio button
-  onChange: (value: string) => void; // Handler for when the radio button is toggled
-  className?: string; // Optional custom classes for styling
+import type { FC } from "react";
+import type { UseFormRegisterReturn } from "react-hook-form";
+import clsx from "clsx";
+
+interface RadioSmProps {
+  id: string;
+  name: string;
+  value: string;
+  label: string;
+  disabled?: boolean;
+  className?: string;
+  register?: UseFormRegisterReturn;
 }
 
-const RadioSm: React.FC<RadioProps> = ({
-  id,
-  name,
-  value,
-  checked,
-  label,
-  onChange,
-  className = "",
-}) => {
+const RadioSm: FC<RadioSmProps> = ({ id, name, value, label, disabled = false, className = "", register }) => {
   return (
     <label
       htmlFor={id}
-      className={`flex cursor-pointer select-none items-center text-sm text-gray-500 dark:text-gray-400 ${className}`}
+      className={clsx(
+        "flex cursor-pointer select-none items-center text-sm text-gray-500 dark:text-gray-400",
+        disabled && "cursor-not-allowed opacity-50",
+        className
+      )}
     >
       <span className="relative">
         {/* Hidden Input */}
@@ -29,23 +29,22 @@ const RadioSm: React.FC<RadioProps> = ({
           id={id}
           name={name}
           value={value}
-          checked={checked}
-          onChange={() => onChange(value)}
+          disabled={disabled}
           className="sr-only"
+          {...register}
         />
+
         {/* Styled Radio Circle */}
         <span
-          className={`mr-2 flex h-4 w-4 items-center justify-center rounded-full border ${
-            checked
-              ? "border-brand-500 bg-brand-500"
-              : "bg-transparent border-gray-300 dark:border-gray-700"
-          }`}
+          className={clsx(
+            "mr-2 flex h-4 w-4 items-center justify-center rounded-full border",
+            "bg-transparent border-gray-300 dark:border-gray-700",
+            disabled && "bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-700"
+          )}
         >
           {/* Inner Dot */}
           <span
-            className={`h-1.5 w-1.5 rounded-full ${
-              checked ? "bg-white" : "bg-white dark:bg-[#1e2636]"
-            }`}
+            className="h-1.5 w-1.5 rounded-full bg-white"
           ></span>
         </span>
       </span>
