@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const signUpSchema = z.object({
+export const SignUpSchema = z.object({
   firstName: z.string("Please enter first name").nonempty("This first name is required"),
   lastName: z.string("Please enter last name").nonempty("This first name is required"),
   email: z.email("Please enter a valid email address"),
@@ -11,4 +11,4 @@ export const signUpSchema = z.object({
     }),
 });
 
-export type SignUpFormData = z.infer<typeof signUpSchema>;
+export type SignUpFormData = z.infer<typeof SignUpSchema>;

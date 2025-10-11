@@ -5,7 +5,7 @@ import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import Checkbox from "../form/input/Checkbox";
 import { config } from "../../config/config";
-import { signUpSchema } from "./signUpSchema";
+import { SignUpSchema } from "./signUpSchema";
 import type { SignUpFormData } from "./signUpSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,7 +19,7 @@ export default function SignUpForm() {
     watch,
     formState: { errors, isSubmitting },
   } = useForm<SignUpFormData>({
-    resolver: zodResolver(signUpSchema),
+    resolver: zodResolver(SignUpSchema),
   });
 
   const onSubmit = async (data: SignUpFormData) => {

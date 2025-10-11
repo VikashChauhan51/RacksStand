@@ -6,7 +6,7 @@ import Input from "../form/input/InputField";
 import Checkbox from "../form/input/Checkbox";
 import Button from "../ui/button/Button";
 import { config } from "../../config/config";
-import { signInSchema } from "./signInSchema";
+import { SignInSchema } from "./signInSchema";
 import type {SignInFormData } from "./signInSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,7 +24,7 @@ export default function SignInForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<SignInFormData>({
-    resolver: zodResolver(signInSchema),
+    resolver: zodResolver(SignInSchema),
   });
 
   const onSubmit = async (data: SignInFormData) => {
