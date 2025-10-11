@@ -6,8 +6,8 @@ import Input from "../form/input/InputField";
 import Checkbox from "../form/input/Checkbox";
 import Button from "../ui/button/Button";
 import { config } from "../../config/config";
-import { loginSchema } from "./loginSchema";
-import type {LoginFormData } from "./loginSchema";
+import { signInSchema } from "./signInSchema";
+import type {SignInFormData } from "./signInSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -23,12 +23,12 @@ export default function SignInForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<SignInFormData>({
+    resolver: zodResolver(signInSchema),
   });
 
-  const onSubmit = async (data: LoginFormData) => {
-    console.log("Login:", data);
+  const onSubmit = async (data: SignInFormData) => {
+    console.log("SignIn:", data);
   };
 
   return (

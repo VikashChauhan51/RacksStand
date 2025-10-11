@@ -4,10 +4,28 @@ import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import Checkbox from "../form/input/Checkbox";
+import { config } from "../../config/config";
+import { signUpSchema } from "./signUpSchema";
+import type { SignUpFormData } from "./signUpSchema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function SignUpForm() {
+  console.log("App Name:", config.appName);
   const [showPassword, setShowPassword] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
+  });
+
+  const onSubmit = async (data: SignUpFormData) => {
+    console.log("SignUp:", data);
+  };
+
   return (
     <div className="flex flex-col flex-1 w-full overflow-y-auto lg:w-1/2 no-scrollbar">
       <div className="w-full max-w-md mx-auto mb-5 sm:pt-10">
@@ -82,7 +100,7 @@ export default function SignUpForm() {
                 </span>
               </div>
             </div>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-5">
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   {/* <!-- First Name --> */}
@@ -93,8 +111,9 @@ export default function SignUpForm() {
                     <Input
                       type="text"
                       id="fname"
-                      name="fname"
+                      register={register("firstName")}
                       placeholder="Enter your first name"
+                      error={errors.firstName?.message}
                     />
                   </div>
                   {/* <!-- Last Name --> */}
@@ -105,8 +124,9 @@ export default function SignUpForm() {
                     <Input
                       type="text"
                       id="lname"
-                      name="lname"
+                      register={register("lastName")}
                       placeholder="Enter your last name"
+                      error={errors.lastName?.message}
                     />
                   </div>
                 </div>
@@ -118,8 +138,9 @@ export default function SignUpForm() {
                   <Input
                     type="email"
                     id="email"
-                    name="email"
-                    placeholder="Enter your email"
+                    register={register("email")}
+                    placeholder="info@gmail.com"
+                    error={errors.email?.message}
                   />
                 </div>
                 {/* <!-- Password --> */}
@@ -131,6 +152,8 @@ export default function SignUpForm() {
                     <Input
                       placeholder="Enter your password"
                       type={showPassword ? "text" : "password"}
+                      register={register("password")}
+                      error={errors.password?.message}
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
@@ -148,8 +171,9 @@ export default function SignUpForm() {
                 <div className="flex items-center gap-3">
                   <Checkbox
                     className="w-5 h-5"
-                    checked={isChecked}
-                    onChange={setIsChecked}
+                    register={register("agreeTerms")}
+                    checked={watch("agreeTerms")}
+                    success={!errors.agreeTerms}
                   />
                   <p className="inline-block font-normal text-gray-500 dark:text-gray-400">
                     By creating an account means you agree to the{" "}
@@ -164,7 +188,11 @@ export default function SignUpForm() {
                 </div>
                 {/* <!-- Button --> */}
                 <div>
-                  <button className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600"
+                  >
                     Sign Up
                   </button>
                 </div>

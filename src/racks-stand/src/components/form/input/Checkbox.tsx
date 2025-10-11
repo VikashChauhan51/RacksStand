@@ -1,5 +1,6 @@
 import type React from "react";
 import type { UseFormRegisterReturn } from "react-hook-form";
+import clsx from "clsx";
 
 interface CheckboxProps {
   label?: string;
@@ -8,7 +9,8 @@ interface CheckboxProps {
   id?: string;
   onChange?: (checked: boolean) => void;
   disabled?: boolean;
-  register?: UseFormRegisterReturn; // ✅ react-hook-form register support
+  success?: boolean;
+  register?: UseFormRegisterReturn;
 }
 
 const Checkbox: React.FC<CheckboxProps> = ({
@@ -18,30 +20,45 @@ const Checkbox: React.FC<CheckboxProps> = ({
   onChange,
   className = "",
   disabled = false,
+  success = false,
   register,
 }) => {
   const isControlled = checked !== undefined && onChange !== undefined;
 
+  const hasError = !success && !disabled;
+
+  const checkboxClasses = clsx(
+    "w-5 h-5 appearance-none cursor-pointer border rounded-md checked:bg-brand-500 checked:border-transparent disabled:opacity-60",
+    {
+      "border-error-500 focus:border-error-500 focus:ring-error-500/20":
+        hasError,
+      "border-gray-300 focus:border-success-300 focus:ring-success-500/20":
+        success && !hasError,
+      "border-gray-300 dark:border-gray-700":
+        !success && !hasError && !disabled,
+      "opacity-60 cursor-not-allowed": disabled,
+    },
+    className
+  );
+
   return (
     <label
       htmlFor={id}
-      className={`flex items-center space-x-3 cursor-pointer group ${
-        disabled ? "cursor-not-allowed opacity-60" : ""
-      }`}
+      className={clsx("flex items-center space-x-3 cursor-pointer group", {
+        "cursor-not-allowed opacity-60": disabled,
+      })}
     >
       <div className="relative w-5 h-5">
         <input
           id={id}
           type="checkbox"
-          className={`w-5 h-5 appearance-none cursor-pointer border border-gray-300 dark:border-gray-700 rounded-md checked:bg-brand-500 checked:border-transparent disabled:opacity-60 ${className}`}
+          className={checkboxClasses}
           disabled={disabled}
-          {...(isControlled
-            ? {
-                checked,
-                onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                  onChange?.(e.target.checked),
-              }
-            : register)}
+          {...(register
+            ? register
+            : isControlled
+            ? { checked, onChange: (e) => onChange(e.target.checked) }
+            : {})}
         />
 
         <svg
@@ -58,7 +75,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
             strokeWidth="1.94437"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className={checked ? "block" : "hidden"}
+            className={clsx({ hidden: !checked })}
           />
         </svg>
       </div>
