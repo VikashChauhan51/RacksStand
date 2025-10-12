@@ -6,6 +6,8 @@ import type { Column } from "../ui/table";
 import { PencilIcon, TrashBinIcon } from "../../icons";
 
 import type { WarehouseList } from "./warehousesSchema";
+import Warehouse from "./Warehouse";
+import { useModal } from "../../hooks/useModal";
 
 const warehouses: WarehouseList[] = [
   {
@@ -31,6 +33,14 @@ const warehouses: WarehouseList[] = [
 ];
 
 export default function WarehouseListTable() {
+    const { isOpen, openModal, closeModal } = useModal();
+
+      const handleAdd = () => {
+    // placeholder: open create modal or navigate
+    // Implement as needed in your app
+    console.log("Add Warehouse clicked");
+    openModal();
+  };
   const columns: Column<WarehouseList>[] = [
     {
       key: "prifix",
@@ -159,13 +169,10 @@ export default function WarehouseListTable() {
     </>
   );
 
-  const handleAdd = () => {
-    // placeholder: open create modal or navigate
-    // Implement as needed in your app
-    console.log("Add Warehouse clicked");
-  };
+
 
   return (
+    <>
     <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
       <div className="px-5 py-4 sm:px-6 sm:py-5">
         <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
@@ -185,5 +192,7 @@ export default function WarehouseListTable() {
         />
       </div>
     </div>
+    <Warehouse isOpen={isOpen} closeModal={closeModal} />
+    </>
   );
 }
