@@ -14,6 +14,7 @@ import type { Option } from "../form/Select";
 import TextArea from "../form/input/TextArea";
 import { InfoIcon } from "../../icons";
 import Popover from "../ui/popover/Popover";
+import { useEffect } from "react";
 
 export interface WarehouseProps {
   isOpen: boolean;
@@ -49,6 +50,7 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<WarehouseFormData>({
     resolver: zodResolver(WarehouseSchema),
   });
@@ -56,6 +58,22 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
   const onSubmit = async (data: WarehouseFormData) => {
     console.log("Add Warehouse:", data);
   };
+
+  useEffect(() => {
+    if (isEditMode && warehouseProps.id) {
+      (async () => {
+        try {
+          const data = await fetch(
+            `https://api.example.com/warehouses/${warehouseProps.id}`
+          ).then((res) => res.json());
+          // Assuming the API returns data in the correct format
+          reset(data); // Populate form with fetched data
+        } catch (error) {
+          console.error("Error loading warehouse:", error);
+        }
+      })();
+    }
+  }, [isEditMode, warehouseProps.id, reset]);
 
   return (
     <Modal
