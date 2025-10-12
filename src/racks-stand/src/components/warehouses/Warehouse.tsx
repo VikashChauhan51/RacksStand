@@ -70,6 +70,7 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
       updatedAt: new Date().toISOString(),
     };
     warehouseProps.onSave?.(savedData);
+    warehouseProps.closeModal();
   };
 
   useEffect(() => {
@@ -193,7 +194,7 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
                   <Input
                     type="number"
                     placeholder="Length of Warehouse"
-                    register={register("length")}
+                    register={register("length", { valueAsNumber: true })}
                     error={errors.length?.message}
                   />
                 </div>
@@ -203,7 +204,7 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
                   <Input
                     type="number"
                     placeholder="Width of Warehouse"
-                    register={register("width")}
+                    register={register("width", { valueAsNumber: true })}
                     error={errors.width?.message}
                   />
                 </div>
@@ -213,7 +214,7 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
                   <Input
                     type="number"
                     placeholder="Height of Warehouse"
-                    register={register("height")}
+                    register={register("height", { valueAsNumber: true })}
                     error={errors.height?.message}
                   />
                 </div>
@@ -233,6 +234,127 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
                   <TextArea
                     register={register("description")}
                     error={errors.description?.message}
+                  />
+                </div>
+              </div>
+            </div>
+            {/* Address */}
+            <div className="mt-6">
+              <h5 className="text-lg font-medium mb-3">Warehouse Address</h5>
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                <div>
+                  <Label>Address</Label>
+                  <Input
+                    type="text"
+                    placeholder="Street Address"
+                    register={register("address.address")}
+                    error={errors.address?.address?.message}
+                  />
+                </div>
+                <div>
+                  <Label>Address 2</Label>
+                  <Input
+                    type="text"
+                    placeholder="Address line 2"
+                    register={register("address.address2")}
+                    error={errors.address?.address2?.message}
+                  />
+                </div>
+                <div>
+                  <Label>City</Label>
+                  <Input
+                    type="text"
+                    placeholder="City"
+                    register={register("address.city")}
+                    error={errors.address?.city?.message}
+                  />
+                </div>
+                <div>
+                  <Label>State</Label>
+                  <Input
+                    type="text"
+                    placeholder="State"
+                    register={register("address.state")}
+                    error={errors.address?.state?.message}
+                  />
+                </div>
+                <div>
+                  <Label>ZIP</Label>
+                  <Input
+                    type="text"
+                    placeholder="ZIP Code"
+                    register={register("address.zip")}
+                    error={errors.address?.zip?.message}
+                  />
+                </div>
+                <div>
+                  <Label>Country</Label>
+                  <Input
+                    type="text"
+                    placeholder="Country"
+                    register={register("address.country")}
+                    error={errors.address?.country?.message}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Return Address */}
+            <div className="mt-6">
+              <h5 className="text-lg font-medium mb-3">Return Address</h5>
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                <div>
+                  <Label>Address</Label>
+                  <Input
+                    type="text"
+                    placeholder="Street Address"
+                    register={register("returnAddress.address")}
+                    error={errors.returnAddress?.address?.message}
+                  />
+                </div>
+                <div>
+                  <Label>Address 2</Label>
+                  <Input
+                    type="text"
+                    placeholder="Address line 2"
+                    register={register("returnAddress.address2")}
+                    error={errors.returnAddress?.address2?.message}
+                  />
+                </div>
+                <div>
+                  <Label>City</Label>
+                  <Input
+                    type="text"
+                    placeholder="City"
+                    register={register("returnAddress.city")}
+                    error={errors.returnAddress?.city?.message}
+                  />
+                </div>
+                <div>
+                  <Label>State</Label>
+                  <Input
+                    type="text"
+                    placeholder="State"
+                    register={register("returnAddress.state")}
+                    error={errors.returnAddress?.state?.message}
+                  />
+                </div>
+                <div>
+                  <Label>ZIP</Label>
+                  <Input
+                    type="text"
+                    placeholder="ZIP Code"
+                    register={register("returnAddress.zip")}
+                    error={errors.returnAddress?.zip?.message}
+                  />
+                </div>
+                <div>
+                  <Label>Country</Label>
+                  <Input
+                    type="text"
+                    placeholder="Country"
+                    register={register("returnAddress.country")}
+                    error={errors.returnAddress?.country?.message}
                   />
                 </div>
               </div>

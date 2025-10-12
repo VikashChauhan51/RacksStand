@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-
 // Define Address schema separately
 export const WarehouseAddressSchema = z.object({
   address: z.string().nonempty("Address is required"),
@@ -11,10 +10,12 @@ export const WarehouseAddressSchema = z.object({
   country: z.string().optional(),
 });
 
-
 export const WarehouseSchema = z.object({
   name: z.string().nonempty("This name is required"),
-  prifix: z.string().nonempty("This prifix is required").length(3, "Prifix must be 3 characters"),
+  prifix: z
+    .string()
+    .nonempty("This prifix is required")
+    .length(3, "Prifix must be 3 characters"),
   phone: z.string().optional(),
   email: z.email("Please enter a valid email address").optional(),
   manager: z.string().optional(),
@@ -23,8 +24,8 @@ export const WarehouseSchema = z.object({
   height: z.number().min(0, "Height must be a positive number").optional(),
   diminssionsUnit: z.enum(["cm", "m", "in", "ft"]).optional(),
   description: z.string().optional(),
-  address: WarehouseAddressSchema,
-  returnAddress: WarehouseAddressSchema,
+  address: WarehouseAddressSchema.optional(),
+  returnAddress: WarehouseAddressSchema.optional(),
 });
 
 export type WarehouseFormData = z.infer<typeof WarehouseSchema>;

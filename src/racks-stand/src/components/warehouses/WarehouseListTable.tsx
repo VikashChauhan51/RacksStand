@@ -8,8 +8,11 @@ import { PencilIcon, TrashBinIcon } from "../../icons";
 import type { WarehouseList } from "./warehousesSchema";
 import Warehouse from "./Warehouse";
 import { useModal } from "../../hooks/useModal";
+import { useState } from "react";
 
-const warehouses: WarehouseList[] = [
+// Sample data
+
+const warehousesData: WarehouseList[] = [
   {
     id: "1",
     name: "Warehouse 1",
@@ -34,6 +37,7 @@ const warehouses: WarehouseList[] = [
 
 export default function WarehouseListTable() {
   const { isOpen, openModal, closeModal } = useModal();
+  const [warehouses, setWarehouses] = useState<WarehouseList[]>(warehousesData);
 
   const handleAdd = () => {
     // placeholder: open create modal or navigate
@@ -120,9 +124,13 @@ export default function WarehouseListTable() {
   function onSave(warehouse: WarehouseList) {
     const index = warehouses.findIndex((w) => w.id === warehouse.id);
     if (index !== -1) {
-      warehouses[index] = warehouse;
+      setWarehouses((prev) => {
+        const newWarehouses = [...prev];
+        newWarehouses[index] = warehouse;
+        return newWarehouses;
+      });
     } else {
-      warehouses.push(warehouse);
+      setWarehouses((prev) => [...prev, warehouse]);
     }
   }
 
