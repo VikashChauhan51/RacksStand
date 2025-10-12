@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 // Props for Table
 interface TableProps {
@@ -31,6 +31,29 @@ interface TableCellProps {
   className?: string; // Optional className for styling
 }
 
+// Generic column descriptor used by higher-level data table components
+export type Column<T> = {
+  key: string;
+  label: string;
+  render?: (item: T) => React.ReactNode;
+  sortable?: boolean;
+  className?: string;
+};
+
+// DataTable props shared type so reusable datatables can import it
+export type DataTableProps<T> = {
+  data: T[];
+  columns: Column<T>[];
+  perPageOptions?: number[];
+  initialPerPage?: number;
+  className?: string;
+  keyField?: string | keyof T;
+  totalCount?: number;
+  serverSide?: boolean;
+  onPageChange?: (page: number) => void;
+  maxPageButtons?: number;
+};
+
 // Table Component
 const Table: React.FC<TableProps> = ({ children, className }) => {
   return <table className={`min-w-full  ${className}`}>{children}</table>;
@@ -60,5 +83,7 @@ const TableCell: React.FC<TableCellProps> = ({
   const CellTag = isHeader ? "th" : "td";
   return <CellTag className={` ${className}`}>{children}</CellTag>;
 };
+
+
 
 export { Table, TableHeader, TableBody, TableRow, TableCell };
