@@ -72,6 +72,8 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
           console.error("Error loading warehouse:", error);
         }
       })();
+    } else {
+      reset(); // Clear form for adding new warehouse
     }
   }, [isEditMode, warehouseProps.id, reset]);
 
