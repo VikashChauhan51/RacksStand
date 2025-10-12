@@ -15,11 +15,12 @@ import TextArea from "../form/input/TextArea";
 import { InfoIcon } from "../../icons";
 import Popover from "../ui/popover/Popover";
 import { useEffect } from "react";
-
+import type { WarehouseList } from "./warehousesSchema";
 export interface WarehouseProps {
   isOpen: boolean;
   id?: string;
   closeModal: () => void;
+  onSave?: (warehouse: WarehouseList) => void;
 }
 export default function Warehouse(warehouseProps: WarehouseProps) {
   const isEditMode = !!warehouseProps.id;
@@ -57,6 +58,18 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
 
   const onSubmit = async (data: WarehouseFormData) => {
     console.log("Add Warehouse:", data);
+
+    const savedData: WarehouseList = {
+      id: warehouseProps.id || Math.random().toString(36).substring(2, 9),
+      name: data.name,
+      prifix: data.prifix,
+      email: data.email,
+      phone: data.phone,
+      manager: data.manager,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    warehouseProps.onSave?.(savedData);
   };
 
   useEffect(() => {

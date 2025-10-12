@@ -33,9 +33,9 @@ const warehouses: WarehouseList[] = [
 ];
 
 export default function WarehouseListTable() {
-    const { isOpen, openModal, closeModal } = useModal();
+  const { isOpen, openModal, closeModal } = useModal();
 
-      const handleAdd = () => {
+  const handleAdd = () => {
     // placeholder: open create modal or navigate
     // Implement as needed in your app
     console.log("Add Warehouse clicked");
@@ -117,6 +117,15 @@ export default function WarehouseListTable() {
     }
   }
 
+  function onSave(warehouse: WarehouseList) {
+    const index = warehouses.findIndex((w) => w.id === warehouse.id);
+    if (index !== -1) {
+      warehouses[index] = warehouse;
+    } else {
+      warehouses.push(warehouse);
+    }
+  }
+
   // CSV export helper (uses columns keys)
   function toCsv(rows: WarehouseList[]) {
     const keys = columns.map((c) => c.key);
@@ -169,30 +178,28 @@ export default function WarehouseListTable() {
     </>
   );
 
-
-
   return (
     <>
-    <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
-      <div className="px-5 py-4 sm:px-6 sm:py-5">
-        <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
-          Warehouses
-        </h3>
-      </div>
+      <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+        <div className="px-5 py-4 sm:px-6 sm:py-5">
+          <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
+            Warehouses
+          </h3>
+        </div>
 
-      <div className="border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
-        <DataTable<WarehouseList>
-          data={warehouses}
-          columns={columns}
-          initialPerPage={10}
-          perPageOptions={[10, 8, 5]}
-          keyField={"id"}
-          actions={actions}
-          addAction={{ label: "Add", onClick: handleAdd }}
-        />
+        <div className="border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
+          <DataTable<WarehouseList>
+            data={warehouses}
+            columns={columns}
+            initialPerPage={10}
+            perPageOptions={[10, 8, 5]}
+            keyField={"id"}
+            actions={actions}
+            addAction={{ label: "Add", onClick: handleAdd }}
+          />
+        </div>
       </div>
-    </div>
-    <Warehouse isOpen={isOpen} closeModal={closeModal} />
+      <Warehouse isOpen={isOpen} closeModal={closeModal} onSave={onSave} />
     </>
   );
 }
