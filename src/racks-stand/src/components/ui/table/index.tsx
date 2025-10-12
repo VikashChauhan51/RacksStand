@@ -52,6 +52,14 @@ export type DataTableProps<T> = {
   serverSide?: boolean;
   onPageChange?: (page: number) => void;
   maxPageButtons?: number;
+  /** Optional actions area rendered next to the search input */
+  actions?: ReactNode;
+  /** Simple add button config (renders a primary button) */
+  addAction?: { label?: string; onClick: () => void };
+  /** Enable export to CSV button (exports currently filtered data) */
+  exportCsv?: boolean;
+  /** File name for CSV export */
+  exportFileName?: string;
 };
 
 // Table Component

@@ -92,6 +92,10 @@ export default function DataTable<T>({
   serverSide = false,
   onPageChange,
   maxPageButtons = 10,
+  actions,
+  addAction,
+  exportCsv = false,
+  exportFileName = "export.csv",
 }: DataTableProps<T>) {
   const [search, setSearch] = useState("");
   const [perPage, setPerPage] = useState(initialPerPage);
@@ -121,6 +125,33 @@ export default function DataTable<T>({
 
     return filteredData;
   }, [data, search, sortColumn, sortDirection]);
+
+  // helper: convert rows to CSV using visible column keys
+  function toCsv(rows: T[]) {
+    const keys = columns.map((c) => c.key);
+    const header = keys.map((k) => `"${k.replace(/"/g, '""')}"`).join(",");
+    const lines = rows.map((r) =>
+      keys
+        .map((k) => {
+          const v = String((r as Record<string, unknown>)[k] ?? "");
+          return `"${v.replace(/"/g, '""')}"`;
+        })
+        .join(","),
+    );
+    return [header, ...lines].join("\n");
+  }
+
+  function handleExport() {
+    const rows = serverSide ? data : filtered;
+    const csv = toCsv(rows as T[]);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = exportFileName;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
   const totalEntries = typeof totalCount === "number" ? totalCount : filtered.length;
   const totalPages = Math.max(1, Math.ceil(totalEntries / perPage));
@@ -166,13 +197,30 @@ export default function DataTable<T>({
             <span className="text-gray-500 dark:text-gray-400">entries</span>
           </div>
 
-          <div className="relative">
+          <div className="relative flex items-center gap-3">
             <input
               value={search}
               onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
               placeholder="Search..."
               className="h-11 rounded-lg border border-gray-300 bg-transparent py-2.5 pl-3 pr-4 text-sm"
             />
+
+            {/* Render custom actions first if provided */}
+            {actions}
+
+            {/* Add button */}
+            {addAction && (
+              <button onClick={addAction.onClick} className="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700">
+                {addAction.label ?? "Add"}
+              </button>
+            )}
+
+            {/* Export CSV */}
+            {exportCsv && (
+              <button onClick={handleExport} className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                Export CSV
+              </button>
+            )}
           </div>
         </div>
       </div>
