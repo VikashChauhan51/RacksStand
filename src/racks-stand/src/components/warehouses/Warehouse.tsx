@@ -17,6 +17,7 @@ import Popover from "../ui/popover/Popover";
 import { useEffect } from "react";
 import type { WarehouseList } from "./warehousesSchema";
 import WarehouseAddress from "./WarehouseAddress";
+import Spinner from "../ui/spinner/Spinner";
 export interface WarehouseProps {
   isOpen: boolean;
   id?: string;
@@ -281,7 +282,13 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
               Close
             </Button>
             <Button size="sm" type="submit" disabled={isSubmitting}>
-              Save Changes
+              {isSubmitting ? (
+                <div className="flex items-center">
+                  <Spinner size={16} className="mr-2" /> Saving...
+                </div>
+              ) : (
+                "Save Changes"
+              )}
             </Button>
           </div>
         </Form>
