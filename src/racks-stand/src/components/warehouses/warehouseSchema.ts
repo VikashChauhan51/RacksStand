@@ -2,12 +2,13 @@ import { z } from "zod";
 
 // Define Address schema separately
 export const WarehouseAddressSchema = z.object({
-  address: z.string().nonempty("Address is required"),
+  address: z.string().nonempty("This address is required"),
   address2: z.string().optional(),
   city: z.string().optional(),
   state: z.string().optional(),
   zip: z.string().optional(),
   country: z.string().optional(),
+  landmark: z.string().optional(),
 });
 
 export const WarehouseSchema = z.object({

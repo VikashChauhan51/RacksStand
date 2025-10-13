@@ -16,6 +16,7 @@ import { InfoIcon } from "../../icons";
 import Popover from "../ui/popover/Popover";
 import { useEffect } from "react";
 import type { WarehouseList } from "./warehousesSchema";
+import WarehouseAddress from "./WarehouseAddress";
 export interface WarehouseProps {
   isOpen: boolean;
   id?: string;
@@ -23,6 +24,7 @@ export interface WarehouseProps {
   onSave?: (warehouse: WarehouseList) => void;
 }
 export default function Warehouse(warehouseProps: WarehouseProps) {
+  console.log("Warehouse component rendered with id:", warehouseProps.id);
   const isEditMode = !!warehouseProps.id;
 
   const popupTitle = isEditMode
@@ -74,6 +76,8 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
   };
 
   useEffect(() => {
+    console.log("isEditMode:", isEditMode);
+    console.log("warehouseProps.id:", warehouseProps.id);
     if (isEditMode && warehouseProps.id) {
       (async () => {
         try {
@@ -87,7 +91,20 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
         }
       })();
     } else {
-      reset(); // Clear form for adding new warehouse
+      reset({
+        name: undefined,
+        prifix: undefined,
+        email: undefined,
+        phone: undefined,
+        manager: undefined,
+        length: 0,
+        width: 0,
+        height: 0,
+        diminssionsUnit: undefined,
+        description: undefined,
+        address: undefined,
+        returnAddress: undefined,
+      }); // Clear form for adding new warehouse
     }
   }, [isEditMode, warehouseProps.id, reset]);
 
@@ -239,126 +256,20 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
               </div>
             </div>
             {/* Address */}
-            <div className="mt-6">
-              <h5 className="text-lg font-medium mb-3">Warehouse Address</h5>
-              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-                <div>
-                  <Label>Address</Label>
-                  <Input
-                    type="text"
-                    placeholder="Street Address"
-                    register={register("address.address")}
-                    error={errors.address?.address?.message}
-                  />
-                </div>
-                <div>
-                  <Label>Address 2</Label>
-                  <Input
-                    type="text"
-                    placeholder="Address line 2"
-                    register={register("address.address2")}
-                    error={errors.address?.address2?.message}
-                  />
-                </div>
-                <div>
-                  <Label>City</Label>
-                  <Input
-                    type="text"
-                    placeholder="City"
-                    register={register("address.city")}
-                    error={errors.address?.city?.message}
-                  />
-                </div>
-                <div>
-                  <Label>State</Label>
-                  <Input
-                    type="text"
-                    placeholder="State"
-                    register={register("address.state")}
-                    error={errors.address?.state?.message}
-                  />
-                </div>
-                <div>
-                  <Label>ZIP</Label>
-                  <Input
-                    type="text"
-                    placeholder="ZIP Code"
-                    register={register("address.zip")}
-                    error={errors.address?.zip?.message}
-                  />
-                </div>
-                <div>
-                  <Label>Country</Label>
-                  <Input
-                    type="text"
-                    placeholder="Country"
-                    register={register("address.country")}
-                    error={errors.address?.country?.message}
-                  />
-                </div>
-              </div>
-            </div>
+            <WarehouseAddress
+              title="Warehouse Address"
+              register={register}
+              errors={errors}
+              fieldName="address"
+            />
 
             {/* Return Address */}
-            <div className="mt-6">
-              <h5 className="text-lg font-medium mb-3">Return Address</h5>
-              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-                <div>
-                  <Label>Address</Label>
-                  <Input
-                    type="text"
-                    placeholder="Street Address"
-                    register={register("returnAddress.address")}
-                    error={errors.returnAddress?.address?.message}
-                  />
-                </div>
-                <div>
-                  <Label>Address 2</Label>
-                  <Input
-                    type="text"
-                    placeholder="Address line 2"
-                    register={register("returnAddress.address2")}
-                    error={errors.returnAddress?.address2?.message}
-                  />
-                </div>
-                <div>
-                  <Label>City</Label>
-                  <Input
-                    type="text"
-                    placeholder="City"
-                    register={register("returnAddress.city")}
-                    error={errors.returnAddress?.city?.message}
-                  />
-                </div>
-                <div>
-                  <Label>State</Label>
-                  <Input
-                    type="text"
-                    placeholder="State"
-                    register={register("returnAddress.state")}
-                    error={errors.returnAddress?.state?.message}
-                  />
-                </div>
-                <div>
-                  <Label>ZIP</Label>
-                  <Input
-                    type="text"
-                    placeholder="ZIP Code"
-                    register={register("returnAddress.zip")}
-                    error={errors.returnAddress?.zip?.message}
-                  />
-                </div>
-                <div>
-                  <Label>Country</Label>
-                  <Input
-                    type="text"
-                    placeholder="Country"
-                    register={register("returnAddress.country")}
-                    error={errors.returnAddress?.country?.message}
-                  />
-                </div>
-              </div>
-            </div>
+            <WarehouseAddress
+              title="Return Address"
+              register={register}
+              errors={errors}
+              fieldName="returnAddress"
+            />
           </div>
           <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
             <Button
