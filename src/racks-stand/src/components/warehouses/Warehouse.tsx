@@ -1,7 +1,7 @@
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import Select from "../form/Select";
-import { EnvelopeIcon } from "../../icons";
+import { EnvelopeIcon, CopyIcon } from "../../icons";
 import PhoneInput from "../form/group-input/PhoneInput";
 import Form from "../form/Form";
 import Button from "../ui/button/Button";
@@ -55,6 +55,7 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    watch,
   } = useForm<WarehouseFormData>({
     resolver: zodResolver(WarehouseSchema),
   });
@@ -74,6 +75,13 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
     };
     warehouseProps.onSave?.(savedData);
     warehouseProps.closeModal();
+  };
+
+  const replicateAddress = () => {
+    const address = watch("address");
+    if (address) {
+      reset((prev) => ({ ...prev, returnAddress: { ...address } }));
+    }
   };
 
   useEffect(() => {
@@ -263,6 +271,18 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
               errors={errors}
               fieldName="address"
             />
+            <div className="col-span-2 flex items-center gap-2 mt-6 lg:justify-end">
+              <Label className="mb-0">
+                Return address is same as warehouse address
+              </Label>
+              <button
+                type="button"
+                onClick={replicateAddress}
+                className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
+                <CopyIcon className="w-5 h-5 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90" />
+              </button>
+            </div>
 
             {/* Return Address */}
             <WarehouseAddress
