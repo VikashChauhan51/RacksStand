@@ -1,6 +1,7 @@
 import type { AxiosError } from "axios";
 import type { NavigateFunction } from "react-router";
 import type { ProblemDetails } from "../types/api";
+import { toast } from "react-toastify";
 
 export const ApiErrorHandler = (
   navigate: NavigateFunction,
@@ -22,7 +23,7 @@ export const ApiErrorHandler = (
       navigate("/server-error");
       break;
     case 429:
-      alert("Too many requests. Please try again later.");
+      toast.error("Too many requests. Please try again later.");
       break;
     default:
       throw error;

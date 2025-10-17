@@ -9,7 +9,7 @@ import type {
 import { config } from "../config/config";
 import { TokenService } from "./TokenService";
 import type { ProblemDetails } from "../types/api";
-
+import { toast } from "react-toastify";
 // -------------------------------------------------------------
 // Extend AxiosRequestConfig safely (typed retry & control flags)
 // -------------------------------------------------------------
@@ -67,7 +67,7 @@ const createHttpClient = (): AxiosInstance => {
       // 429 Too Many Requests
       if (status === 429) {
         if (!originalRequest.skipGlobalErrorHandler) {
-          alert("Too many requests. Please try again later.");
+          toast.error("Too many requests. Please try again later.");
         }
         return Promise.reject(error);
       }

@@ -19,12 +19,26 @@ import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import Warehouses from "./pages/warehouses/Warehouses";
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 export default function App() {
   return (
     <>
       <Router>
         <ScrollToTop />
+
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
         <Routes>
           {/* Dashboard Layout */}
           <Route element={<AppLayout />}>
@@ -59,7 +73,6 @@ export default function App() {
           {/* Auth Layout */}
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-
 
           {/* Fallback Route */}
           <Route path="*" element={<NotFound />} />
