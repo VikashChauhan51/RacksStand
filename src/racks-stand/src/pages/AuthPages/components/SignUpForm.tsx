@@ -1,39 +1,34 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
-import Label from "../form/Label";
-import Input from "../form/input/InputField";
-import Checkbox from "../form/input/Checkbox";
-import Button from "../ui/button/Button";
-import { config } from "../../config/config";
-import { SignInSchema } from "./signInSchema";
-import type {SignInFormData } from "./signInSchema";
+import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../../icons";
+import Label from "../../../components/form/Label";
+import Input from "../../../components/form/input/InputField";
+import Checkbox from "../../../components/form/input/Checkbox";
+import { config } from "../../../config/config";
+import { SignUpSchema } from "./signUpSchema";
+import type { SignUpFormData } from "./signUpSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-export default function SignInForm() {
+export default function SignUpForm() {
   console.log("App Name:", config.appName);
-  console.log("API Base URL:", config.api.baseUrl);
-  console.log("API Version:", config.api.version);
-
   const [showPassword, setShowPassword] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
-  } = useForm<SignInFormData>({
-    resolver: zodResolver(SignInSchema),
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(SignUpSchema),
   });
 
-  const onSubmit = async (data: SignInFormData) => {
-    console.log("SignIn:", data);
+  const onSubmit = async (data: SignUpFormData) => {
+    console.log("SignUp:", data);
   };
 
   return (
-    <div className="flex flex-col flex-1">
-      <div className="w-full max-w-md pt-10 mx-auto">
+    <div className="flex flex-col flex-1 w-full overflow-y-auto lg:w-1/2 no-scrollbar">
+      <div className="w-full max-w-md mx-auto mb-5 sm:pt-10">
         <Link
           to="/"
           className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
@@ -46,10 +41,10 @@ export default function SignInForm() {
         <div>
           <div className="mb-5 sm:mb-8">
             <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
-              Sign In
+              Sign Up
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Enter your email and password to sign in!
+              Enter your email and password to sign up!
             </p>
           </div>
           <div>
@@ -79,7 +74,7 @@ export default function SignInForm() {
                     fill="#EB4335"
                   />
                 </svg>
-                Sign in with Google
+                Sign up with Google
               </button>
               <button className="inline-flex items-center justify-center gap-3 py-3 text-sm font-normal text-gray-700 transition-colors bg-gray-100 rounded-lg px-7 hover:bg-gray-200 hover:text-gray-800 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10">
                 <svg
@@ -92,7 +87,7 @@ export default function SignInForm() {
                 >
                   <path d="M15.6705 1.875H18.4272L12.4047 8.75833L19.4897 18.125H13.9422L9.59717 12.4442L4.62554 18.125H1.86721L8.30887 10.7625L1.51221 1.875H7.20054L11.128 7.0675L15.6705 1.875ZM14.703 16.475H16.2305L6.37054 3.43833H4.73137L14.703 16.475Z" />
                 </svg>
-                Sign in with X
+                Sign up with X
               </button>
             </div>
             <div className="relative py-3 sm:py-5">
@@ -106,27 +101,58 @@ export default function SignInForm() {
               </div>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="space-y-6">
+              <div className="space-y-5">
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  {/* <!-- First Name --> */}
+                  <div className="sm:col-span-1">
+                    <Label>
+                      First Name<span className="text-error-500">*</span>
+                    </Label>
+                    <Input
+                      type="text"
+                      id="fname"
+                      register={register("firstName")}
+                      placeholder="Enter your first name"
+                      error={errors.firstName?.message}
+                    />
+                  </div>
+                  {/* <!-- Last Name --> */}
+                  <div className="sm:col-span-1">
+                    <Label>
+                      Last Name<span className="text-error-500">*</span>
+                    </Label>
+                    <Input
+                      type="text"
+                      id="lname"
+                      register={register("lastName")}
+                      placeholder="Enter your last name"
+                      error={errors.lastName?.message}
+                    />
+                  </div>
+                </div>
+                {/* <!-- Email --> */}
                 <div>
                   <Label>
-                    Email <span className="text-error-500">*</span>{" "}
+                    Email<span className="text-error-500">*</span>
                   </Label>
                   <Input
                     type="email"
-                    placeholder="info@gmail.com"
+                    id="email"
                     register={register("email")}
+                    placeholder="info@gmail.com"
                     error={errors.email?.message}
                   />
                 </div>
+                {/* <!-- Password --> */}
                 <div>
                   <Label>
-                    Password <span className="text-error-500">*</span>{" "}
+                    Password<span className="text-error-500">*</span>
                   </Label>
                   <div className="relative">
                     <Input
+                      placeholder="Enter your password"
                       type={showPassword ? "text" : "password"}
                       register={register("password")}
-                      placeholder="Enter your password"
                       error={errors.password?.message}
                     />
                     <span
@@ -141,45 +167,46 @@ export default function SignInForm() {
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Checkbox
-                      register={register("remember")}
-                      checked={isChecked}
-                      onChange={setIsChecked}
-                    />
-                    <span className="block font-normal text-gray-700 text-theme-sm dark:text-gray-400">
-                      Keep me logged in
+                {/* <!-- Checkbox --> */}
+                <div className="flex items-center gap-3">
+                  <Checkbox
+                    className="w-5 h-5"
+                    register={register("agreeTerms")}
+                    checked={watch("agreeTerms")}
+                    success={!errors.agreeTerms}
+                  />
+                  <p className="inline-block font-normal text-gray-500 dark:text-gray-400">
+                    By creating an account means you agree to the{" "}
+                    <span className="text-gray-800 dark:text-white/90">
+                      Terms and Conditions,
+                    </span>{" "}
+                    and our{" "}
+                    <span className="text-gray-800 dark:text-white">
+                      Privacy Policy
                     </span>
-                  </div>
-                  <Link
-                    to="/reset-password"
-                    className="text-sm text-brand-500 hover:text-brand-600 dark:text-brand-400"
-                  >
-                    Forgot password?
-                  </Link>
+                  </p>
                 </div>
+                {/* <!-- Button --> */}
                 <div>
-                  <Button
+                  <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full"
-                    size="sm"
+                    className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600"
                   >
-                    Sign in
-                  </Button>
+                    Sign Up
+                  </button>
                 </div>
               </div>
             </form>
 
             <div className="mt-5">
               <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
-                Don&apos;t have an account? {""}
+                Already have an account? {""}
                 <Link
-                  to="/signup"
+                  to="/signin"
                   className="text-brand-500 hover:text-brand-600 dark:text-brand-400"
                 >
-                  Sign Up
+                  Sign In
                 </Link>
               </p>
             </div>

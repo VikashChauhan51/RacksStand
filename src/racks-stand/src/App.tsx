@@ -18,7 +18,7 @@ import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
-import Warehouses from "./pages/warehouses/Warehouses";
+import WarehousesPage from "./pages/warehouses/WarehousesPage";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 export default function App() {
@@ -67,7 +67,7 @@ export default function App() {
             <Route path="/line-chart" element={<LineChart />} />
             <Route path="/bar-chart" element={<BarChart />} />
             {/* Warehouses */}
-            <Route path="/warehouses" element={<Warehouses />} />
+            <Route path="/warehouses" element={<WarehousesPage />} />
           </Route>
 
           {/* Auth Layout */}

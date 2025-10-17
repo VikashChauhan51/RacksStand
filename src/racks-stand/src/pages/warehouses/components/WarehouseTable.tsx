@@ -1,12 +1,12 @@
 // (table primitives not used in this datatable layout)
 
-import Badge from "../ui/badge/Badge";
-import DataTable from "../tables/BasicTables/Datatable";
-import type { Column } from "../ui/table";
-import { PencilIcon, TrashBinIcon,DownloadIcon } from "../../icons";
+import Badge from "../../../components/ui/badge/Badge";
+import DataTable from "../../../components/tables/BasicTables/Datatable";
+import type { Column } from "../../../components/ui/table";
+import { PencilIcon, TrashBinIcon,DownloadIcon } from "../../../icons";
 import type { WarehouseList } from "./warehousesSchema";
 import Warehouse from "./Warehouse";
-import { useModal } from "../../hooks/useModal";
+import { useModal } from "../../../hooks/useModal";
 import { useState } from "react";
 
 // Sample data

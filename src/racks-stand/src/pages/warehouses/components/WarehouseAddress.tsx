@@ -1,5 +1,5 @@
-import Label from "../form/Label";
-import Input from "../form/input/InputField";
+import Label from "../../../components/form/Label";
+import Input from "../../../components/form/input/InputField";
 import type { FieldErrors, UseFormRegister, Path } from "react-hook-form";
 import type { WarehouseFormData } from "./warehouseSchema";
 

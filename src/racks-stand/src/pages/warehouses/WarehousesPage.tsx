@@ -1,7 +1,7 @@
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import WarehouseTable from "../../components/warehouses/WarehouseTable";
-export default function Warehouses() {
+import WarehouseTable from "./components/WarehouseTable";
+export default function WarehousesPage() {
   console.log("Warehouses page rendered");
   return (
     <>
