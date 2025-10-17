@@ -1,16 +1,16 @@
 import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
-import axiosClient from "../api/axiosClient";
+import { useApiService } from "./useApiService";
+
 export function useApiQuery<TData>(
   key: string | unknown[],
   url: string,
   options?: UseQueryOptions<TData>
 ) {
+  const { get } = useApiService();
+
   return useQuery<TData>({
     queryKey: Array.isArray(key) ? key : [key],
-    queryFn: async () => {
-      const { data } = await axiosClient.get<TData>(url);
-      return data;
-    },
+    queryFn: async () => await get<TData>(url),
     ...options,
   });
 }
