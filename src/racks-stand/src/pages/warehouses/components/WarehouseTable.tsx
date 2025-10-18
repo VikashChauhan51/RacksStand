@@ -3,7 +3,7 @@ import DataTable from "../../../components/tables/BasicTables/Datatable";
 import type { Column } from "../../../components/ui/table";
 import { PencilIcon, TrashBinIcon,DownloadIcon } from "../../../icons";
 import type { WarehouseList } from "./warehouseSchema";
-import WarehouseModel from "./WarehouseModel";
+import WarehouseModal from "./WarehouseModal";
 import { useModal } from "../../../hooks/useModal";
 import { useState } from "react";
 
@@ -192,7 +192,7 @@ export default function WarehouseTable() {
         </div>
       </div>
       {isOpen && (
-        <WarehouseModel
+        <WarehouseModal
           isOpen={isOpen}
           closeModal={closeModal}
           id={editingId}

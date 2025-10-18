@@ -18,13 +18,13 @@ import { useEffect } from "react";
 import type { WarehouseList } from "./warehouseSchema";
 import WarehouseAddress from "./WarehouseAddress";
 import Spinner from "../../../components/ui/spinner/Spinner";
-export interface WarehouseModelProps {
+export interface WarehouseModalProps {
   isOpen: boolean;
   id?: string;
   closeModal: () => void;
   onSave?: (warehouse: WarehouseList) => void;
 }
-export default function WarehouseModel(warehouseProps: WarehouseModelProps) {
+export default function WarehouseModal(warehouseProps: WarehouseModalProps) {
   console.log("Warehouse component rendered with id:", warehouseProps.id);
   const isEditMode = !!warehouseProps.id;
 

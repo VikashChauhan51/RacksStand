@@ -4,7 +4,7 @@ import type { Column } from "../../../components/ui/table";
 import { PencilIcon, TrashBinIcon, DownloadIcon } from "../../../icons";
 import type { BoxList } from "./boxSchema";
 import { useState } from "react";
-import BoxModel from "./BoxModal";
+import BoxModal from "./BoxModal";
 import { useModal } from "../../../hooks/useModal";
 
 // Sample data
@@ -175,7 +175,7 @@ export default function WarehouseTable() {
         </div>
       </div>
       {isOpen && (
-        <BoxModel
+        <BoxModal
           isOpen={isOpen}
           closeModal={closeModal}
           id={editingId}

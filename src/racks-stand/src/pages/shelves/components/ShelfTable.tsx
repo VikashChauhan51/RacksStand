@@ -4,7 +4,7 @@ import type { Column } from "../../../components/ui/table";
 import { PencilIcon, TrashBinIcon, DownloadIcon } from "../../../icons";
 import type { SelfList } from "./selfSchema";
 import { useState } from "react";
-import SelfModel from "./SelfModel";
+import SelfModal from "./SelfModal";
 import { useModal } from "../../../hooks/useModal";
 // Sample data
 
@@ -174,7 +174,7 @@ export default function WarehouseTable() {
         </div>
       </div>
       {isOpen && (
-        <SelfModel
+        <SelfModal
           isOpen={isOpen}
           closeModal={closeModal}
           id={editingId}

@@ -4,7 +4,7 @@ import type { Column } from "../../../components/ui/table";
 import { PencilIcon, TrashBinIcon, DownloadIcon } from "../../../icons";
 import type { RackList } from "./rackSchema";
 import { useState } from "react";
-import RackModel from "./RackModel";
+import RackModal from "./RackModal";
 import { useModal } from "../../../hooks/useModal";
 
 
@@ -176,7 +176,7 @@ export default function WarehouseTable() {
         </div>
       </div>
       {isOpen && (
-        <RackModel
+        <RackModal
           isOpen={isOpen}
           closeModal={closeModal}
           id={editingId}
