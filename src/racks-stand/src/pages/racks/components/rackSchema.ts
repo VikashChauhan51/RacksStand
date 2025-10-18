@@ -25,8 +25,7 @@ export const RackSchema = z.object({
   xAxis: z.number().optional(),
   yAxis: z.number().optional(),
   zAxis: z.number().optional(),
-  diminssionsUnit: z.enum(["cm", "m", "in", "ft"]).optional(),
-  status: z.enum(["active", "inactive"]).optional(),
+  diminssionsUnit: z.enum(["cm", "m", "in", "ft"]).optional()
 });
 
 export type RackFormData = z.infer<typeof RackSchema>;

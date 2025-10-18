@@ -4,6 +4,9 @@ import type { Column } from "../../../components/ui/table";
 import { PencilIcon, TrashBinIcon, DownloadIcon } from "../../../icons";
 import type { RackList } from "./rackSchema";
 import { useState } from "react";
+import RackModel from "./RackModel";
+import { useModal } from "../../../hooks/useModal";
+
 
 // Sample data
 
@@ -29,16 +32,18 @@ const racksData: RackList[] = [
 export default function WarehouseTable() {
   console.log("RackTable component rendered");
   const [racks, setRacks] = useState<RackList[]>(racksData);
+  const { isOpen, openModal, closeModal } = useModal();
+  const [editingId, setEditingId] = useState<string | undefined>(undefined);
 
   const handleAdd = () => {
-    // setEditingId(undefined);
-    // openModal();
+     setEditingId(undefined);
+     openModal();
   };
 
   function handleEdit(id: string) {
     console.log("Edit warehouse", id);
-    // setEditingId(id);
-    // openModal();
+     setEditingId(id);
+     openModal();
   }
 
   function handleDelete(id: string) {
@@ -170,14 +175,14 @@ export default function WarehouseTable() {
           />
         </div>
       </div>
-      {/* {isOpen && (
-        <Warehouse
+      {isOpen && (
+        <RackModel
           isOpen={isOpen}
           closeModal={closeModal}
           id={editingId}
           onSave={onSave}
         />
-      )} */}
+      )}
     </>
   );
 }

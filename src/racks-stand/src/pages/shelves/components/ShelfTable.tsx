@@ -4,7 +4,8 @@ import type { Column } from "../../../components/ui/table";
 import { PencilIcon, TrashBinIcon, DownloadIcon } from "../../../icons";
 import type { SelfList } from "./selfSchema";
 import { useState } from "react";
-
+import SelfModel from "./SelfModel";
+import { useModal } from "../../../hooks/useModal";
 // Sample data
 
 const ShelvesData: SelfList[] = [
@@ -29,16 +30,18 @@ const ShelvesData: SelfList[] = [
 export default function WarehouseTable() {
   console.log("SelfTable component rendered");
   const [shelves, setShelves] = useState<SelfList[]>(ShelvesData);
+  const { isOpen, openModal, closeModal } = useModal();
+  const [editingId, setEditingId] = useState<string | undefined>(undefined);
 
   const handleAdd = () => {
-    // setEditingId(undefined);
-    // openModal();
+    setEditingId(undefined);
+    openModal();
   };
 
   function handleEdit(id: string) {
     console.log("Edit warehouse", id);
-    // setEditingId(id);
-    // openModal();
+    setEditingId(id);
+    openModal();
   }
 
   function handleDelete(id: string) {
@@ -170,14 +173,14 @@ export default function WarehouseTable() {
           />
         </div>
       </div>
-      {/* {isOpen && (
-        <Warehouse
+      {isOpen && (
+        <SelfModel
           isOpen={isOpen}
           closeModal={closeModal}
           id={editingId}
           onSave={onSave}
         />
-      )} */}
+      )}
     </>
   );
 }

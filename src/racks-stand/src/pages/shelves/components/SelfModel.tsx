@@ -1,12 +1,10 @@
 import Label from "../../../components/form/Label";
 import Input from "../../../components/form/input/InputField";
 import Select from "../../../components/form/Select";
-import { EnvelopeIcon, CopyIcon } from "../../../icons";
-import PhoneInput from "../../../components/form/group-input/PhoneInput";
 import Form from "../../../components/form/Form";
 import Button from "../../../components/ui/button/Button";
-import { WarehouseSchema } from "./warehouseSchema";
-import type { WarehouseFormData } from "./warehouseSchema";
+import { SelfSchema } from "./selfSchema";
+import type { SelfFormData } from "./selfSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal } from "../../../components/ui/modal";
@@ -15,33 +13,25 @@ import TextArea from "../../../components/form/input/TextArea";
 import { InfoIcon } from "../../../icons";
 import Popover from "../../../components/ui/popover/Popover";
 import { useEffect } from "react";
-import type { WarehouseList } from "./warehousesSchema";
-import WarehouseAddress from "./WarehouseAddress";
+import type { SelfList } from "./selfSchema";
 import Spinner from "../../../components/ui/spinner/Spinner";
-export interface WarehouseProps {
+export interface SelfModelProps {
   isOpen: boolean;
   id?: string;
   closeModal: () => void;
-  onSave?: (warehouse: WarehouseList) => void;
+  onSave?: (Self: SelfList) => void;
 }
-export default function Warehouse(warehouseProps: WarehouseProps) {
-  console.log("Warehouse component rendered with id:", warehouseProps.id);
-  const isEditMode = !!warehouseProps.id;
+export default function SelfModel(SelfProps: SelfModelProps) {
+  console.log("Self component rendered with id:", SelfProps.id);
+  const isEditMode = !!SelfProps.id;
 
   const popupTitle = isEditMode
-    ? "Edit Warehouse Information"
-    : "Add Warehouse Information";
+    ? "Edit Self Information"
+    : "Add Self Information";
 
   const popupDescription = isEditMode
-    ? "Edit Warehouse details to keep it up to date."
-    : "Add Warehouse details.";
-
-  const countries = [
-    { code: "US", label: "+1" },
-    { code: "GB", label: "+44" },
-    { code: "CA", label: "+1" },
-    { code: "AU", label: "+61" },
-  ];
+    ? "Edit Self details to keep it up to date."
+    : "Add Self details.";
 
   const diminssionsUnits: Option[] = [
     { value: "cm", label: "Centimeters (cm)" },
@@ -55,73 +45,58 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-    watch,
-  } = useForm<WarehouseFormData>({
-    resolver: zodResolver(WarehouseSchema),
+  } = useForm<SelfFormData>({
+    resolver: zodResolver(SelfSchema),
   });
 
-  const onSubmit = async (data: WarehouseFormData) => {
-    console.log("Add Warehouse:", data);
+  const onSubmit = async (data: SelfFormData) => {
+    console.log("Add Self:", data);
 
-    const savedData: WarehouseList = {
-      id: warehouseProps.id || Math.random().toString(36).substring(2, 9),
+    const savedData: SelfList = {
+      id: SelfProps.id || Math.random().toString(36).substring(2, 9),
       name: data.name,
-      prifix: data.prifix,
-      email: data.email,
-      phone: data.phone,
-      manager: data.manager,
+      code: data.code,
+      rackId: "rack-123", // This should come from context or props
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    warehouseProps.onSave?.(savedData);
-    warehouseProps.closeModal();
-  };
-
-  const replicateAddress = () => {
-    const address = watch("address");
-    if (address) {
-      reset((prev) => ({ ...prev, returnAddress: { ...address } }));
-    }
+    SelfProps.onSave?.(savedData);
+    SelfProps.closeModal();
   };
 
   useEffect(() => {
     console.log("isEditMode:", isEditMode);
-    console.log("warehouseProps.id:", warehouseProps.id);
-    if (isEditMode && warehouseProps.id) {
+    console.log("SelfProps.id:", SelfProps.id);
+    if (isEditMode && SelfProps.id) {
       (async () => {
         try {
           const data = await fetch(
-            `https://api.example.com/warehouses/${warehouseProps.id}`
+            `https://api.example.com/Selfs/${SelfProps.id}`
           ).then((res) => res.json());
           // Assuming the API returns data in the correct format
           reset(data); // Populate form with fetched data
         } catch (error) {
-          console.error("Error loading warehouse:", error);
+          console.error("Error loading Self:", error);
         }
       })();
     } else {
       reset({
         name: undefined,
-        prifix: undefined,
-        email: undefined,
-        phone: undefined,
-        manager: undefined,
+        code: undefined,
         length: 0,
         width: 0,
         height: 0,
         diminssionsUnit: undefined,
         description: undefined,
-        address: undefined,
-        returnAddress: undefined,
-      }); // Clear form for adding new warehouse
+      }); // Clear form for adding new Self
     }
-  }, [isEditMode, warehouseProps.id, reset]);
+  }, [isEditMode, SelfProps.id, reset]);
 
   return (
     <Modal
-      isOpen={warehouseProps.isOpen}
+      isOpen={SelfProps.isOpen}
       showCloseButton={!isSubmitting}
-      onClose={warehouseProps.closeModal}
+      onClose={SelfProps.closeModal}
       className="max-w-[700px] m-4"
     >
       <div className="no-scrollbar relative w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
@@ -143,17 +118,17 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
               <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                 <div>
                   <Label>
-                    Prifix{" "}
+                    Code{" "}
                     <Popover
                       trigger={<InfoIcon className="w-4 h-4" />}
                       position="right"
                     >
                       <div className="text-sm">
                         <p className="font-medium text-gray-800 dark:text-white">
-                          Warehouse Info
+                          Self Info
                         </p>
                         <p className="text-gray-500 dark:text-gray-400 text-xs mt-1">
-                          The prifix should be three characters long. For
+                          The code should be three characters long. For
                           example,
                           <strong>MK1"</strong>" is a valid prifix for{" "}
                           <strong>"Mk House"</strong>.
@@ -164,8 +139,8 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
                   <Input
                     type="text"
                     placeholder="mk1"
-                    register={register("prifix")}
-                    error={errors.prifix?.message}
+                    register={register("code")}
+                    error={errors.code?.message}
                   />
                 </div>
 
@@ -180,30 +155,26 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
                 </div>
 
                 <div>
-                  <Label>Email</Label>
+                  <Label>Label</Label>
                   <div className="relative">
                     <Input
                       type="text"
                       className="pl-[62px]"
-                      placeholder="info@gmail.com"
-                      register={register("email")}
-                      error={errors.email?.message}
+                      placeholder="label"
+                      register={register("label")}
+                      error={errors.label?.message}
                     />
-                    <span className="absolute left-0 top-1/2 -translate-y-1/2 border-r border-gray-200 px-3.5 py-3 text-gray-500 dark:border-gray-800 dark:text-gray-400">
-                      <EnvelopeIcon className="size-6" />
-                    </span>
                   </div>
                 </div>
-
-                <div>
-                  <Label>Phone</Label>
+                 <div>
+                  <Label>level</Label>
                   <div className="relative">
-                    <PhoneInput
-                      selectPosition="start"
-                      countries={countries}
-                      placeholder="+1 (555) 000-0000"
-                      register={register("phone")}
-                      error={errors.phone?.message}
+                    <Input
+                      type="text"
+                      className="pl-[62px]"
+                      placeholder="level"
+                      register={register("level")}
+                      error={errors.level?.message}
                     />
                   </div>
                 </div>
@@ -219,7 +190,7 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
                   <Label>Length</Label>
                   <Input
                     type="number"
-                    placeholder="Length of Warehouse"
+                    placeholder="Length of Self"
                     register={register("length", { valueAsNumber: true })}
                     error={errors.length?.message}
                   />
@@ -229,7 +200,7 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
                   <Label>Width</Label>
                   <Input
                     type="number"
-                    placeholder="Width of Warehouse"
+                    placeholder="Width of Self"
                     register={register("width", { valueAsNumber: true })}
                     error={errors.width?.message}
                   />
@@ -239,7 +210,7 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
                   <Label>Height</Label>
                   <Input
                     type="number"
-                    placeholder="Height of Warehouse"
+                    placeholder="Height of Self"
                     register={register("height", { valueAsNumber: true })}
                     error={errors.height?.message}
                   />
@@ -264,40 +235,13 @@ export default function Warehouse(warehouseProps: WarehouseProps) {
                 </div>
               </div>
             </div>
-            {/* Address */}
-            <WarehouseAddress
-              title="Warehouse Address"
-              register={register}
-              errors={errors}
-              fieldName="address"
-            />
-            <div className="col-span-2 flex items-center gap-2 mt-6 lg:justify-end">
-              <Label className="mb-0">
-                Return address is same as warehouse address
-              </Label>
-              <button
-                type="button"
-                onClick={replicateAddress}
-                className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
-              >
-                <CopyIcon className="w-5 h-5 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90" />
-              </button>
-            </div>
-
-            {/* Return Address */}
-            <WarehouseAddress
-              title="Return Address"
-              register={register}
-              errors={errors}
-              fieldName="returnAddress"
-            />
           </div>
           <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
             <Button
               size="sm"
               variant="outline"
               disabled={isSubmitting}
-              onClick={warehouseProps.closeModal}
+              onClick={SelfProps.closeModal}
             >
               Close
             </Button>
