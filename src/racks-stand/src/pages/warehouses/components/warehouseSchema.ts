@@ -1,5 +1,17 @@
 import { z } from "zod";
 
+export interface WarehouseList {
+  id: string;
+  name?: string;
+  prifix?: string;
+  phone?: string;
+  email?: string;
+  createdAt: string;
+  updatedAt: string;
+  deleteAt?: string;
+  manager?: string;
+}
+
 // Define Address schema separately
 export const WarehouseAddressSchema = z.object({
   address: z.string().nonempty("This address is required"),
@@ -24,6 +36,9 @@ export const WarehouseSchema = z.object({
   width: z.number().min(0, "Width must be a positive number").optional(),
   height: z.number().min(0, "Height must be a positive number").optional(),
   diminssionsUnit: z.enum(["cm", "m", "in", "ft"]).optional(),
+  xAxis: z.number().optional(),
+  yAxis: z.number().optional(),
+  zAxis: z.number().optional(),
   description: z.string().optional(),
   address: WarehouseAddressSchema.optional(),
   returnAddress: WarehouseAddressSchema.optional(),

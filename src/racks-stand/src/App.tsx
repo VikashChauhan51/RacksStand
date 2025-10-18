@@ -1,83 +1,71 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import SignIn from "./pages/AuthPages/SignIn";
-import SignUp from "./pages/AuthPages/SignUp";
-import NotFound from "./pages/OtherPage/NotFound";
-import UserProfiles from "./pages/UserProfiles";
-import Videos from "./pages/UiElements/Videos";
-import Images from "./pages/UiElements/Images";
-import Alerts from "./pages/UiElements/Alerts";
-import Badges from "./pages/UiElements/Badges";
-import Avatars from "./pages/UiElements/Avatars";
-import Buttons from "./pages/UiElements/Buttons";
-import LineChart from "./pages/Charts/LineChart";
-import BarChart from "./pages/Charts/BarChart";
-import Calendar from "./pages/Calendar";
-import BasicTables from "./pages/Tables/BasicTables";
-import FormElements from "./pages/Forms/FormElements";
-import Blank from "./pages/Blank";
-import AppLayout from "./layout/AppLayout";
-import { ScrollToTop } from "./components/common/ScrollToTop";
-import Home from "./pages/Dashboard/Home";
-import WarehousesPage from "./pages/warehouses/WarehousesPage";
+import { Suspense, lazy } from "react";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import AppLayout from "./layout/AppLayout";
+import { ScrollToTop } from "./components/common/ScrollToTop";
+import Spinner from "./components/ui/spinner/Spinner";
+
+// Lazy imports for all pages
+const NotFound = lazy(() => import("./pages/errors/NotFound"));
+const Forbidden = lazy(() => import("./pages/errors/Forbidden"));
+const ServerError = lazy(() => import("./pages/errors/ServerError"));
+const SignIn = lazy(() => import("./pages/AuthPages/SignIn"));
+const SignUp = lazy(() => import("./pages/AuthPages/SignUp"));
+const UserProfiles = lazy(() => import("./pages/UserProfiles"));
+const Calendar = lazy(() => import("./pages/Calendar"));
+const Home = lazy(() => import("./pages/Dashboard/Home"));
+const WarehousesPage = lazy(() => import("./pages/warehouses/WarehousesPage"));
+const RacksPage = lazy(() => import("./pages/racks/RacksPage"));
+const ShelvesPage = lazy(() => import("./pages/shelves/ShelvesPage"));
+const BoxesPage = lazy(() => import("./pages/boxes/BoxesPage"));
+
 export default function App() {
   return (
-    <>
-      <Router>
-        <ScrollToTop />
+    <Router>
+      <ScrollToTop />
 
-        <ToastContainer
-          position="bottom-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
+      {/* Toast Notifications */}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+
+      {/* Suspense fallback */}
+      <Suspense fallback={<Spinner  />}>
         <Routes>
+
           {/* Dashboard Layout */}
           <Route element={<AppLayout />}>
             <Route index path="/" element={<Home />} />
-
-            {/* Others Page */}
             <Route path="/profile" element={<UserProfiles />} />
             <Route path="/calendar" element={<Calendar />} />
-            <Route path="/blank" element={<Blank />} />
-
-            {/* Forms */}
-            <Route path="/form-elements" element={<FormElements />} />
-
-            {/* Tables */}
-            <Route path="/basic-tables" element={<BasicTables />} />
-
-            {/* Ui Elements */}
-            <Route path="/alerts" element={<Alerts />} />
-            <Route path="/avatars" element={<Avatars />} />
-            <Route path="/badge" element={<Badges />} />
-            <Route path="/buttons" element={<Buttons />} />
-            <Route path="/images" element={<Images />} />
-            <Route path="/videos" element={<Videos />} />
-
-            {/* Charts */}
-            <Route path="/line-chart" element={<LineChart />} />
-            <Route path="/bar-chart" element={<BarChart />} />
-            {/* Warehouses */}
             <Route path="/warehouses" element={<WarehousesPage />} />
+            <Route path="/racks" element={<RacksPage />} />
+            <Route path="/shelves" element={<ShelvesPage />} />
+            <Route path="/boxes" element={<BoxesPage />} />
           </Route>
 
           {/* Auth Layout */}
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
 
+          {/* Error Pages */}
+          <Route path="/forbidden" element={<Forbidden />} />
+          <Route path="/server-error" element={<ServerError />} />
+
           {/* Fallback Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Router>
-    </>
+      </Suspense>
+    </Router>
   );
 }
