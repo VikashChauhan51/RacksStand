@@ -13,3 +13,12 @@ dotnet ef migrations add InitialCreate --project  RacksStand.Infrastructure/Rack
 dotnet ef database update --project  RacksStand.Infrastructure/RacksStand.Infrastructure.csproj --startup-project  RacksStand.Api/RacksStand.Api.csproj
 
 ```
+
+# Migration creation
+
+```cmd
+cd src/RacksStand.Api
+dotnet ef migrations add InitialCreate --context ApplicationDbContext --output-dir Domain/Migrations
+dotnet ef database update
+
+```

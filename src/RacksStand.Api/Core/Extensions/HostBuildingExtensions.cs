@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿namespace RacksStand.Api.Core.Extensions;
+
+using FastEndpoints;
+using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.Identity.Web;
 using RacksStand.Api.Core.Middlewares;
 using RacksStand.Api.Domain;
-
-namespace RacksStand.Api.Core.Extensions;
 
 public static class HostBuildingExtensions
 {
@@ -12,27 +12,33 @@ public static class HostBuildingExtensions
     {
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddOptions();
+        builder.ConfigureCache();
         builder.ConfigureOpenTelemetry();
         builder.Services.AddCors();
-        // Add services to the container.
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
-        builder.Services.AddAuthorization();
-
-        // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+        builder.ConfigureAuthentication();
         builder.Services.AddOpenApi();
+        builder.Services.SwaggerDocument(o =>
+        {
+            o.MaxEndpointVersion = 1;
+            o.DocumentSettings = s =>
+            {
+                s.DocumentName = "Release 1";
+                s.Title = "Racks Stand Api";
+                s.Version = "v1";
+            };
+        });
+        builder.Services.AddFastEndpoints()
+            .AddSwaggerDocument();
 
-        //builder.AddDatabaseServices();
-        //builder.Services.AddDataProtection(options =>
-        //{
-        //    options.ApplicationDiscriminator = "RacksStand.Api";
-        //}).PersistKeysToDbContext<ApplicationDbContext>();
+        builder.AddDatabaseServices();
+        builder.Services.AddDataProtection(options =>
+        {
+            options.ApplicationDiscriminator = "RacksStand.Api";
+        }).PersistKeysToDbContext<ApplicationDbContext>();
 
-        // Add health checks
-        //builder.Services.AddHealthChecks()
-        //    .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), name: "SQL Server")
-        //    .AddRedis(builder.Configuration["Redis:ConnectionString"], name: "Redis")
-        //    .AddCheck<CustomHealthCheck>("CustomCheck"); // your own IHealthCheck implementation
+        //Add health checks
+        builder.Services.AddHealthChecks()
+            .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection")!, name: "SQL Server");
 
         return builder.Build();
     }
@@ -50,7 +56,19 @@ public static class HostBuildingExtensions
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseMiddleware<UserContextEnrichmentMiddleware>();
-        //app.MapHealthChecks("/health").AllowAnonymous().DisableHttpMetrics().DisableRateLimiting();
+        app.UseFastEndpoints(c =>
+        {
+            c.Errors.UseProblemDetails();
+            c.Versioning.Prefix = "v";
+            c.Versioning.DefaultVersion = 1;
+            c.Versioning.PrependToRoute = true;
+        }).UseSwaggerGen();
+
+        app.MapHealthChecks("/health")
+            .AllowAnonymous()
+            .DisableHttpMetrics()
+            .DisableRateLimiting();
+
         return app;
     }
     }

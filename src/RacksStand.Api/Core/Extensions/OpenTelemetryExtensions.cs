@@ -1,9 +1,9 @@
-﻿using OpenTelemetry;
+﻿namespace RacksStand.Api.Core.Extensions;
+
+using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 using RacksStand.Api.Core.Logging;
-
-namespace RacksStand.Api.Core.Extensions;
 
 public static class OpenTelemetryExtensions
 {

@@ -1,19 +1,14 @@
 ﻿namespace RacksStand.Api.Core.Extensions;
 
 using Microsoft.Extensions.Caching.Hybrid;
-using Microsoft.Extensions.Options;
 using RacksStand.Api.Core.Caching;
 using RacksStand.Api.Core.Serializers;
 public static class CachingExtensions
 {
     public static void ConfigureCache(this WebApplicationBuilder builder)
     {
-        builder.Services.Configure<HybridCacheEntryOptions>(
-        builder.Configuration.GetSection("Caching"));
-        var cacheEntryOptions = builder.Services
-            .BuildServiceProvider()
-            .GetRequiredService<IOptions<HybridCacheEntryOptions>>()
-            .Value;
+        var cacheOptions = new HybridCacheEntryOptions();
+        builder.Configuration.GetSection("Caching").Bind(cacheOptions);
 
         builder.Services.AddHybridCache(options =>
         {
@@ -21,8 +16,8 @@ public static class CachingExtensions
             options.MaximumKeyLength = 1024;
             options.DefaultEntryOptions = new HybridCacheEntryOptions
             {
-                Expiration = cacheEntryOptions?.Expiration ?? TimeSpan.FromMinutes(5),
-                LocalCacheExpiration = cacheEntryOptions?.LocalCacheExpiration ?? TimeSpan.FromMinutes(5)
+                Expiration = cacheOptions?.Expiration ?? TimeSpan.FromMinutes(5),
+                LocalCacheExpiration = cacheOptions?.LocalCacheExpiration ?? TimeSpan.FromMinutes(5)
             };
         });
         builder.Services.AddSingleton<ICacheProvider, HybridCacheProvider>();

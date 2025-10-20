@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿namespace RacksStand.Api.Core.Extensions;
+
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using RacksStand.Api.Domain;
 using RacksStand.Api.Domain.Interceptors;
 using RacksStand.Api.Domain.Repositories;
-
-namespace RacksStand.Api.Core.Extensions;
 
 public static class DataExtensions
 {

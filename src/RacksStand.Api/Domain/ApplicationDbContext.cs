@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
+﻿namespace RacksStand.Api.Domain;
+
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RacksStand.Api.Domain.Entities;
-
-namespace RacksStand.Api.Domain;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>, IDataProtectionKeyContext
 {
