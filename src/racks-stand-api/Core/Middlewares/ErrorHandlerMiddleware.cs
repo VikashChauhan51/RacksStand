@@ -1,4 +1,4 @@
-﻿namespace RacksStand.Api.Core.Extensions;
+﻿namespace RacksStand.Api.Core.Middlewares;
 
 using Microsoft.Extensions.Logging;
 using RacksStand.Api.Core.Exceptions.Core;
@@ -46,7 +46,7 @@ public class ErrorHandlerMiddleware
             };
 
             // handle validation errors
-            if (exBase is RacksStand.Api.Core.Exceptions.ValidationException validation && validation.Errors.Any())
+            if (exBase is Exceptions.ValidationException validation && validation.Errors.Any())
             {
                 problemDetails.Errors = validation.Errors;
             }

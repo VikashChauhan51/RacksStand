@@ -1,4 +1,4 @@
-﻿namespace RacksStand.Api.Core.Extensions;
+﻿namespace RacksStand.Api.Core.Middlewares;
 
 using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -36,7 +36,7 @@ public class LoggingEnrichmentMiddleware
         string? traceId = activity?.TraceId.ToString();
         string? spanId = activity?.SpanId.ToString();
 
-        var process = System.Diagnostics.Process.GetCurrentProcess();
+        var process = Process.GetCurrentProcess();
         var osDescription = System.Runtime.InteropServices.RuntimeInformation.OSDescription;
         var osArchitecture = System.Runtime.InteropServices.RuntimeInformation.OSArchitecture.ToString();
         var runtimeVersion = Environment.Version.ToString();
