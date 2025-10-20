@@ -28,6 +28,12 @@ public static class HostBuildingExtensions
         //    options.ApplicationDiscriminator = "RacksStand.Api";
         //}).PersistKeysToDbContext<ApplicationDbContext>();
 
+        // Add health checks
+        //builder.Services.AddHealthChecks()
+        //    .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), name: "SQL Server")
+        //    .AddRedis(builder.Configuration["Redis:ConnectionString"], name: "Redis")
+        //    .AddCheck<CustomHealthCheck>("CustomCheck"); // your own IHealthCheck implementation
+
         return builder.Build();
     }
     public static WebApplication ConfigurePipelines(this WebApplication app)
@@ -44,6 +50,7 @@ public static class HostBuildingExtensions
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseMiddleware<UserContextEnrichmentMiddleware>();
+        //app.MapHealthChecks("/health").AllowAnonymous().DisableHttpMetrics().DisableRateLimiting();
         return app;
     }
     }
