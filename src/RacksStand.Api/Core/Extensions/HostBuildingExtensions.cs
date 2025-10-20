@@ -12,7 +12,7 @@ public static class HostBuildingExtensions
     {
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddOptions();
-
+        builder.ConfigureOpenTelemetry();
         builder.Services.AddCors();
         // Add services to the container.
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
