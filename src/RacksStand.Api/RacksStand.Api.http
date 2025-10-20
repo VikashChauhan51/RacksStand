@@ -1,0 +1,6 @@
+@RacksStand.Api_HostAddress = http://localhost:5285
+
+GET {{RacksStand.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
