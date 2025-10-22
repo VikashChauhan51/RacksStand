@@ -29,15 +29,32 @@ using System.Text;
 
 public static class HostBuildingExtensions
 {
-    private const string AuthenticationSectionName = "Authentication";
+   
+
+    /// <summary>
+    /// Configure all required services and build the WebApplication.
+    /// </summary>
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
+        // 1️⃣ Core services
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddOptions();
+
+        // 2️⃣ Configure caching early for DI usage
         builder.ConfigureCache();
+
+        // 3️⃣ OpenTelemetry instrumentation (logs, metrics, traces)
         builder.ConfigureOpenTelemetry();
+
+        // 4️⃣ CORS
         builder.Services.AddCors();
+
+        // 5️⃣ Authentication & Identity
         builder.ConfigureAuthentication();
+
+        // 6️⃣ FastEndpoints and Swagger
+        builder.Services.AddFastEndpoints()
+            .AddSwaggerDocument(); // Enables Swagger UI
         builder.Services.AddOpenApi();
         builder.Services.SwaggerDocument(o =>
         {
@@ -45,47 +62,65 @@ public static class HostBuildingExtensions
             o.DocumentSettings = s =>
             {
                 s.DocumentName = "Release 1";
-                s.Title = "Racks Stand Api";
+                s.Title = "Racks Stand API";
                 s.Version = "v1";
             };
         });
-        builder.Services.AddFastEndpoints()
-            .AddSwaggerDocument();
 
-        // Added data protactor services
+        // 7️⃣ Data protection
         builder.Services.AddDataProtection(options =>
         {
             options.ApplicationDiscriminator = "RacksStand.Api";
         }).PersistKeysToDbContext<ApplicationDbContext>();
 
-        // Add haser service
+        // 8️⃣ Hasher service
         builder.Services.AddSingleton<IHasher, Hasher>();
 
-        // Add validators
+        // 9️⃣ FluentValidation - scan assembly containing your validators
         builder.Services.AddValidatorsFromAssemblyContaining<AuthenticationConfigurationValidator>();
-        //Add health checks
-        builder.Services.AddHealthChecks()
-            .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection")!, name: "SQL Server");
 
-        // Add database services
+        // 🔟 Health checks
+        builder.Services.AddHealthChecks()
+            .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection")!,
+                name: "SQL Server");
+
+        // 1️⃣1️⃣ Database & repositories
         builder.AddDatabaseServices();
 
+        // ✅ Finally build the WebApplication
         return builder.Build();
     }
+
+    /// <summary>
+    /// Configure the middleware pipeline.
+    /// </summary>
     public static WebApplication ConfigurePipelines(this WebApplication app)
     {
         app.UseHttpsRedirection();
         app.UseRouting();
+
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
         }
+
+        // 1️⃣ Custom error handling middleware
         app.UseMiddleware<ErrorHandlerMiddleware>();
+
+        // 2️⃣ Logging enrichment middleware
         app.UseMiddleware<LoggingEnrichmentMiddleware>();
+
+        // 3️⃣ CORS policy
         app.UseCors();
+
+        // 4️⃣ Authentication & Authorization
         app.UseAuthentication();
         app.UseAuthorization();
+
+        // 5️⃣ User context enrichment
         app.UseMiddleware<UserContextEnrichmentMiddleware>();
+
+        // 6️⃣ FastEndpoints pipeline with versioning
         app.UseFastEndpoints(c =>
         {
             c.Errors.UseProblemDetails();
@@ -94,6 +129,7 @@ public static class HostBuildingExtensions
             c.Versioning.PrependToRoute = true;
         }).UseSwaggerGen();
 
+        // 7️⃣ Health check endpoint
         app.MapHealthChecks("/health")
             .AllowAnonymous()
             .DisableHttpMetrics()
@@ -102,88 +138,91 @@ public static class HostBuildingExtensions
         return app;
     }
 
+    /// <summary>
+    /// Adds DbContext, interceptors, and repositories.
+    /// </summary>
     private static WebApplicationBuilder AddDatabaseServices(this WebApplicationBuilder builder)
     {
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-    throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-        // Add DbContext with SQL Server provider
+        // 1️⃣ Add interceptors as singleton
         builder.Services.AddSingleton<QueryTimingInterceptor>();
         builder.Services.AddSingleton<AuditEntityInterceptor>();
         builder.Services.AddSingleton<ConnectionLoggingInterceptor>();
         builder.Services.AddSingleton<TransactionLoggingInterceptor>();
+
+        // 2️⃣ Add DbContext
         builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
-            options.UseNpgsql(connectionString,
-                npgsqlOptions =>
-                {
-                    // Apply the retry policy from the configuration.
-                    npgsqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 3,
-                        maxRetryDelay: TimeSpan.FromSeconds(1),
-                        errorCodesToAdd: null);
-                })
+            options.UseNpgsql(connectionString, npgsqlOptions =>
+            {
+                npgsqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: Constants.MaxRetryCount,
+                    maxRetryDelay: TimeSpan.FromMilliseconds(Constants.RetryDelayMilliseconds),
+                    errorCodesToAdd:null);
+            })
             .AddInterceptors(
-                        sp.GetRequiredService<ConnectionLoggingInterceptor>(),
-                        sp.GetRequiredService<QueryTimingInterceptor>(),
-                        sp.GetRequiredService<AuditEntityInterceptor>(),
-                        sp.GetRequiredService<TransactionLoggingInterceptor>())
+                sp.GetRequiredService<ConnectionLoggingInterceptor>(),
+                sp.GetRequiredService<QueryTimingInterceptor>(),
+                sp.GetRequiredService<AuditEntityInterceptor>(),
+                sp.GetRequiredService<TransactionLoggingInterceptor>())
             .UseSnakeCaseNamingConvention();
         });
 
+        // 3️⃣ Add DbContextFactory for scoped usage
         builder.Services.AddDbContextFactory<ApplicationDbContext>((sp, options) =>
         {
-            options.UseNpgsql(connectionString,
-                npgsqlOptions =>
-                {
-                    // Apply the retry policy from the configuration.
-                    npgsqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 3,
-                        maxRetryDelay: TimeSpan.FromSeconds(1),
-                        errorCodesToAdd: null);
-                })
-             .AddInterceptors(
-                        sp.GetRequiredService<ConnectionLoggingInterceptor>(),
-                        sp.GetRequiredService<QueryTimingInterceptor>(),
-                        sp.GetRequiredService<AuditEntityInterceptor>(),
-                        sp.GetRequiredService<TransactionLoggingInterceptor>())
+            options.UseNpgsql(connectionString, npgsqlOptions =>
+            {
+                npgsqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: Constants.MaxRetryCount,
+                    maxRetryDelay: TimeSpan.FromMilliseconds(Constants.RetryDelayMilliseconds),
+                    errorCodesToAdd: null);
+            })
+            .AddInterceptors(
+                sp.GetRequiredService<ConnectionLoggingInterceptor>(),
+                sp.GetRequiredService<QueryTimingInterceptor>(),
+                sp.GetRequiredService<AuditEntityInterceptor>(),
+                sp.GetRequiredService<TransactionLoggingInterceptor>())
             .UseSnakeCaseNamingConvention();
         }, ServiceLifetime.Scoped);
 
-        // Add repositories
+        // 4️⃣ Add repositories
         builder.Services.AddScoped<ITicketStore, PostgresTicketStore>();
         builder.Services.AddScoped<IAccessTokenReadRepository, AccessTokenReadRepository>();
         builder.Services.AddScoped<IRefreshTokenReadRepository, RefreshTokenReadRepository>();
 
         return builder;
     }
+
+    /// <summary>
+    /// Configure Authentication, Identity, and JWT bearer tokens.
+    /// </summary>
     private static void ConfigureAuthentication(this WebApplicationBuilder builder)
     {
-        builder.Services
-     .AddOptions<AuthenticationConfiguration>()
-     .Bind(builder.Configuration.GetSection(AuthenticationSectionName))
-     .Validate(config =>
-     {
-         var validator = new AuthenticationConfigurationValidator();
-         var result = validator.Validate(config);
+        // 1️⃣ Configure Authentication options with FluentValidation
+        builder.Services.AddOptions<AuthenticationConfiguration>()
+            .Bind(builder.Configuration.GetSection(Constants.AuthenticationSectionName))
+            .Validate(config =>
+            {
+                var validator = new AuthenticationConfigurationValidator();
+                var result = validator.Validate(config);
 
-         if (!result.IsValid)
-         {
-             var errors = string.Join(", ", result.Errors.Select(e => e.ErrorMessage));
-             throw new OptionsValidationException(
-                 nameof(AuthenticationConfiguration),
-                 typeof(AuthenticationConfiguration),
-                 result.Errors.Select(e => e.ErrorMessage)
-             );
-         }
+                if (!result.IsValid)
+                {
+                    var errors = string.Join(", ", result.Errors.Select(e => e.ErrorMessage));
+                    throw new OptionsValidationException(
+                        nameof(AuthenticationConfiguration),
+                        typeof(AuthenticationConfiguration),
+                        result.Errors.Select(e => e.ErrorMessage));
+                }
 
-         return true;
-     })
-     .ValidateOnStart();
+                return true;
+            })
+            .ValidateOnStart();
 
-
-
-        // Identity
+        // 2️⃣ Identity
         builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
         {
             options.Password.RequireDigit = true;
@@ -194,12 +233,16 @@ public static class HostBuildingExtensions
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
 
+        // 3️⃣ JWT Bearer Authentication
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                AuthenticationConfiguration authConfig = new();
-                builder.Configuration.GetSection(AuthenticationSectionName).Bind(authConfig);
+                // Directly bind configuration here to avoid using service provider
+                var authConfig = new AuthenticationConfiguration();
+                builder.Configuration.GetSection(Constants.AuthenticationSectionName).Bind(authConfig);
+
                 var key = Encoding.UTF8.GetBytes(authConfig.JwtSecret);
+
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -216,62 +259,67 @@ public static class HostBuildingExtensions
         builder.Services.AddAuthorization();
     }
 
+    /// <summary>
+    /// Configure HybridCache
+    /// </summary>
     private static void ConfigureCache(this WebApplicationBuilder builder)
     {
         var cacheOptions = new HybridCacheEntryOptions();
-        builder.Configuration.GetSection("Caching").Bind(cacheOptions);
+        builder.Configuration.GetSection(Constants.CachingSectionName).Bind(cacheOptions);
 
         builder.Services.AddHybridCache(options =>
         {
-            options.MaximumPayloadBytes = 1024 * 1024;
-            options.MaximumKeyLength = 1024;
+            options.MaximumPayloadBytes = Constants.MaxPayloadSizeBytes;
+            options.MaximumKeyLength = Constants.MaximumKeyLength;
             options.DefaultEntryOptions = new HybridCacheEntryOptions
             {
-                Expiration = cacheOptions?.Expiration ?? TimeSpan.FromMinutes(5),
-                LocalCacheExpiration = cacheOptions?.LocalCacheExpiration ?? TimeSpan.FromMinutes(5)
+                Expiration = cacheOptions?.Expiration ?? TimeSpan.FromMinutes(Constants.DefaultCacheExpirationMinutes),
+                LocalCacheExpiration = cacheOptions?.LocalCacheExpiration ?? TimeSpan.FromMinutes(Constants.DefaultCacheExpirationMinutes)
             };
         });
+
         builder.Services.AddSingleton<ICacheProvider, HybridCacheProvider>();
         builder.Services.AddSingleton<IEntitySerializer, JsonEntitySerializer>();
     }
 
-
+    /// <summary>
+    /// Configure OpenTelemetry instrumentation for logging, metrics, and traces.
+    /// </summary>
     private static void ConfigureOpenTelemetry(this WebApplicationBuilder builder)
     {
-        // Setup logging to be exported via OpenTelemetry
+        // 1️⃣ Logging
         builder.Logging.AddOpenTelemetry(logging =>
         {
             logging.IncludeFormattedMessage = true;
             logging.IncludeScopes = true;
+            logging.ParseStateValues = true;
             logging.AddProcessor(new AttributesPrefixProcessor());
         });
 
+        // 2️⃣ Metrics & Tracing
         var otel = builder.Services.AddOpenTelemetry();
 
-        // Add Metrics for ASP.NET Core and our custom metrics and export via OTLP
         otel.WithMetrics(metrics =>
         {
-            // Metrics provider from OpenTelemetry
             metrics.AddAspNetCoreInstrumentation();
             metrics.AddSqlClientInstrumentation();
             metrics.AddHttpClientInstrumentation();
             metrics.AddRuntimeInstrumentation();
-            // Metrics provides by ASP.NET Core in .NET 8
             metrics.AddMeter("Microsoft.AspNetCore.Hosting");
             metrics.AddMeter("Microsoft.AspNetCore.Server.Kestrel");
         });
 
-        // Add Tracing for ASP.NET Core and our custom ActivitySource and export via OTLP
         otel.WithTracing(tracing =>
         {
             tracing.AddAspNetCoreInstrumentation();
             tracing.AddHttpClientInstrumentation();
             tracing.AddSqlClientInstrumentation();
             tracing.AddEntityFrameworkCoreInstrumentation();
-            tracing.AddHttpClientInstrumentation();
             tracing.AddProcessor<HttpContextEnrichmentProcessor>();
         });
 
+        // 3️⃣ Export via OTLP
         otel.UseOtlpExporter();
     }
 }
+

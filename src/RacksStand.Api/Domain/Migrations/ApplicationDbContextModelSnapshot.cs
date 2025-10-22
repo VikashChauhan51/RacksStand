@@ -178,6 +178,48 @@ namespace RacksStand.Api.Domain.Migrations
                     b.ToTable("user_tokens", (string)null);
                 });
 
+            modelBuilder.Entity("RacksStand.Api.Domain.Entities.AccessToken", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expires_at");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_access_tokens");
+
+                    b.HasIndex("DeletedAt")
+                        .HasDatabaseName("ix_access_tokens_deleted_at");
+
+                    b.HasIndex("ExpiresAt")
+                        .HasDatabaseName("ix_access_tokens_expires_at");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_access_tokens_user_id");
+
+                    b.ToTable("access_tokens", (string)null);
+                });
+
             modelBuilder.Entity("RacksStand.Api.Domain.Entities.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")
@@ -361,6 +403,57 @@ namespace RacksStand.Api.Domain.Migrations
                     b.ToTable("cache_stores", (string)null);
                 });
 
+            modelBuilder.Entity("RacksStand.Api.Domain.Entities.RefreshToken", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expires_at");
+
+                    b.Property<string>("TokenHash")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("token_hash");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_refresh_tokens");
+
+                    b.HasIndex("DeletedAt")
+                        .HasDatabaseName("ix_refresh_tokens_deleted_at");
+
+                    b.HasIndex("ExpiresAt")
+                        .HasDatabaseName("ix_refresh_tokens_expires_at");
+
+                    b.HasIndex("TokenHash")
+                        .IsUnique()
+                        .HasDatabaseName("ix_refresh_tokens_token_hash");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_refresh_tokens_user_id");
+
+                    b.ToTable("refresh_tokens", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("RacksStand.Api.Domain.Entities.ApplicationRole", null)
@@ -416,6 +509,30 @@ namespace RacksStand.Api.Domain.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_tokens_users_user_id");
+                });
+
+            modelBuilder.Entity("RacksStand.Api.Domain.Entities.AccessToken", b =>
+                {
+                    b.HasOne("RacksStand.Api.Domain.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_access_tokens_users_user_id");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RacksStand.Api.Domain.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("RacksStand.Api.Domain.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_refresh_tokens_users_user_id");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
