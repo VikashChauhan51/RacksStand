@@ -7,7 +7,6 @@ using RacksStand.Api.Core.Resilience.Configurations;
 
 public static class PolicyFactory
 {
-    public const string RetryAfterHeader = "Retry-After";
     public static IAsyncPolicy<HttpResponseMessage> CreateRetryPolicy(PolyOptions options, ILogger logger)
     {
         return HttpPolicyExtensions
@@ -20,7 +19,7 @@ public static class PolicyFactory
                  {
                      TimeSpan delay = TimeSpan.FromMilliseconds(options.DelayInMilliseconds); // Default delay
 
-                     if (outcome.Result != null && outcome.Result.Headers.TryGetValues(RetryAfterHeader, out var values))
+                     if (outcome.Result != null && outcome.Result.Headers.TryGetValues(Constants.RetryAfterHeader, out var values))
                      {
                          var retryAfterValue = values.FirstOrDefault();
                          if (int.TryParse(retryAfterValue, out var seconds))

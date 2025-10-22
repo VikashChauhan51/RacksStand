@@ -9,4 +9,6 @@ public static class Constants
     public const int MaxRetryCount = 3;
     public const int DefaultCacheExpirationMinutes = 5;
     public const int RetryDelayMilliseconds = 200;
+    public const string RetryAfterHeader = "Retry-After";
+    public const string PollySectionName = "Polly";
 }

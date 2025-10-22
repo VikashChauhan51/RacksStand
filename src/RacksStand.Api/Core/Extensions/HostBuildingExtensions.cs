@@ -18,6 +18,9 @@ using RacksStand.Api.Core.Configurations.Validators;
 using RacksStand.Api.Core.Hashers;
 using RacksStand.Api.Core.Logging;
 using RacksStand.Api.Core.Middlewares;
+using RacksStand.Api.Core.Resilience;
+using RacksStand.Api.Core.Resilience.Configurations;
+using RacksStand.Api.Core.Resilience.Configurations.Validators;
 using RacksStand.Api.Core.Serializers;
 using RacksStand.Api.Domain;
 using RacksStand.Api.Domain.Entities;
@@ -29,7 +32,7 @@ using System.Text;
 
 public static class HostBuildingExtensions
 {
-   
+
 
     /// <summary>
     /// Configure all required services and build the WebApplication.
@@ -45,6 +48,7 @@ public static class HostBuildingExtensions
 
         // 3️⃣ OpenTelemetry instrumentation (logs, metrics, traces)
         builder.ConfigureOpenTelemetry();
+        builder.ConfigurePolly();
 
         // 4️⃣ CORS
         builder.Services.AddCors();
@@ -160,7 +164,7 @@ public static class HostBuildingExtensions
                 npgsqlOptions.EnableRetryOnFailure(
                     maxRetryCount: Constants.MaxRetryCount,
                     maxRetryDelay: TimeSpan.FromMilliseconds(Constants.RetryDelayMilliseconds),
-                    errorCodesToAdd:null);
+                    errorCodesToAdd: null);
             })
             .AddInterceptors(
                 sp.GetRequiredService<ConnectionLoggingInterceptor>(),
@@ -320,6 +324,38 @@ public static class HostBuildingExtensions
 
         // 3️⃣ Export via OTLP
         otel.UseOtlpExporter();
+    }
+
+
+    /// <summary>
+    ///  Configure polly.
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <exception cref="OptionsValidationException"></exception>
+    private static void ConfigurePolly(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddOptions<PolyOptions>()
+            .Bind(builder.Configuration.GetSection(Constants.PollySectionName))
+            .Validate(options =>
+            {
+                var validator = new PolyOptionsValidator();
+                var result = validator.Validate(options);
+
+                if (!result.IsValid)
+                {
+                    var errors = string.Join(", ", result.Errors.Select(e => e.ErrorMessage));
+                    throw new OptionsValidationException(
+                        nameof(PolyOptions),
+                        typeof(PolyOptions),
+                        result.Errors.Select(e => e.ErrorMessage)
+                    );
+                }
+
+                return true;
+            }).ValidateOnStart();
+
+        builder.Services.AddSingleton<IPolicyService, PolicyService>();
+
     }
 }
 
