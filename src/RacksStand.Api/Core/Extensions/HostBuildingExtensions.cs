@@ -13,6 +13,7 @@ using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 using RacksStand.Api.Core.Caching;
+using RacksStand.Api.Core.Caching.Validators;
 using RacksStand.Api.Core.Configurations;
 using RacksStand.Api.Core.Configurations.Validators;
 using RacksStand.Api.Core.Hashers;
@@ -268,11 +269,32 @@ public static class HostBuildingExtensions
     /// </summary>
     private static void ConfigureCache(this WebApplicationBuilder builder)
     {
-        var cacheOptions = new HybridCacheEntryOptions();
-        builder.Configuration.GetSection(Constants.CachingSectionName).Bind(cacheOptions);
+        builder.Services
+            .AddOptions<HybridCacheEntryOptions>()
+            .Bind(builder.Configuration.GetSection(Constants.CachingSectionName))
+            .Validate(config =>
+            {
+                var validator = new HybridCacheEntryOptionsValidator();
+                var result = validator.Validate(config);
+
+                if (!result.IsValid)
+                {
+                    var errors = string.Join(", ", result.Errors.Select(e => e.ErrorMessage));
+                    throw new OptionsValidationException(
+                        nameof(HybridCacheEntryOptions),
+                        typeof(HybridCacheEntryOptions),
+                        result.Errors.Select(e => e.ErrorMessage)
+                    );
+                }
+
+                return true;
+            }).ValidateOnStart();
+
 
         builder.Services.AddHybridCache(options =>
         {
+            var cacheOptions = new HybridCacheEntryOptions();
+            builder.Configuration.GetSection(Constants.CachingSectionName).Bind(cacheOptions);
             options.MaximumPayloadBytes = Constants.MaxPayloadSizeBytes;
             options.MaximumKeyLength = Constants.MaximumKeyLength;
             options.DefaultEntryOptions = new HybridCacheEntryOptions
