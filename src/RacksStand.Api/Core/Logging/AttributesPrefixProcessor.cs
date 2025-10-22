@@ -50,7 +50,7 @@ public class AttributesPrefixProcessor : BaseProcessor<LogRecord>
             // Only consider structured log properties (ignore things like "State")
             if (IsStructuredProperty(attr.Key))
             {
-                groupedAttributes[$"{_prefix}.{attr.Key}"] = attr.Value;
+                groupedAttributes[$"{_prefix}.{attr.Key}"] = LogSanitizer.SanitizeAndMask(attr.Value?.ToString());
             }
             else
             {

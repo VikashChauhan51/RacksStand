@@ -2,8 +2,10 @@
 
 public sealed class AuthenticationConfiguration
 {
-    public string SecretForKey { get; init; } = string.Empty;
-    public string Issuer { get; init; } = string.Empty;
-    public string Audience { get; init; } = string.Empty;
+    public string JwtSecret { get; set; } = default!;
+    public string Issuer { get; set; } = default!;
+    public string Audience { get; set; } = default!;
+    public int AccessTokenExpirationMinutes { get; set; } = 60;
+    public int RefreshTokenExpirationDays { get; set; } = 30;
 }
 

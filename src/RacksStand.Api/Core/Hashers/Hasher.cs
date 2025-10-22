@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Cryptography;
 
-public class Hasher : IHasher
+public sealed class Hasher : IHasher
 {
     private const int _iterCount = 100_000;
     private readonly static RandomNumberGenerator _rng = RandomNumberGenerator.Create();

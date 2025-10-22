@@ -12,6 +12,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
 
     public DbSet<CacheStore> AuthTickets { get; set; }
     public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<AccessToken> AccessTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
