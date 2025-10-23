@@ -4,9 +4,9 @@ using FastEndpoints;
 using Microsoft.AspNetCore.Identity;
 using RacksStand.Api.Domain.Entities;
 using ResultifyCore;
-using ResultifyCore.AspNetCore;
+using RacksStand.Api.Core.Extensions;
 
-public class SignUpEndpoint : Endpoint<SignUpRequest, IResult>
+public class SignUpEndpoint : Endpoint<SignUpRequest>
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ILogger<SignUpEndpoint> _logger;

@@ -58,19 +58,8 @@ public static class HostBuildingExtensions
         builder.ConfigureAuthentication();
 
         // 6️⃣ FastEndpoints and Swagger
-        builder.Services.AddFastEndpoints()
-            .AddSwaggerDocument(); // Enables Swagger UI
+        builder.Services.AddFastEndpoints();
         builder.Services.AddOpenApi();
-        builder.Services.SwaggerDocument(o =>
-        {
-            o.MaxEndpointVersion = 1;
-            o.DocumentSettings = s =>
-            {
-                s.DocumentName = "Release 1";
-                s.Title = "Racks Stand API";
-                s.Version = "v1";
-            };
-        });
 
         // 7️⃣ Data protection
         builder.Services.AddDataProtection(options =>
@@ -132,7 +121,7 @@ public static class HostBuildingExtensions
             c.Versioning.Prefix = "v";
             c.Versioning.DefaultVersion = 1;
             c.Versioning.PrependToRoute = true;
-        }).UseSwaggerGen();
+        });
 
         // 7️⃣ Health check endpoint
         app.MapHealthChecks("/health")

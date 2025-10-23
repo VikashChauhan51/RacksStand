@@ -22,3 +22,8 @@ dotnet ef migrations add InitialCreate --context ApplicationDbContext --output-d
 dotnet ef database update
 
 ```
+
+## API -
+```
+https://localhost:7097/openapi/v1.json
+```
