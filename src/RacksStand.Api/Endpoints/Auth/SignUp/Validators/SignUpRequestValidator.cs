@@ -1,4 +1,6 @@
-﻿namespace RacksStand.Api.Endpoints.SignUp;
+﻿using RacksStand.Api.Endpoints.Auth.SignUp.Models;
+
+namespace RacksStand.Api.Endpoints.Auth.SignUp.Validators;
 
 public class SignUpRequestValidator : AbstractValidator<SignUpRequest>
 {
@@ -18,6 +20,15 @@ public class SignUpRequestValidator : AbstractValidator<SignUpRequest>
 
         RuleFor(x => x.AgreedTermsConfirmed)
             .Equal(true).WithMessage("Terms must be accepted.");
+
+        RuleFor(x => x.RedirectUrl)
+           .NotEmpty().WithMessage("Redirect URL is required.")
+           .Must(BeAValidUrl).WithMessage("Redirect URL must be a valid absolute URL.");
+    }
+
+    private static bool BeAValidUrl(string url)
+    {
+        return Uri.TryCreate(url, UriKind.Absolute, out _);
     }
 }
 

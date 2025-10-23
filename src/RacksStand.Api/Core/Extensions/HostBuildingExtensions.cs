@@ -1,11 +1,11 @@
 ﻿namespace RacksStand.Api.Core.Extensions;
 
 using FastEndpoints;
-using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -16,6 +16,7 @@ using RacksStand.Api.Core.Caching;
 using RacksStand.Api.Core.Caching.Validators;
 using RacksStand.Api.Core.Configurations;
 using RacksStand.Api.Core.Configurations.Validators;
+using RacksStand.Api.Core.Emails;
 using RacksStand.Api.Core.Hashers;
 using RacksStand.Api.Core.Logging;
 using RacksStand.Api.Core.Middlewares;
@@ -69,6 +70,7 @@ public static class HostBuildingExtensions
 
         // 8️⃣ Hasher service
         builder.Services.AddSingleton<IHasher, Hasher>();
+        builder.Services.AddTransient<IEmailSender, DummyEmailSender>();
 
         // 9️⃣ FluentValidation - scan assembly containing your validators
         builder.Services.AddValidatorsFromAssemblyContaining<AuthenticationConfigurationValidator>();
@@ -80,7 +82,7 @@ public static class HostBuildingExtensions
 
         // 1️⃣1️⃣ Database & repositories
         builder.AddDatabaseServices();
-
+        
         // ✅ Finally build the WebApplication
         return builder.Build();
     }

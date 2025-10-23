@@ -1,25 +1,17 @@
-﻿namespace RacksStand.Api.Endpoints.SignUp;
+﻿namespace RacksStand.Api.Endpoints.Auth.SignUp;
 
 using FastEndpoints;
-using Microsoft.AspNetCore.Identity;
-using RacksStand.Api.Domain.Entities;
+using RacksStand.Api.Endpoints.Auth.SignUp.Models;
 using ResultifyCore;
-using RacksStand.Api.Core.Extensions;
 
 public class SignUpEndpoint : Endpoint<SignUpRequest>
 {
-    private readonly UserManager<ApplicationUser> _userManager;
     private readonly ILogger<SignUpEndpoint> _logger;
-    private readonly IValidator<SignUpRequest> _validator;
 
     public SignUpEndpoint(
-        ILogger<SignUpEndpoint> logger,
-        UserManager<ApplicationUser> userManager,
-        IValidator<SignUpRequest> validator)
+        ILogger<SignUpEndpoint> logger)
     {
-        _userManager = userManager;
         _logger = logger;
-        _validator = validator;
     }
 
     public override void Configure()

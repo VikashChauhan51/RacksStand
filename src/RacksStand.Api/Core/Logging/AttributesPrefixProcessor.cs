@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class AttributesPrefixProcessor : BaseProcessor<LogRecord>
 {
+    private const string DefaultPrefix = "Attribute";
     private readonly string _prefix;
     private static readonly HashSet<string> _excludedKeys = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -22,9 +23,9 @@ public class AttributesPrefixProcessor : BaseProcessor<LogRecord>
         "Message"
     };
 
-    public AttributesPrefixProcessor(string prefix = "Attribute")
+    public AttributesPrefixProcessor(string prefix = DefaultPrefix)
     {
-        _prefix = string.IsNullOrWhiteSpace(prefix) ? "Attribute" : prefix;
+        _prefix = !string.IsNullOrWhiteSpace(prefix) ? prefix : DefaultPrefix;
     }
 
     public override void OnEnd(LogRecord data)

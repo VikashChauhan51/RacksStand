@@ -21,6 +21,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
         // Seeding via dedicated seeder class
-        //InitialDataSeeder.Seed(builder);
+        InitialDataSeeder.Seed(builder);
     }
 }
