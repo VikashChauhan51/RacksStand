@@ -21,5 +21,8 @@ public sealed class ApplicationUserConfiguration : IEntityTypeConfiguration<Appl
             .HasForeignKey(ur => ur.UserId)
             .IsRequired();
 
+
+        // Global query filter to exclude soft-deleted records
+        builder.HasQueryFilter(ur => ur.DeletedAt == null);
     }
 }

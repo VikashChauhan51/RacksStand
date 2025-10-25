@@ -76,4 +76,29 @@ public static class PolicyFactory
                         retryAttempt, timeSpan.TotalMilliseconds, exception.GetType().Name);
                 });
     }
+
+    public static IAsyncPolicy CreatePolicy(int retryCount, int delayInMilliseconds, ILogger logger)
+    {
+        if (retryCount <= 0)
+            throw new ArgumentOutOfRangeException(nameof(retryCount), "Retry count must be greater than zero.");
+
+        if (delayInMilliseconds < 0)
+            throw new ArgumentOutOfRangeException(nameof(delayInMilliseconds), "Delay must be non-negative.");
+
+        return Policy
+            // Handle all exceptions except cancellations
+            .Handle<Exception>(ex =>
+                ex is not OperationCanceledException &&
+                ex is not TaskCanceledException)
+            .WaitAndRetryAsync(
+                retryCount,
+                _ => TimeSpan.FromMilliseconds(delayInMilliseconds),
+                (exception, timeSpan, retryAttempt, context) =>
+                {
+                    logger?.LogWarning(exception,
+                        "Retry {RetryAttempt}/{RetryCount} after {Delay}ms due to: {ExceptionType} - {Message}",
+                        retryAttempt, retryCount, timeSpan.TotalMilliseconds,
+                        exception.GetType().Name, exception.Message);
+                });
+    }
 }

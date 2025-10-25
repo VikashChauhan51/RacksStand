@@ -11,4 +11,8 @@ public static class Constants
     public const int RetryDelayMilliseconds = 200;
     public const string RetryAfterHeader = "Retry-After";
     public const string PollySectionName = "Polly";
+    public const string AuthorizationHeader = "Authorization";
+    public const string CorsOpenPolicyName = "OpenCorsPolicy";
+    public const string CorsAllowAllWithCredentialsName = "CertificateCorsPolicy";
+    public const string CorsSectionName = "Cors:AllowedOrigins";
 }

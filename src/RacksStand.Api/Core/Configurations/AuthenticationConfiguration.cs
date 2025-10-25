@@ -2,10 +2,14 @@
 
 public sealed class AuthenticationConfiguration
 {
-    public string JwtSecret { get; set; } = default!;
-    public string Issuer { get; set; } = default!;
-    public string Audience { get; set; } = default!;
-    public int AccessTokenExpirationMinutes { get; set; } = 60;
-    public int RefreshTokenExpirationDays { get; set; } = 30;
+    public string JwtSecret { get; init; } = default!;
+    public string Issuer { get; init; } = default!;
+    public string Audience { get; init; } = default!;
+    public int AccessTokenExpirationMinutes { get; init; } = 60;
+    public int RefreshTokenExpirationDays { get; init; } = 30;
+    public int MaxRetryAttempts { get; init; } = 5;
+    public int LockoutDurationMinutes { get; init; } = 15;
+
+    public int DefaultRetryDelayMilliseconds { get; init; } = 200;
 }
 

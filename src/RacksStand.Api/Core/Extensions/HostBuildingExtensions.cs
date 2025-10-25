@@ -12,6 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using RacksStand.Api.Core.Authentication;
+using RacksStand.Api.Core.Authentication.Abstractions;
 using RacksStand.Api.Core.Caching;
 using RacksStand.Api.Core.Caching.Validators;
 using RacksStand.Api.Core.Configurations;
@@ -30,6 +32,7 @@ using RacksStand.Api.Domain.Interceptors;
 using RacksStand.Api.Domain.Repositories;
 using RacksStand.Api.Domain.Repositories.Abstractions.Tokens;
 using RacksStand.Api.Domain.Repositories.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 public static class HostBuildingExtensions
@@ -53,10 +56,11 @@ public static class HostBuildingExtensions
         builder.ConfigurePolly();
 
         // 4️⃣ CORS
-        builder.Services.AddCors();
+        builder.ConfigureCors();
 
         // 5️⃣ Authentication & Identity
         builder.ConfigureAuthentication();
+        builder.ConfigureAuthorization();
 
         // 6️⃣ FastEndpoints and Swagger
         builder.Services.AddFastEndpoints();
@@ -82,7 +86,7 @@ public static class HostBuildingExtensions
 
         // 1️⃣1️⃣ Database & repositories
         builder.AddDatabaseServices();
-        
+
         // ✅ Finally build the WebApplication
         return builder.Build();
     }
@@ -188,6 +192,8 @@ public static class HostBuildingExtensions
         builder.Services.AddScoped<ITicketStore, PostgresTicketStore>();
         builder.Services.AddScoped<IAccessTokenReadRepository, AccessTokenReadRepository>();
         builder.Services.AddScoped<IRefreshTokenReadRepository, RefreshTokenReadRepository>();
+        builder.Services.AddScoped<IAccessTokenWriteRepository, AccessTokenWriteRepository>();
+        builder.Services.AddScoped<IRefreshTokenWriteRepository, RefreshTokenWriteRepository>();
 
         return builder;
     }
@@ -233,27 +239,117 @@ public static class HostBuildingExtensions
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                // Directly bind configuration here to avoid using service provider
-                var authConfig = new AuthenticationConfiguration();
-                builder.Configuration.GetSection(Constants.AuthenticationSectionName).Bind(authConfig);
-
-                var key = Encoding.UTF8.GetBytes(authConfig.JwtSecret);
-
-                options.TokenValidationParameters = new TokenValidationParameters
+                options.Events = new JwtBearerEvents
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = authConfig.Issuer,
-                    ValidAudience = authConfig.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ClockSkew = TimeSpan.Zero
+                    OnMessageReceived = context =>
+                    {
+                        if (context.Request.Headers.TryGetValue(Constants.AuthorizationHeader, out var authHeader))
+                        {
+                            var token = authHeader.FirstOrDefault()?.Split(" ").Last();
+                            if (!string.IsNullOrEmpty(token))
+                            {
+                                context.Token = token;
+                            }
+                        }
+                        return Task.CompletedTask;
+                    },
+                    OnTokenValidated = async context =>
+                    {
+                        var validator = context.HttpContext.RequestServices.GetRequiredService<IAccessTokenValidator>();
+                        if (validator == null)
+                        {
+                            context.Fail("Access token validator not available.");
+                            return;
+                        }
+
+                        var token = context.SecurityToken as JwtSecurityToken;
+                        if (token == null)
+                        {
+                            context.Fail("Invalid token");
+                            return;
+                        }
+                        var principal = await validator.ValidateAsync(token.RawData);
+                        if (principal == null)
+                        {
+                            context.Fail("Token is invalid or revoked");
+                            return;
+                        }
+
+                        context.Principal = principal;
+                    },
+                    OnAuthenticationFailed = context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        return Task.CompletedTask;
+                    }
                 };
             });
-
-        builder.Services.AddAuthorization();
+        builder.Services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
+        builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+        builder.Services.AddScoped<IAccessTokenValidator, AccessTokenValidator>();
     }
+
+    /// <summary>
+    /// Configure Authorization.
+    /// </summary>
+    /// <param name="builder"></param>
+    private static void ConfigureAuthorization(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddAuthorization(options =>
+        {
+
+            options.AddPolicy("AdminOnly", policy =>
+            {
+                policy.RequireRole("Admin");
+            });
+
+            options.AddPolicy("EmailVerified", policy =>
+            {
+                policy.RequireClaim("email_verified", "true");
+            });
+        });
+    }
+
+    /// <summary>
+    /// Configure Cors.
+    /// </summary>
+    /// <param name="builder"></param>
+    private static void ConfigureCors(this WebApplicationBuilder builder)
+    {
+        var allowedOrigins = builder.Configuration
+            .GetSection(Constants.CorsSectionName)
+            .Get<string[]>() ?? Array.Empty<string>();
+
+        builder.Services.AddCors(options =>
+        {
+            // Default policy
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.WithOrigins(allowedOrigins)
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+            });
+
+            // Optional: Named policy with credentials
+            options.AddPolicy(Constants.CorsAllowAllWithCredentialsName, policy =>
+            {
+                policy.WithOrigins(allowedOrigins)
+                      .AllowAnyHeader()
+                      .AllowAnyMethod()
+                      .AllowCredentials();
+            });
+
+            // Optional: Open policy for internal testing
+            options.AddPolicy(Constants.CorsOpenPolicyName, policy =>
+            {
+                policy.AllowAnyOrigin()
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+            });
+        });
+
+    }
+
 
     /// <summary>
     /// Configure HybridCache

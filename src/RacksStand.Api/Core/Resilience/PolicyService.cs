@@ -15,6 +15,10 @@ public sealed class PolicyService : IPolicyService
         _logger = logger;
     }
 
+    public IAsyncPolicy CreateCustomPolicy(int retryCount, int delayInMilliseconds)
+    {
+        return PolicyFactory.CreatePolicy(retryCount, delayInMilliseconds, _logger);
+    }
     public IAsyncPolicy<HttpResponseMessage> GetHttpRetryPolicy()
     {
         return PolicyFactory.CreateRetryPolicy(_options, _logger);
