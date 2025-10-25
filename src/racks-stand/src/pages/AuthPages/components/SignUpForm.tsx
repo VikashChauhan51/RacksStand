@@ -5,14 +5,19 @@ import Label from "../../../components/form/Label";
 import Input from "../../../components/form/input/InputField";
 import Checkbox from "../../../components/form/input/Checkbox";
 import { config } from "../../../config/config";
-import { SignUpSchema } from "./signUpSchema";
+import { SignUpSchema, type SignUpPayload } from "./signUpSchema";
 import type { SignUpFormData } from "./signUpSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { HttpClient } from "../../../api/HttpClient";
+import { toast } from "react-toastify";
+import type { AxiosError } from "axios";
+import type { ProblemDetails } from "../../../types/api";
 
 export default function SignUpForm() {
   console.log("App Name:", config.appName);
   const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -24,6 +29,33 @@ export default function SignUpForm() {
 
   const onSubmit = async (data: SignUpFormData) => {
     console.log("SignUp:", data);
+    try {
+      const requestData: SignUpPayload = {
+        full_name: data.fullName,
+        email: data.email,
+        password: data.password,
+        agreed_terms_confirmed: data.agreeTerms,
+        redirect_url: "http://localhost:5173",
+      };
+
+      const response = await HttpClient.post(
+        "/v1/api/auth/signup",
+        requestData
+      );
+      console.log("SignUp Response:", response.data);
+    } catch (error) {
+      console.log("SignUp Error:", error);
+      switch ((error as AxiosError<ProblemDetails>).response?.status) {
+        case 400:
+          toast.error("Invalid sign up data. Please check your inputs.");
+          break;
+        case 409:
+          toast.error("Email already in use. Please use a different email.");
+          break;
+        default:
+          toast.error("An unexpected error occurred. Please try again later.");
+      }
+    }
   };
 
   return (
@@ -102,33 +134,18 @@ export default function SignUpForm() {
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-5">
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                  {/* <!-- First Name --> */}
-                  <div className="sm:col-span-1">
-                    <Label>
-                      First Name<span className="text-error-500">*</span>
-                    </Label>
-                    <Input
-                      type="text"
-                      id="fname"
-                      register={register("firstName")}
-                      placeholder="Enter your first name"
-                      error={errors.firstName?.message}
-                    />
-                  </div>
-                  {/* <!-- Last Name --> */}
-                  <div className="sm:col-span-1">
-                    <Label>
-                      Last Name<span className="text-error-500">*</span>
-                    </Label>
-                    <Input
-                      type="text"
-                      id="lname"
-                      register={register("lastName")}
-                      placeholder="Enter your last name"
-                      error={errors.lastName?.message}
-                    />
-                  </div>
+                {/* <!-- First Name --> */}
+                <div>
+                  <Label>
+                    Full Name<span className="text-error-500">*</span>
+                  </Label>
+                  <Input
+                    type="text"
+                    id="fname"
+                    register={register("fullName")}
+                    placeholder="Enter your name"
+                    error={errors.fullName?.message}
+                  />
                 </div>
                 {/* <!-- Email --> */}
                 <div>
@@ -193,7 +210,7 @@ export default function SignUpForm() {
                     disabled={isSubmitting}
                     className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600"
                   >
-                    Sign Up
+                    {isSubmitting ? "Signing up..." : "Sign Up"}
                   </button>
                 </div>
               </div>
