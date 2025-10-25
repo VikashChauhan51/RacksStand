@@ -1,5 +1,6 @@
 ﻿namespace RacksStand.Api.Domain.Repositories.Tokens;
 
+using Azure.Core;
 using RacksStand.Api.Domain.Entities;
 using RacksStand.Api.Domain.Repositories.Abstractions.Tokens;
 
@@ -24,5 +25,22 @@ public sealed class RefreshTokenWriteRepository : IRefreshTokenWriteRepository
         _context.RefreshTokens.Add(refreshToken);
         await _context.SaveChangesAsync();
         return refreshToken;
+    }
+
+    public async Task RevokedAsync(string refreshTokenId, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(refreshTokenId, nameof(refreshTokenId));
+
+        var token = await _context.RefreshTokens.FirstOrDefaultAsync(x => x.Id == refreshTokenId);
+        if (token == null)
+        {
+            _logger.LogWarning("Access token with ID {RefreshTokenId} not found for revocation", refreshTokenId);
+            return;
+        }
+
+        token.DeletedAt = DateTimeOffset.UtcNow;
+        _context.RefreshTokens.Update(token);
+        await _context.SaveChangesAsync(cancellationToken);
+
     }
 }

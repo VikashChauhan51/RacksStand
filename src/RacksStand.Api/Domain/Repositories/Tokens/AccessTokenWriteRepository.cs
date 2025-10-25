@@ -24,4 +24,21 @@ public sealed class AccessTokenWriteRepository : IAccessTokenWriteRepository
         await _context.SaveChangesAsync();
         return accessToken;
     }
+
+    public async Task RevokedAsync(string accessTokenId, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(accessTokenId, nameof(accessTokenId));
+
+        var token = await _context.AccessTokens.FirstOrDefaultAsync(x => x.Id == accessTokenId);
+        if (token == null)
+        {
+            _logger.LogWarning("Access token with ID {AccessTokenId} not found for revocation", accessTokenId);
+            return;
+        }
+
+        token.DeletedAt = DateTimeOffset.UtcNow;
+        _context.AccessTokens.Update(token);
+        await _context.SaveChangesAsync(cancellationToken);
+
+    }
 }
