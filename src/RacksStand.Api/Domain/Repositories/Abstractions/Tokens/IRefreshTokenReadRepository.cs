@@ -50,5 +50,6 @@ public interface IRefreshTokenReadRepository
     /// The task result contains the <see cref="RefreshToken"/> with the associated user if found; otherwise, <c>null</c>.
     /// </returns>
     Task<RefreshToken?> GetByTokenHashWithUserAsync(string tokenHash, CancellationToken cancellationToken = default);
+    Task<IEnumerable<RefreshToken>> GetByUserIdAsync(string userId, CancellationToken cancellationToken = default);
 }
 

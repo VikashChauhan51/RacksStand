@@ -49,5 +49,15 @@ public sealed class RefreshTokenReadRepository : IRefreshTokenReadRepository
              .Include(rt => rt.User)
             .FirstOrDefaultAsync(x => x.TokenHash == tokenHash, cancellationToken);
     }
+
+    public async Task<IEnumerable<RefreshToken>> GetByUserIdAsync(string userId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogDebug("Getting RefreshTokens for user {UserId}", userId);
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        return await dbContext.RefreshTokens.AsNoTracking()
+            .Where(x => x.UserId == userId)
+            .OrderByDescending(x => x.CreatedAt)
+            .ToListAsync(cancellationToken);
+    }
 }
 

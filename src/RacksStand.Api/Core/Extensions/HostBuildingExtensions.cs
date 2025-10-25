@@ -19,6 +19,7 @@ using RacksStand.Api.Core.Caching.Validators;
 using RacksStand.Api.Core.Configurations;
 using RacksStand.Api.Core.Configurations.Validators;
 using RacksStand.Api.Core.Emails;
+using RacksStand.Api.Core.Sms;
 using RacksStand.Api.Core.Hashers;
 using RacksStand.Api.Core.Logging;
 using RacksStand.Api.Core.Middlewares;
@@ -73,8 +74,9 @@ public static class HostBuildingExtensions
         }).PersistKeysToDbContext<ApplicationDbContext>();
 
         // 8️⃣ Hasher service
-        builder.Services.AddSingleton<IHasher, Hasher>();
-        builder.Services.AddTransient<IEmailSender, DummyEmailSender>();
+    builder.Services.AddSingleton<IHasher, Hasher>();
+    builder.Services.AddTransient<IEmailSender, DummyEmailSender>();
+    builder.Services.AddTransient<ISmsSender, DummySmsSender>();
 
         // 9️⃣ FluentValidation - scan assembly containing your validators
         builder.Services.AddValidatorsFromAssemblyContaining<AuthenticationConfigurationValidator>();

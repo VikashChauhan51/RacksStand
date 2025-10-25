@@ -41,4 +41,22 @@ public sealed class AccessTokenWriteRepository : IAccessTokenWriteRepository
         await _context.SaveChangesAsync(cancellationToken);
 
     }
+
+    public async Task RevokedAllForUserAsync(string userId, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(userId, nameof(userId));
+        _logger.LogInformation("Revoking all access tokens for user {UserId}", userId);
+        var tokens = await _context.AccessTokens.Where(x => x.UserId == userId && x.DeletedAt == null).ToListAsync(cancellationToken);
+        if (!tokens.Any())
+        {
+            _logger.LogInformation("No active access tokens found for user {UserId}", userId);
+            return;
+        }
+        foreach (var t in tokens)
+        {
+            t.DeletedAt = DateTimeOffset.UtcNow;
+        }
+        _context.AccessTokens.UpdateRange(tokens);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }

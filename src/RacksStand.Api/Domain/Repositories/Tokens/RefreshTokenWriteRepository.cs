@@ -16,7 +16,7 @@ public sealed class RefreshTokenWriteRepository : IRefreshTokenWriteRepository
     {
         _logger = logger;
         _context = context;
-        
+
     }
     public async Task<RefreshToken?> AddAsync(RefreshToken refreshToken, CancellationToken cancellationToken = default)
     {
@@ -42,5 +42,24 @@ public sealed class RefreshTokenWriteRepository : IRefreshTokenWriteRepository
         _context.RefreshTokens.Update(token);
         await _context.SaveChangesAsync(cancellationToken);
 
+    }
+
+    public async Task RevokedAllForUserAsync(string userId, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(userId, nameof(userId));
+        _logger.LogInformation("Revoking all refresh tokens for user {UserId}", userId);
+        var tokens = await _context.RefreshTokens.Where(x => x.UserId == userId && x.DeletedAt == null).ToListAsync(cancellationToken);
+        if (!tokens.Any())
+        {
+            _logger.LogInformation("No active refresh tokens found for user {UserId}", userId);
+            return;
+        }
+
+        foreach (var t in tokens)
+        {
+            t.DeletedAt = DateTimeOffset.UtcNow;
+        }
+        _context.RefreshTokens.UpdateRange(tokens);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }
