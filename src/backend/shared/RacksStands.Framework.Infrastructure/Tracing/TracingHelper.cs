@@ -4,17 +4,47 @@ namespace RacksStands.Framework.Infrastructure.Tracing;
 
 public static class TracingHelper
 {
+    private static readonly ActivitySource ActivitySource = new("RacksStands.App");
     public static Activity? StartActivity(string name, ActivityKind kind = ActivityKind.Internal)
     {
-        var activitySource = new ActivitySource("RacksStands.Infrastructure");
-        return activitySource.StartActivity(name, kind);
+        return ActivitySource.StartActivity(name, kind);
     }
 
-    public static void AddEnricher(Activity activity, string key, object? value)
+    public static Activity? StartActivity(string name, ActivityKind kind = ActivityKind.Internal, IEnumerable<KeyValuePair<string, object>> tags = null)
     {
-        if (activity != null && value != null)
+        var activity = TracingHelper.StartActivity(name, kind);
+        if (tags != null && activity != null)
         {
-            activity.SetTag(key, value);
+            foreach (var tag in tags)
+            {
+                activity.SetTag(tag.Key, tag.Value);
+            }
         }
+        return activity;
+    }
+
+    public static Activity? StartActivity(string name, ActivityContext parentContext)
+    {
+        return ActivitySource.StartActivity(name, ActivityKind.Internal, parentContext);
+    }
+
+    public static string GenerateTraceIdentifier()
+    {
+        var traceId = Activity.Current?.TraceId.ToString();
+        if (!string.IsNullOrWhiteSpace(traceId))
+        {
+            return traceId;
+        }
+        traceId = ActivityTraceId.CreateRandom().ToString();
+        var spanId = ActivitySpanId.CreateRandom().ToString();
+        return $"00-{traceId}-{spanId}-01";
+    }
+    public static string GenerateTraceState()
+    {
+        if (!string.IsNullOrEmpty(Activity.Current?.TraceStateString))
+        {
+            return Activity.Current.TraceStateString;
+        }
+        return $"service=RacksStands.App";
     }
 }
