@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\RacksStands.Framework.Cqrs\RacksStands.Framework.Cqrs.csproj" />
+    <ProjectReference Include="..\..\shared\RacksStands.Framework.Results\RacksStands.Framework.Results.csproj" />
+    <ProjectReference Include="..\..\shared\RacksStands.Framework.Infrastructure\RacksStands.Framework.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\shared\RacksStands.Framework.Auth\RacksStands.Framework.Auth.csproj" />
+    <ProjectReference Include="..\..\modules\RacksStands.Module.UserManagement\RacksStands.Module.UserManagement.csproj" />
+  </ItemGroup>
+
+</Project>
