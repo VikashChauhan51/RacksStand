@@ -1,10 +1,11 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using RacksStands.Framework.Caching.Abstractions;
 using RacksStands.Framework.Caching.Options;
 using RacksStands.Framework.Caching.Providers;
+using RacksStands.Framework.Caching.Serialization;
 using System;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace RacksStands.Framework.Caching.Extensions;
 
@@ -31,6 +32,8 @@ public static class CacheServiceCollectionExtensions
         {
             services.TryAddSingleton<ICacheProvider, InMemoryCacheProvider>();
         }
+
+        services.TryAddSingleton<ISerializer, SystemTextJsonSerializer>();
 
         return services;
     }
