@@ -1,37 +1,64 @@
+using System;
+
 namespace RacksStands.Framework.Base.Exceptions;
 
-public class BaseException : Exception
+public class RacksStandsBaseException : Exception
 {
     public int StatusCode { get; }
 
-    public BaseException(string message, int statusCode = 500) : base(message)
+    public RacksStandsBaseException(string message, int statusCode = 500) : base(message)
     {
         StatusCode = statusCode;
     }
 
-    public BaseException(string message, Exception innerException, int statusCode = 500)
+    public RacksStandsBaseException(string message, Exception innerException, int statusCode = 500)
         : base(message, innerException)
     {
         StatusCode = statusCode;
     }
 }
 
-public class NotFoundException : BaseException
+public class RacksStandsNotFoundException : RacksStandsBaseException
 {
-    public NotFoundException(string message) : base(message, 404) { }
+    public RacksStandsNotFoundException(string message) : base(message, 404) { }
 }
 
-public class BadRequestException : BaseException
+public class RacksStandsBadRequestException : RacksStandsBaseException
 {
-    public BadRequestException(string message) : base(message, 400) { }
+    public RacksStandsBadRequestException(string message) : base(message, 400) { }
 }
 
-public class UnauthorizedException : BaseException
+public class RacksStandsUnauthorizedException : RacksStandsBaseException
 {
-    public UnauthorizedException(string message) : base(message, 401) { }
+    public RacksStandsUnauthorizedException(string message) : base(message, 401) { }
 }
 
-public class ForbiddenException : BaseException
+public class RacksStandsForbiddenException : RacksStandsBaseException
 {
-    public ForbiddenException(string message) : base(message, 403) { }
+    public RacksStandsForbiddenException(string message) : base(message, 403) { }
+}
+
+public class RacksStandsConflictException : RacksStandsBaseException
+{
+    public RacksStandsConflictException(string message) : base(message, 409) { }
+}
+
+public class RacksStandsTooManyRequestsException : RacksStandsBaseException
+{
+    public RacksStandsTooManyRequestsException(string message) : base(message, 429) { }
+}
+
+public class RacksStandsUnavailableException : RacksStandsBaseException
+{
+    public RacksStandsUnavailableException(string message) : base(message, 503) { }
+}
+
+public class RacksStandsValidationException : RacksStandsBaseException
+{
+    public RacksStandsValidationException(string message) : base(message, 400) { }
+}
+
+public class RacksStandsUnexpectedException : RacksStandsBaseException
+{
+    public RacksStandsUnexpectedException(string message) : base(message, 500) { }
 }
