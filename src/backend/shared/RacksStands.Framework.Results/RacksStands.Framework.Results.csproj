@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
-    <PackageReference Include="OneOf" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" />
   </ItemGroup>
 

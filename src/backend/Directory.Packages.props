@@ -4,28 +4,60 @@
     <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+  <!-- Code quality packages -->
+   <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.103" />
+   <!-- DI abstraction packages -->
+   <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.3" />
+   <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.3" />
+   <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.3" />
+   <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.3" />
+   <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.3" />
+   <PackageVersion Include="Microsoft.Extensions.Http.Polly" Version="10.0.3" />
+   <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
+   <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.3" />
+   <!-- Resilience packages -->
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.3.0" />
-    <PackageVersion Include="OneOf" Version="3.0.271" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
-    <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.9" />
+    <!-- Caching packages -->
     <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="10.0.3" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.3" />
-    <PackageVersion Include="OpenTelemetry" Version="1.15.0" />
-    <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.15.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.0" />
-    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.15.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.15.0" />
-    <PackageVersion Include="Polly" Version="7.2.4" />
-    <PackageVersion Include="Polly.Extensions.Http" Version="3.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Redis" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Redis.Abstractions" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.3" />
+    <!-- OpenTelemetry packages -->
+    <PackageVersion Include="OpenTelemetry" Version="1.4.0" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.4.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.4.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.4.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.4.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.4.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryHttp" Version="1.4.0" />
+    <!-- Identity packages -->
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="8.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
-    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.16.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0" />
+     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.16.0" />
+     <!-- Entity Framework packages -->
+     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
+     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0" />
+     <!-- PostgreSQL driver-->
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+     <!-- FluentValidation packages -->
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.1" />
-    <PackageVersion Include="BCrypt.Net-Next" Version="4.1.0" />
+     <!-- API versioning packages -->
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
+     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
+     <!-- Swagger packages -->
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+     <!-- Health checks packages -->
+    <PackageVersion Include="AspNetCore.HealthChecks.UI" Version="6.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.SqlServer" Version="6.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="6.0.0" />
+     <!-- Testing packages -->
+    <PackageVersion Include="xunit" Version="2.4.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
+    <PackageVersion Include="Moq" Version="4.18.4" />
+     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
+     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.0" />
   </ItemGroup>
 </Project>
