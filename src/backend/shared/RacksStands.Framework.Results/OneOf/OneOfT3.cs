@@ -1,4 +1,6 @@
-﻿namespace RacksStands.Framework.Results;
+using System;
+
+namespace RacksStands.Framework.Results;
 
 /// <summary>
 /// Represents a value that can be one of three possible types.

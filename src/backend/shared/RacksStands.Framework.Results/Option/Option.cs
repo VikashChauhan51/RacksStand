@@ -1,4 +1,7 @@
-﻿namespace RacksStands.Framework.Results;
+using System;
+using System.Collections.Generic;
+
+namespace RacksStands.Framework.Results;
 
 /// <summary>
 /// Represents an option type that can contain a value or be empty (None).

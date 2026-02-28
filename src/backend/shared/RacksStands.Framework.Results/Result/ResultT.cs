@@ -1,4 +1,6 @@
-﻿namespace ResultifyCore;
+using System;
+
+namespace RacksStands.Framework.Results;
 
 /// <summary>
 /// Represents the result of an operation that can succeed or fail.

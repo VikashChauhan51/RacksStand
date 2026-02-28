@@ -1,4 +1,6 @@
-﻿namespace RacksStands.Framework.Results;
+using System.Collections.Generic;
+
+namespace RacksStands.Framework.Results;
 public static class OutcomeExtensions
 {
 

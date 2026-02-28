@@ -1,4 +1,6 @@
-﻿namespace ResultifyCore;
+using System;
+
+namespace RacksStands.Framework.Results;
 
 public static class ResultExtensions
 {

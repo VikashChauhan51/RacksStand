@@ -61,6 +61,7 @@ public enum ErrorType
     /// The resource is currently unavailable.
     /// </summary>
     Unavailable = 12,
+
     /// <summary>
     /// Represents an unexpected condition that may occur during operation.
     /// </summary>

@@ -1,4 +1,6 @@
-﻿namespace ResultifyCore;
+using System;
+
+namespace RacksStands.Framework.Results;
 
 /// <summary>
 /// Exception thrown when an attempt is made to unwrap a failed Result.

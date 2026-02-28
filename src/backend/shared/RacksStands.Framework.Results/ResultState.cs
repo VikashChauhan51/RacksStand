@@ -1,4 +1,4 @@
-﻿namespace ResultifyCore;
+namespace RacksStands.Framework.Results;
 
 
 /// <summary>
@@ -64,5 +64,10 @@ public enum ResultState : byte
     /// <summary>
     /// The resource is currently unavailable.
     /// </summary>
-    Unavailable = 12
+    Unavailable = 12,
+
+    /// <summary>
+    /// Represents an unexpected condition that may occur during operation.
+    /// </summary>
+    Unexpected = 13
 }

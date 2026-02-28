@@ -1,4 +1,6 @@
-﻿namespace RacksStands.Framework.Results;
+using System;
+
+namespace RacksStands.Framework.Results;
 
 public static class OptionExtensions
 {

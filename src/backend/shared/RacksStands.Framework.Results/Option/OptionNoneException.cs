@@ -1,4 +1,6 @@
-﻿namespace RacksStands.Framework.Results;
+using System;
+
+namespace RacksStands.Framework.Results;
 
 /// <summary>
 /// Exception thrown when an attempt is made to unwrap an Option that has no value.
