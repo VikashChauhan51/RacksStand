@@ -1,9 +1,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using RacksStands.Framework.Monitoring.Options;
-using RacksStands.Framework.Monitoring.Extensions;
-using RacksStands.Framework.Monitoring.Tracking;
-using RacksStands.Framework.Monitoring.Metrics;
+using RacksStands.Framework.Monitoring.Tracking.Enrichers;
+using System;
 
 namespace RacksStands.Framework.Monitoring.Extensions;
 
@@ -11,16 +13,50 @@ public static class MonitoringServiceCollectionExtensions
 {
     public static IServiceCollection AddRacksStandsMonitoring(this IServiceCollection services, IConfiguration configuration)
     {
-        // Bind options
-        services.Configure<OpenTelemetryOptions>(configuration.GetSection(OpenTelemetryOptions.SectionName));
-        services.Configure<MetricsOptions>(configuration.GetSection("Metrics"));
-        services.Configure<TrackingOptions>(configuration.GetSection("Tracking"));
+        ArgumentNullException.ThrowIfNull(services, nameof(services));
+        ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
 
-        // Add logging, tracing, metrics
-        services.AddRacksStandsLogging(configuration);
-        services.AddRacksStandsTracking(options => configuration.GetSection("Tracking").Bind(options));
-        // Add metrics here if needed
-        // services.AddRacksStandsMetrics(...)
+        services.AddOptions<OpenTelemetryOptions>()
+            .Bind(configuration.GetSection(OpenTelemetryOptions.SectionName))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        var oelOptions = new OpenTelemetryOptions();
+        configuration.Bind(oelOptions);
+
+        services.AddHttpContextAccessor();
+        services.TryAddSingleton<AttributeEnrichmentProcessor>();
+        services.TryAddSingleton<HttpContextEnrichmentProcessor>();
+        // Add OpenTelemetry Tracing
+        services.AddOpenTelemetry()
+            .ConfigureResource(resourceBuilder =>
+            {
+                resourceBuilder.AddService(AppDomain.CurrentDomain.FriendlyName);
+            })
+            .WithTracing(tracingBuilder =>
+            {
+                tracingBuilder.AddProcessor(sp => sp.GetRequiredService<AttributeEnrichmentProcessor>());
+                tracingBuilder.AddProcessor(sp => sp.GetRequiredService<HttpContextEnrichmentProcessor>());
+                if (oelOptions.Otlp != null && oelOptions.Otlp.Endpoint != null)
+                {
+                    tracingBuilder.AddOtlpExporter(otlpOptions =>
+                    {
+                        otlpOptions.Endpoint = new Uri(oelOptions.Otlp.Endpoint);
+                        if (!string.IsNullOrEmpty(oelOptions.Otlp.Headers))
+                        {
+                            otlpOptions.Headers = oelOptions.Otlp.Headers;
+                        }
+                    });
+                }
+            })
+            //.WithMetrics(metricsBuilder =>
+            //{
+            //    metricsBuilder;
+            //})
+            .WithLogging(loggingBuilder =>
+            {
+            });
+
         return services;
     }
 }

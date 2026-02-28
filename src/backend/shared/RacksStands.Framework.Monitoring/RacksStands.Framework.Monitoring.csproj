@@ -8,4 +8,7 @@
 		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
 		<PackageReference Include="OpenTelemetry.Instrumentation.Http" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Metrics\" />
+	</ItemGroup>
 </Project>
