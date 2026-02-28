@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -17,7 +17,7 @@
     <ProjectReference Include="..\..\shared\RacksStands.Framework.Results\RacksStands.Framework.Results.csproj" />
     <ProjectReference Include="..\..\shared\RacksStands.Framework.Infrastructure\RacksStands.Framework.Infrastructure.csproj" />
     <ProjectReference Include="..\..\shared\RacksStands.Framework.Auth\RacksStands.Framework.Auth.csproj" />
-    <ProjectReference Include="..\..\shared\RacksStands.Framework.Modules.Base\RacksStands.Framework.Modules.Base.csproj" />
+    <ProjectReference Include="..\..\shared\RacksStands.Framework.Modules.Bootstrap\RacksStands.Framework.Modules.Bootstrap.csproj" />
     <ProjectReference Include="..\..\shared\RacksStands.Framework.Base\RacksStands.Framework.Base.csproj" />
     <ProjectReference Include="..\..\modules\RacksStands.Module.UserManagement\RacksStands.Module.UserManagement.csproj" />
   </ItemGroup>

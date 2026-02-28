@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
-using RacksStands.Framework.Modules.Base;
+using RacksStands.Framework.Modules.Bootstrap;
 using RacksStands.Module.UserManagement.Repositories;
 using RacksStands.Module.UserManagement.Endpoints;
 

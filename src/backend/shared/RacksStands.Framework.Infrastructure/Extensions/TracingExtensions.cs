@@ -51,10 +51,10 @@ public static class TracingExtensions
                     });
                 }
             })
-            .WithMetrics(metricsBuilder =>
-            {
-                metricsBuilder
-            })
+            //.WithMetrics(metricsBuilder =>
+            //{
+            //    metricsBuilder;
+            //})
             .WithLogging(loggingBuilder =>
             {
             });

@@ -2,7 +2,7 @@ using RacksStands.Framework.Cqrs;
 using RacksStands.Framework.Auth;
 using RacksStands.Framework.Auth.Authorization;
 using RacksStands.Framework.Infrastructure;
-using RacksStands.Framework.Modules.Base;
+using RacksStands.Framework.Modules.Bootstrap;
 using RacksStands.ApiHost.Middleware;
 using RacksStands.Module.UserManagement;
 using Microsoft.AspNetCore.Mvc.Versioning;
