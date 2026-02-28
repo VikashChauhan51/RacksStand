@@ -1,9 +1,0 @@
-<nav *ngIf="subMenuItems.length > 0" class="navbar navbar-expand-lg bd-subnavbar py-2">
-  <div class="container-fluid">
-    <ul class="navbar-nav d-flex flex-row">
-      <li class="nav-item px-1" *ngFor="let item of subMenuItems">
-        <a class="nav-link" [href]="item.href">{{ item.name }}</a>
-      </li>
-    </ul>
-  </div>
-</nav>
