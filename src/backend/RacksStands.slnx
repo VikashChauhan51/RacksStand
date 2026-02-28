@@ -10,7 +10,6 @@
     <Project Path="shared/RacksStands.Framework.Base/RacksStands.Framework.Base.csproj" />
     <Project Path="shared/RacksStands.Framework.Caching/RacksStands.Framework.Caching.csproj" />
     <Project Path="shared/RacksStands.Framework.Cqrs/RacksStands.Framework.Cqrs.csproj" />
-    <Project Path="shared/RacksStands.Framework.Infrastructure/RacksStands.Framework.Infrastructure.csproj" />
     <Project Path="shared/RacksStands.Framework.Middlewares/RacksStands.Framework.Middlewares.csproj" Id="148b9d1f-b9f4-45c3-a5c9-86de8d344837" />
     <Project Path="shared/RacksStands.Framework.Modules.Bootstrap/RacksStands.Framework.Modules.Bootstrap.csproj" />
     <Project Path="shared/RacksStands.Framework.Monitoring/RacksStands.Framework.Monitoring.csproj" />

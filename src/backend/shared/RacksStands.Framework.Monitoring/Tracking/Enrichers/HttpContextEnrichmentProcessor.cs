@@ -1,17 +1,12 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using OpenTelemetry;
-using OpenTelemetry.Logs;
-using System;
-using System.Collections.Generic;
+using RacksStands.Framework.Monitoring.Constants;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RacksStands.Framework.Infrastructure.Tracing.Enrichers;
+namespace RacksStands.Framework.Monitoring.Tracking.Enrichers;
 
-public class HttpContextEnrichmentProcessor: BaseProcessor<Activity>
+public class HttpContextEnrichmentProcessor : BaseProcessor<Activity>
 {
 
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -26,7 +21,7 @@ public class HttpContextEnrichmentProcessor: BaseProcessor<Activity>
 
     public override void OnStart(Activity data)
     {
-        if (data==null)
+        if (data == null)
         {
             return;
         }
@@ -36,8 +31,8 @@ public class HttpContextEnrichmentProcessor: BaseProcessor<Activity>
         string correlationId = httpContext?.TraceIdentifier ?? TracingHelper.GenerateTraceIdentifier();
         string? userId = httpContext?.User?.Identity?.IsAuthenticated == true ? httpContext.User.Identity.Name : "anonymous";
 
-        SetTagIfNotNull(data,ActivityTagConstants.Environment, env);
-        SetTagIfNotNull(data,ActivityTagConstants.CorelationId, correlationId);
+        SetTagIfNotNull(data, ActivityTagConstants.Environment, env);
+        SetTagIfNotNull(data, ActivityTagConstants.CorelationId, correlationId);
         SetTagIfNotNull(data, ActivityTagConstants.UserId, userId);
         base.OnStart(data);
     }

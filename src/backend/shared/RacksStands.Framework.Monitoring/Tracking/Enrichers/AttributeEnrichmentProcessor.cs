@@ -2,11 +2,8 @@ using OpenTelemetry;
 using OpenTelemetry.Logs;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RacksStands.Framework.Infrastructure.Tracing.Enrichers;
+namespace RacksStands.Framework.Monitoring.Tracking.Enrichers;
 
 public class AttributeEnrichmentProcessor : BaseProcessor<LogRecord>
 {

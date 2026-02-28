@@ -1,21 +1,19 @@
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenTelemetry.Resources;
-using RacksStands.Framework.Infrastructure.Tracing;
-using RacksStands.Framework.Infrastructure.Tracing.Enrichers;
+using OpenTelemetry.Trace;
+using RacksStands.Framework.Monitoring.Options;
+using RacksStands.Framework.Monitoring.Tracking.Enrichers;
+using Serilog;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RacksStands.Framework.Infrastructure.Extensions;
+namespace RacksStands.Framework.Monitoring.Extensions;
 
-public static class TracingExtensions
+public static class LoggingExtensions
 {
-    public static IServiceCollection AddDistributedTracing(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddRacksStandsLogging(this IServiceCollection services,IConfiguration configuration)
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
         ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
@@ -25,7 +23,9 @@ public static class TracingExtensions
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
-        var oelOptions = configuration.GetSection(OpenTelemetryOptions.SectionName).BindAndValidateEagerly();
+        var oelOptions = new OpenTelemetryOptions();
+        configuration.Bind(oelOptions);
+
         services.AddHttpContextAccessor();
         services.TryAddSingleton<AttributeEnrichmentProcessor>();
         services.TryAddSingleton<HttpContextEnrichmentProcessor>();
@@ -58,21 +58,5 @@ public static class TracingExtensions
             .WithLogging(loggingBuilder =>
             {
             });
-
-        return services;
-    }
-
-    public static OpenTelemetryOptions BindAndValidateEagerly(this IConfiguration configuration)
-    {
-        var options = new OpenTelemetryOptions();
-        configuration.Bind(options);
-        var validationResults = new List<ValidationResult>();
-        var validationContext = new ValidationContext(options);
-        if (!Validator.TryValidateObject(options, validationContext, validationResults, true))
-        {
-            var errors = string.Join(Environment.NewLine, validationResults.Select(r => r.ErrorMessage));
-            throw new InvalidOperationException($"OpenTelemetry configuration is invalid: {Environment.NewLine}{errors}");
-        }
-        return options;
     }
 }

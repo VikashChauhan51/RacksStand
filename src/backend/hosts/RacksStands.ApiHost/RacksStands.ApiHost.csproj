@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\shared\RacksStands.Framework.Cqrs\RacksStands.Framework.Cqrs.csproj" />
     <ProjectReference Include="..\..\shared\RacksStands.Framework.Results\RacksStands.Framework.Results.csproj" />
-    <ProjectReference Include="..\..\shared\RacksStands.Framework.Infrastructure\RacksStands.Framework.Infrastructure.csproj" />
     <ProjectReference Include="..\..\shared\RacksStands.Framework.Auth\RacksStands.Framework.Auth.csproj" />
     <ProjectReference Include="..\..\shared\RacksStands.Framework.Modules.Bootstrap\RacksStands.Framework.Modules.Bootstrap.csproj" />
     <ProjectReference Include="..\..\shared\RacksStands.Framework.Base\RacksStands.Framework.Base.csproj" />

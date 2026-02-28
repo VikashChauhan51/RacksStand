@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace RacksStands.Framework.Infrastructure.Tracing;
+namespace RacksStands.Framework.Monitoring.Tracking;
 
 public static class TracingHelper
 {

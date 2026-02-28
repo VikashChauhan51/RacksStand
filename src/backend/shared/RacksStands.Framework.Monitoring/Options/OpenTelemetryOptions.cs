@@ -1,11 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RacksStands.Framework.Infrastructure.Tracing;
+namespace RacksStands.Framework.Monitoring.Options;
 
 public sealed class OpenTelemetryOptions : IValidatableObject
 {

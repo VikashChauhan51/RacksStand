@@ -22,7 +22,6 @@ public static class ModuleServiceCollectionExtensions
         {
             module.ConfigureServices(services, configuration);
         }
-
         return services;
     }
 }
