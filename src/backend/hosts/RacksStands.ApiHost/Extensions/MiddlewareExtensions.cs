@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
+using RacksStands.ApiHost.Middlewares;
 
-namespace RacksStands.ApiHost.Middleware;
+namespace RacksStands.ApiHost.Extensions;
 
 public static class MiddlewareExtensions
 {

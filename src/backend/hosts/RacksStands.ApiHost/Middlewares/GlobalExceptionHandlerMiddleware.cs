@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using RacksStands.Framework.Base.Exceptions;
 using RacksStands.Framework.Base.Extensions;
 
-namespace RacksStands.ApiHost.Middleware;
+namespace RacksStands.ApiHost.Middlewares;
 
 public class GlobalExceptionHandlerMiddleware
 {

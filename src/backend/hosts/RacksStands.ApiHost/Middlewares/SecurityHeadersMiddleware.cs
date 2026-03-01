@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace RacksStands.ApiHost.Middleware;
+namespace RacksStands.ApiHost.Middlewares;
 
 public class SecurityHeadersMiddleware
 {

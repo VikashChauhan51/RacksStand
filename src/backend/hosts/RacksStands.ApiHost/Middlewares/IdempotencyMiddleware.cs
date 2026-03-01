@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-namespace RacksStands.ApiHost.Middleware;
+namespace RacksStands.ApiHost.Middlewares;
 
 public class IdempotencyMiddleware
 {
