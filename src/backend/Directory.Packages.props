@@ -31,13 +31,13 @@
     <PackageVersion Include="Microsoft.Extensions.Caching.Redis.Abstractions" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.3" />
     <!-- OpenTelemetry packages -->
-    <PackageVersion Include="OpenTelemetry" Version="1.4.0" />
-    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.4.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.4.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.4.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.4.0" />
-    <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.4.0" />
-    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryHttp" Version="1.4.0" />
+    <PackageVersion Include="OpenTelemetry" Version="1.15.0" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.15.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.15.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.15.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.15.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryHttp" Version="1.15.0" />
     <!-- Identity packages -->
     <PackageVersion Include="Microsoft.AspNetCore.Authentication" Version="8.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="8.0.0" />

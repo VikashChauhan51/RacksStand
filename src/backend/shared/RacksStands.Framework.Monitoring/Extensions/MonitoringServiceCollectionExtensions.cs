@@ -35,19 +35,19 @@ public static class MonitoringServiceCollectionExtensions
             })
             .WithTracing(tracingBuilder =>
             {
-                tracingBuilder.AddProcessor(sp => sp.GetRequiredService<AttributeEnrichmentProcessor>());
-                tracingBuilder.AddProcessor(sp => sp.GetRequiredService<HttpContextEnrichmentProcessor>());
-                if (oelOptions.Otlp != null && oelOptions.Otlp.Endpoint != null)
-                {
-                    tracingBuilder.AddOtlpExporter(otlpOptions =>
-                    {
-                        otlpOptions.Endpoint = new Uri(oelOptions.Otlp.Endpoint);
-                        if (!string.IsNullOrEmpty(oelOptions.Otlp.Headers))
-                        {
-                            otlpOptions.Headers = oelOptions.Otlp.Headers;
-                        }
-                    });
-                }
+                //tracingBuilder.AddProcessor(sp => sp.GetRequiredService<AttributeEnrichmentProcessor>());
+                //tracingBuilder.AddProcessor(sp => sp.GetRequiredService<HttpContextEnrichmentProcessor>());
+                //if (oelOptions.Otlp != null && oelOptions.Otlp.Endpoint != null)
+                //{
+                //    tracingBuilder.AddOtlpExporter(otlpOptions =>
+                //    {
+                //        otlpOptions.Endpoint = new Uri(oelOptions.Otlp.Endpoint);
+                //        if (!string.IsNullOrEmpty(oelOptions.Otlp.Headers))
+                //        {
+                //            otlpOptions.Headers = oelOptions.Otlp.Headers;
+                //        }
+                //    });
+                //}
             })
             //.WithMetrics(metricsBuilder =>
             //{
