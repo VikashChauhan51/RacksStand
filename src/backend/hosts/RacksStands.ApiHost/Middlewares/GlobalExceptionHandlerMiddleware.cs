@@ -1,26 +1,18 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using RacksStands.Framework.Base.Exceptions;
-using RacksStands.Framework.Base.Extensions;
+using RacksStands.Framework.Base.Serializers;
+using RacksStands.Framework.Results;
+using System.Diagnostics;
 
 namespace RacksStands.ApiHost.Middlewares;
 
-public class GlobalExceptionHandlerMiddleware
+public class GlobalExceptionHandlerMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlerMiddleware> logger)
 {
-    private readonly RequestDelegate _next;
-    private readonly ILogger<GlobalExceptionHandlerMiddleware> _logger;
-
-    public GlobalExceptionHandlerMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlerMiddleware> logger)
-    {
-        _next = next;
-        _logger = logger;
-    }
 
     public async Task InvokeAsync(HttpContext context)
     {
         try
         {
-            await _next(context);
+            await next(context);
         }
         catch (Exception ex)
         {
@@ -28,28 +20,65 @@ public class GlobalExceptionHandlerMiddleware
         }
     }
 
-    private async Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private  Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        var (statusCode, message) = exception switch
+        if (context.Response.HasStarted)
         {
-            BaseException baseEx => (baseEx.StatusCode, baseEx.Message),
-            KeyNotFoundException => (404, "Resource not found"),
-            ArgumentException => (400, "Invalid request"),
-            UnauthorizedAccessException => (401, "Unauthorized"),
-            _ => (500, "An unexpected error occurred")
-        };
-
-        _logger.LogError(exception, "An error occurred: {Message}", exception.Message.SanitizeForLogging());
-
+            return Task.CompletedTask;
+        }
+        var (statusCode, apiResponse) = BuildApiResponse(context, exception);
         context.Response.StatusCode = statusCode;
         context.Response.ContentType = "application/json";
+        return context.Response.WriteAsJsonAsync(apiResponse, JsonSerializerHelper.Options);
+    }
 
-        var errorResponse = new
+    private static (int statusCode, ApiResponse) BuildApiResponse(
+        HttpContext context,
+        Exception exception)
+    {
+        var trackingId = context.TraceIdentifier ?? Activity.Current?.TraceId.ToString() ?? Guid.NewGuid().ToString();
+        var correlationId = context.Request.Headers.TryGetValue("X-Correlation-ID", out var correlationIdHeader) ? correlationIdHeader.ToString() : null;
+
+        var meta = new Dictionary<string, object>(StringComparer.Ordinal);
+        if (!string.IsNullOrEmpty(correlationId))
         {
-            error = message,
-            timestamp = DateTime.UtcNow
-        };
+            meta["CorrelationId"] = correlationId;
+        }
+        meta["TrackingId"] = trackingId;
 
-        await context.Response.WriteAsJsonAsync(errorResponse);
+        return exception switch
+        {
+            RacksStandsBaseException ex =>
+            (
+                ex.StatusCode,
+                new ApiResponse
+                {
+                    Success = false,
+                    Error = ex.Message,
+                    ErrorMeta = MergeFieldErrors(meta, ex.Errors)
+                }
+            ),
+            _ =>
+            (
+                StatusCodes.Status500InternalServerError,
+                new ApiResponse
+                {
+                    Success = false,
+                    Error = "An unexpected error occurred.",
+                    ErrorMeta = meta
+                }
+            )
+        };
+    }
+
+    private static IReadOnlyDictionary<string, object> MergeFieldErrors(
+        Dictionary<string, object> meta,
+        IReadOnlyDictionary<string, object> fieldErrors)
+    {
+        foreach (var error in fieldErrors)
+        {
+            meta[error.Key] = error.Value;
+        }
+        return meta;
     }
 }

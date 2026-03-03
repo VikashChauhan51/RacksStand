@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Builder;
 using RacksStands.Framework.Modules.Bootstrap;
 using RacksStands.Module.UserManagement.Repositories;
 using RacksStands.Module.UserManagement.Endpoints;
+using RacksStands.Framework.Modules.Bootstrap.Abstractions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Routing;
 
 namespace RacksStands.Module.UserManagement;
 
@@ -16,7 +19,7 @@ public class UserManagementModule : IModule
         _connectionString = connectionString;
     }
 
-    public void ConfigureServices(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<UserManagementDbContext>(options =>
             options.UseSqlServer(_connectionString));
@@ -24,12 +27,8 @@ public class UserManagementModule : IModule
         services.AddScoped<IUserRepository, UserRepository>();
     }
 
-    public void ConfigureApplication(WebApplication app)
+    public void MapEndpoints(IEndpointRouteBuilder routes)
     {
-        using var scope = app.Services.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
-        dbContext.Database.Migrate();
-
-        app.MapUserEndpoints();
+        routes.MapUserEndpoints();
     }
 }

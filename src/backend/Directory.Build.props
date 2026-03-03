@@ -7,10 +7,10 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
-  <itemGroup>
-    <packageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
       <PrivateAssets>all</PrivateAssets>
-      <includeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</includeAssets>
-    </packageReference>
-  </itemGroup>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>
