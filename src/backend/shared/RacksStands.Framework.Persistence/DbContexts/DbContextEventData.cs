@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace RacksStands.Framework.Persistence.DbContexts;
 
-internal class DbContextEventData: DbContext
+public class DbContextEventData: DbContext
 {
 }

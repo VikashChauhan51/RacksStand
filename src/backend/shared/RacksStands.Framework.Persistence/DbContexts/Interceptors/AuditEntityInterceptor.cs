@@ -9,7 +9,7 @@ public sealed class AuditEntityInterceptor : SaveChangesInterceptor
         InterceptionResult<int> result,
         CancellationToken cancellationToken = default)
     {
-        var context = eventData.Context;
+        var context = eventData;
         if (context == null) return base.SavingChangesAsync(eventData, result, cancellationToken);
 
         foreach (var entry in context.ChangeTracker.Entries<IEntityAudit>())
