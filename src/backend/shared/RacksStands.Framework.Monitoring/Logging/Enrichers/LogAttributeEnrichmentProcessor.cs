@@ -2,16 +2,17 @@ using OpenTelemetry;
 using OpenTelemetry.Logs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace RacksStands.Framework.Monitoring.Tracking.Enrichers;
+namespace RacksStands.Framework.Monitoring.Logging.Enrichers;
 
-public class AttributeEnrichmentProcessor : BaseProcessor<LogRecord>
+public class LogAttributeEnrichmentProcessor : BaseProcessor<LogRecord>
 {
     private const string DefaultPrifix = "attribute";
     private const string DefaultAttributeToModify = "{OriginalFormat}";
 
     private readonly string CustomPrifix;
-    public AttributeEnrichmentProcessor(string customPrifix)
+    public LogAttributeEnrichmentProcessor(string customPrifix)
     {
         CustomPrifix = customPrifix ?? DefaultPrifix;
     }

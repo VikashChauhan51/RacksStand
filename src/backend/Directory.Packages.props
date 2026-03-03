@@ -38,6 +38,9 @@
     <PackageVersion Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.15.0" />
     <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.15.0" />
     <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryHttp" Version="1.15.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.0" />
+
     <!-- Identity packages -->
     <PackageVersion Include="Microsoft.AspNetCore.Authentication" Version="8.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="8.0.0" />

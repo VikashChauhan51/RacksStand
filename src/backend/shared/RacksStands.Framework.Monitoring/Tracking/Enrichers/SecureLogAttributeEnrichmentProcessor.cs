@@ -3,9 +3,9 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 
-namespace RacksStands.Framework.Monitoring.Logging.Enrichers;
+namespace RacksStands.Framework.Monitoring.Tracking.Enrichers;
 
-public sealed class AttributeEnrichmentProcessor : BaseProcessor<Activity>
+public sealed class SecureLogAttributeEnrichmentProcessor : BaseProcessor<Activity>
 {
     // List of sensitive tag keys to redact
     private static readonly string[] SensitiveKeys = new[] { "password", "ssn", "creditcard", "email", "phone" };

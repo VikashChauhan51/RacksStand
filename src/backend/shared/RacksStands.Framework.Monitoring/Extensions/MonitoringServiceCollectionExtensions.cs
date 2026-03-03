@@ -1,62 +1,133 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
+using OpenTelemetry;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using RacksStands.Framework.Monitoring.Options;
+using RacksStands.Framework.Monitoring.Logging.Enrichers;
 using RacksStands.Framework.Monitoring.Tracking.Enrichers;
 using System;
+using System.Collections.Generic;
 
 namespace RacksStands.Framework.Monitoring.Extensions;
 
 public static class MonitoringServiceCollectionExtensions
 {
-    public static IServiceCollection AddRacksStandsMonitoring(this IServiceCollection services, IConfiguration configuration)
+    public static void AddRacksStandsMonitoring(
+        this IHostApplicationBuilder builder,
+        string serviceName,
+        string serviceVersion)
     {
-        ArgumentNullException.ThrowIfNull(services, nameof(services));
-        ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
+        ArgumentNullException.ThrowIfNull(builder, nameof(builder));
+        ArgumentNullException.ThrowIfNull(serviceName, nameof(serviceName));
+        ArgumentNullException.ThrowIfNull(serviceVersion, nameof(serviceVersion));
 
-        services.AddOptions<OpenTelemetryOptions>()
-            .Bind(configuration.GetSection(OpenTelemetryOptions.SectionName))
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
+        string environment = builder.Environment.EnvironmentName;
+        string applicationName = builder.Environment.ApplicationName;
 
-        var oelOptions = new OpenTelemetryOptions();
-        configuration.Bind(oelOptions);
+        var otel = builder.Services.AddOpenTelemetry();
+        otel.ConfigureResource(resourceBuilder =>
+        {
+            resourceBuilder.AddService(serviceName, serviceVersion: serviceVersion)
+                .AddAttributes(new[]
+                {
+                    new KeyValuePair<string, object>("environment", environment),
+                    new KeyValuePair<string, object>("application", applicationName)
+                });
+        });
 
-        services.AddHttpContextAccessor();
-        services.TryAddSingleton<AttributeEnrichmentProcessor>();
-        services.TryAddSingleton<HttpContextEnrichmentProcessor>();
-        // Add OpenTelemetry Tracing
-        services.AddOpenTelemetry()
-            .ConfigureResource(resourceBuilder =>
+        otel.WithLogging(loggingBuilder =>
+        {
+            loggingBuilder.AddProcessor<LogAttributeEnrichmentProcessor>();
+        });
+
+        otel.Services.Configure<OpenTelemetryLoggerOptions>(logging =>
+        {
+            logging.ParseStateValues = true;
+            logging.IncludeFormattedMessage = true;
+            logging.IncludeScopes = true;
+        });
+
+        otel.WithTracing(tracingBuilder =>
+        {
+            tracingBuilder.AddSource(serviceName);
+            tracingBuilder.AddProcessor<SecureLogAttributeEnrichmentProcessor>();
+            tracingBuilder.AddProcessor<HttpContextEnrichmentProcessor>();
+            tracingBuilder.AddAspNetCoreInstrumentation(options =>
             {
-                resourceBuilder.AddService(AppDomain.CurrentDomain.FriendlyName);
+                options.RecordException = true;
+
+                options.EnrichWithHttpRequest = (activity, httpRequest) =>
+                {
+                    activity.SetTag("http.request_content_length", httpRequest.ContentLength);
+                    activity.SetTag("http.request_content_type", httpRequest.ContentType);
+                };
+
+                options.EnrichWithHttpResponse = (activity, httpResponse) =>
+                {
+                    activity.SetTag("http.response_content_length", httpResponse.ContentLength);
+                    activity.SetTag("http.response_content_type", httpResponse.ContentType);
+                };
+
+                options.EnrichWithException = (activity, exception) =>
+                {
+                    activity.SetTag("exception.type", exception.GetType().FullName);
+                    activity.SetTag("exception.message", exception.Message);
+                    activity.SetTag("exception.stacktrace", exception.StackTrace);
+                };
             })
-            .WithTracing(tracingBuilder =>
+            .AddHttpClientInstrumentation(options =>
             {
-                //tracingBuilder.AddProcessor(sp => sp.GetRequiredService<AttributeEnrichmentProcessor>());
-                //tracingBuilder.AddProcessor(sp => sp.GetRequiredService<HttpContextEnrichmentProcessor>());
-                //if (oelOptions.Otlp != null && oelOptions.Otlp.Endpoint != null)
-                //{
-                //    tracingBuilder.AddOtlpExporter(otlpOptions =>
-                //    {
-                //        otlpOptions.Endpoint = new Uri(oelOptions.Otlp.Endpoint);
-                //        if (!string.IsNullOrEmpty(oelOptions.Otlp.Headers))
-                //        {
-                //            otlpOptions.Headers = oelOptions.Otlp.Headers;
-                //        }
-                //    });
-                //}
-            })
-            //.WithMetrics(metricsBuilder =>
-            //{
-            //    metricsBuilder;
-            //})
-            .WithLogging(loggingBuilder =>
-            {
+                options.RecordException = true;
+
+                options.EnrichWithHttpWebRequest = (activity, httpRequest) =>
+                {
+                    activity.SetTag("http.request_content_length", httpRequest.ContentLength);
+                    activity.SetTag("http.request_content_type", httpRequest.ContentType);
+                };
+
+                options.EnrichWithHttpRequestMessage = (activity, httpResponse) =>
+                {
+                    if (httpResponse.Content != null)
+                    {
+                        activity.SetTag("http.response_content_length", httpResponse.Content.Headers.ContentLength);
+                        activity.SetTag("http.response_content_type", httpResponse.Content.Headers.ContentType);
+                    }
+                };
+                options.EnrichWithHttpResponseMessage = (activity, httpResponse) =>
+                {
+                    if (httpResponse.Content != null)
+                    {
+                        activity.SetTag("http.response_content_length", httpResponse.Content.Headers.ContentLength);
+                        activity.SetTag("http.response_content_type", httpResponse.Content.Headers.ContentType);
+                    }
+                };
+
+                options.EnrichWithException = (activity, exception) =>
+                {
+                    activity.SetTag("exception.type", exception.GetType().FullName);
+                    activity.SetTag("exception.message", exception.Message);
+                    activity.SetTag("exception.stacktrace", exception.StackTrace);
+                };
             });
 
-        return services;
+            tracingBuilder.AddSqlClientInstrumentation(options =>
+            {
+                options.RecordException = true;
+            });
+
+        });
+
+        otel.WithMetrics(metricsBuilder =>
+        {
+            metricsBuilder.AddMeter(serviceName);
+            metricsBuilder.AddAspNetCoreInstrumentation();
+            metricsBuilder.AddHttpClientInstrumentation();
+            metricsBuilder.AddRuntimeInstrumentation();
+            metricsBuilder.AddSqlClientInstrumentation();
+        });
+
+        otel.UseOtlpExporter();
     }
 }
