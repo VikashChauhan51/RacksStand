@@ -54,6 +54,7 @@
      <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
      <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
      <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+     <packageVersion Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="10.0.3" />
      <!-- PostgreSQL driver-->
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
      <!-- FluentValidation packages -->

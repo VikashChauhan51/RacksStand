@@ -1,2 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<PackageReference Include="EFCore.NamingConventions" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="DbContexts\Configurations\" />
+	  <Folder Include="DbContexts\Migrations\" />
+	  <Folder Include="DbContexts\Seeding\" />
+	</ItemGroup>
 </Project>
