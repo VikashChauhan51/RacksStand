@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using OpenTelemetry;
 using OpenTelemetry.Logs;
@@ -22,6 +23,8 @@ public static class MonitoringServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(builder, nameof(builder));
         ArgumentNullException.ThrowIfNull(serviceName, nameof(serviceName));
         ArgumentNullException.ThrowIfNull(serviceVersion, nameof(serviceVersion));
+        builder.Services.TryAddSingleton<SecureLogAttributeEnrichmentProcessor>();
+        builder.Services.TryAddSingleton<HttpContextEnrichmentProcessor>();
 
         string environment = builder.Environment.EnvironmentName;
         string applicationName = builder.Environment.ApplicationName;
@@ -39,7 +42,7 @@ public static class MonitoringServiceCollectionExtensions
 
         otel.WithLogging(loggingBuilder =>
         {
-            loggingBuilder.AddProcessor<LogAttributeEnrichmentProcessor>();
+            loggingBuilder.AddProcessor(new LogAttributeEnrichmentProcessor("attribute"));
         });
 
         otel.Services.Configure<OpenTelemetryLoggerOptions>(logging =>

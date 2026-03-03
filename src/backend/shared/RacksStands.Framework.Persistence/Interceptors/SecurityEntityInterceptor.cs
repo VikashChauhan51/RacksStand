@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using RacksStands.Framework.Persistence.Abstractions;
 
-namespace RacksStands.Framework.Persistence.DbContexts.Interceptors;
+namespace RacksStands.Framework.Persistence.Interceptors;
 
 public class SecurityEntityInterceptor : SaveChangesInterceptor
 {

@@ -7,9 +7,4 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="DbContexts\Configurations\" />
-	  <Folder Include="DbContexts\Migrations\" />
-	  <Folder Include="DbContexts\Seeding\" />
-	</ItemGroup>
 </Project>

@@ -15,7 +15,7 @@
    <PackageVersion Include="Microsoft.Extensions.Http.Polly" Version="10.0.3" />
    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.3" />
-   <packageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.3" />
+  <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.3" />
    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.3" />
    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.3" />
@@ -47,29 +47,30 @@
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
      <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.16.0" />
      <!-- Entity Framework packages -->
-     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
+     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
      <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0" />
-   <!-- Security packages -->
-     <PackageVersion Include="BCrypt.Net-Next" Version="4.0.2" />
-     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+     <PackageVersion Include="EFCore.NamingConventions" Version="10.0.0" />
+     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0" />
+     <PackageVersion Include="Microsoft.EntityFrameworkCore.Proxies" Version="10.0.0" />
      <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
-     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
-     <packageVersion Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="10.0.3" />
-     <!-- PostgreSQL driver-->
-    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+   <!-- Security packages -->
+    <PackageVersion Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="10.0.3" />
+
      <!-- FluentValidation packages -->
-     <PackageVersion Include="FluentValidation" Version="11.3.1" />
+     <PackageVersion Include="FluentValidation" Version="12.1.1" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.1" />
      <!-- API versioning packages -->
-    <PackageVersion Include="Asp.Versioning.Http" Version="10.0.0" />
-    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.0.0" />
+    <PackageVersion Include="Asp.Versioning.Http" Version="8.1.1" />
+    <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.1" />
+    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.1" />
      <!-- Swagger packages -->
+      <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.4" />
      <!-- Health checks packages -->
-    <PackageVersion Include="AspNetCore.HealthChecks.UI" Version="6.0.0" />
-    <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.0" />
-    <PackageVersion Include="AspNetCore.HealthChecks.SqlServer" Version="6.0.0" />
-    <PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="6.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="9.0.0" />
      <!-- Testing packages -->
     <PackageVersion Include="xunit" Version="2.4.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
@@ -77,9 +78,5 @@
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.0" />
     <PackageVersion Include="coverlet.collector" Version="8.0.0" />
-     <!-- Added for build fix: -->
-    <!-- <PackageVersion Include="EFCore.NamingConventions" Version="7.0.0" /> -->
-     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0" />
-     <PackageVersion Include="Microsoft.EntityFrameworkCore.Proxies" Version="10.0.0" />
   </ItemGroup>
 </Project>

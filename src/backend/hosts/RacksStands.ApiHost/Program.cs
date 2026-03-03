@@ -2,7 +2,6 @@ using RacksStands.Framework.Cqrs;
 using RacksStands.Framework.Auth;
 using RacksStands.Framework.Auth.Authorization;
 using RacksStands.Framework.Monitoring.Extensions;
-using Microsoft.AspNetCore.Mvc;
 using RacksStands.ApiHost.Extensions;
 using RacksStands.Framework.Modules.Bootstrap.Extensions;
 
@@ -30,21 +29,17 @@ builder.Services.AddModules(
     builder.Configuration,
     typeof(RacksStands.Module.UserManagement.UserManagementModule)
     );
-// Add API versioning
-builder.Services.AddApiVersioning(options =>
-{
-    options.DefaultApiVersion = new ApiVersion(1, 0);
-    options.AssumeDefaultVersionWhenUnspecified = true;
-    options.ReportApiVersions = true;
-});
 
-//builder.Services.AddOpenApi();
+builder.Services.AddOpenApi();
+builder.Services.AddApiVersioning(options => options.ReportApiVersions = true);
+
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    //app.MapOpenApi();
+    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
@@ -65,5 +60,7 @@ app.UseAuthorization();
 
 // Configure modules
 app.UseModules();
+
+app.MapHealthChecks("/health");
 
 app.Run();

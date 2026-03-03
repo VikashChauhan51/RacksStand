@@ -1,11 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using RacksStands.Module.UserManagement.Entities;
 using RacksStands.Module.UserManagement.Repositories;
 using RacksStands.Module.UserManagement.Requests;
-using BCrypt.Net;
 
 namespace RacksStands.Module.UserManagement.Endpoints;
 
@@ -32,7 +30,7 @@ public static class UserEndpoints
                 Id = Guid.NewGuid(),
                 UserName = request.UserName,
                 Email = request.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                PasswordHash = request.Password,
                 CreatedAt = DateTime.UtcNow
             };
             await repo.AddAsync(user);
